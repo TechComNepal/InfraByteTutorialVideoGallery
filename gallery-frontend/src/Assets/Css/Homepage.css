@@ -1,9 +1,8 @@
 .home-page {
   text-align: center;
-  color: whitesmoke;
+  color: rgb(0, 0, 0);
   margin: 0;
   padding: 0;
   height: auto;
-  width: 100%;
-  background-image:   linear-gradient(#ffc107, #e3ff18  ) ;
+  background-image: background.png;
 }
