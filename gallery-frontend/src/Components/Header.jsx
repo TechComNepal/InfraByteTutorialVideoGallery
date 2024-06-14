@@ -8,7 +8,7 @@ function Header() {
         <img src="nonon.png" alt="logo" width="100" hight="100" />
         </Navbar.Brand>
         <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="">Home</Nav.Link>
             <Nav.Link href="https://infrabyte.com.au/tutorial/dashboard/">dashboard</Nav.Link>
             <Nav.Link href="https://infrabyte.com.au/tutorial/courses/">courses</Nav.Link>
         </Nav>
