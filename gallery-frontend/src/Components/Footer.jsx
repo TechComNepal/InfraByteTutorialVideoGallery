@@ -7,11 +7,9 @@ function Footer() {
       <img src="mywebsite.png" alt="bar" width="100" hight="100"/>
     </p>
     <nav>
-        <ul>
-            <li><a href="#privacy">Privacy Policy</a></li>
-            <li><a href="#terms">Terms of Service</a></li>
-            <li><a href="#contact">Contact Us</a></li>
-        </ul>
+    <p class="has-text-align-right sn-text-light has-contrast-color has-text-color has-link-color wp-elements-ff8b0a9635d839b15c330ec8efcfd8fc">
+      <strong> Powered by <a href="https://infrabyte.com.au/">Infrabyte</a>
+      </strong></p>
     </nav>
 </footer>
   )

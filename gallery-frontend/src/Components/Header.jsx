@@ -9,10 +9,8 @@ function Header() {
         </Navbar.Brand>
         <Nav className="me-auto">
             <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
-            <Nav.Link href="./signin">Sign In</Nav.Link>
-            <Nav.Link href ="./login">login</Nav.Link>
+            <Nav.Link href="https://infrabyte.com.au/tutorial/dashboard/">dashboard</Nav.Link>
+            <Nav.Link href="https://infrabyte.com.au/tutorial/courses/">courses</Nav.Link>
         </Nav>
         <Form inline>
             <Form.Control type="text" placeholder="Search" className="me-sm-2" />
