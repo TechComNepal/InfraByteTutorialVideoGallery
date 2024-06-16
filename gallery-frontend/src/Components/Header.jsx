@@ -3,7 +3,7 @@ import {Navbar, Nav, Form, Button} from 'react-bootstrap'
 
 function Header() {
   return (
-    <Navbar bg="warning" variant="#201f41" styy>
+    <Navbar bg="white" variant="#201f41" styy>
         <Navbar.Brand href="#home" >
         <img src="nonon.png" alt="logo" width="100" hight="100" />
         </Navbar.Brand>
