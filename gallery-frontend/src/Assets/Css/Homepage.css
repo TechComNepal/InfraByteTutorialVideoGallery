@@ -1,8 +1,9 @@
 .home-page {
   text-align: center;
   color: rgb(0, 0, 0);
-  margin: 0;
-  padding: 0;
-  height: auto;
-  background-image: background.png;
+  margin: auto;
+  padding: auto;
+  height:  695px;
+  width:  1919px;
+  background-image: url(background.png);
 }
