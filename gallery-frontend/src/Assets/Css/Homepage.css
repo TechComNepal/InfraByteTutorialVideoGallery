@@ -1,9 +1,40 @@
+* {
+  box-sizing: border-box;
+}
 .home-page {
   text-align: center;
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   margin: auto;
   padding: auto;
-  height:  695px;
-  width:  1919px;
   background-image: url(background.png);
+  width: 100%;
+  height: 652px;
+  flex-wrap: wrap;
+  background-size: auto auto ;
+  border: 1px solid;
+  background-repeat: no-repeat ;
 }
+/* For mobile phones: */
+[class*="col-"] {
+  width: 100%;
+  height: 50%;
+}
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  width: 100%;
+  height: 600px;
+}
+@media only screen and (max-width: 768px) {
+  /* For desktop: */
+  width: 100%;
+  height: 768px;
+}
+.login-container {
+  background-color: rgb(255, 123, 0);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  text-align: center;
+  }
