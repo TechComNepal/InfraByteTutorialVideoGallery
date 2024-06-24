@@ -6,10 +6,8 @@ function Homepage() {
 <div className="home-page">
   
             <h1>Enroll Video Course</h1>
-            <li><a href="https://infrabyte.com.au/tutorial/courses/">
-            <img src="learnmore.png" alt="logo" width="300" hight="300" />
-            </a></li>
-        </div>
+ <button className='login-container' >learn more</button>
+       </div>
   )
 }
 
