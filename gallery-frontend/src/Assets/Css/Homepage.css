@@ -1,45 +1,58 @@
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 .home-page {
   text-align: center;
   color: rgb(255, 255, 255);
   margin: auto;
   padding: auto;
-  background-image: url(background.png);
+  background-image: url(https://infrabyte.com.au/tutorial/wp-content/uploads/2024/01/pexels-julia-m-cameron-4145153.jpg);
+  background-size: cover;
   width: 100%;
-  height: 662px;
-  flex-wrap: wrap;
-  background-size: auto auto;
-  border: 1px solid;
+  height: 100vh;
   background-repeat: no-repeat;
+}
+
+.overlay {
+  z-index: 5;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Tablet view */
 @media (max-width: 768px) {
-  .home-page {
-    height: auto; /* Adjust height to fit content */
-    background-size: cover; /* Cover background to fit */
-    padding: 20px; /* Add padding for better layout */
-  }
+
 }
 
 /* Mobile view */
 @media (max-width: 480px) {
   .home-page {
-    height: auto; /* Adjust height to fit content */
-    background-size: cover; /* Cover background to fit */
-    padding: 10px; /* Add padding for better layout */
-    text-align: left; /* Align text to the left for better readability on small screens */
+    text-align: left; 
   }
 }
 
 .login-container {
-  background-image: linear-gradient(orange, rgb(255, 217, 0) );
-  padding: 20px;
+  background-image: linear-gradient(orange, rgb(255, 153, 0));
+  padding: 10px;
   border-radius: 10px;
+  color: white;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  width: 300px;
   text-align: center;
   text-size-adjust: 10px;
-  }
+  border-color: transparent;
+}
+
+.login-container:hover {
+  padding-right: 12px;
+}
+
+.inner-container .heading1 {
+  font-size: 18px;
+ 
+}

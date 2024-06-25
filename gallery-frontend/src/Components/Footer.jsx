@@ -2,7 +2,7 @@ import React from 'react'
 
 function Footer() {
   return (
-    <footer>
+    <footer className='container-fluid'>
     <p>
       <img src="mywebsite.png" alt="bar" width="100" hight="100"/>
     </p>
