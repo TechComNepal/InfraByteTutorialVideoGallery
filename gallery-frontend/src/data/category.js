@@ -1,15 +1,15 @@
 export const category = [
   {
     categoryId: 0,
-    categoryName: "Category 1",
+    categoryName: "Auto Parts",
     subcategories: [
       {
         subcategoryId: 0,
-        subcategoryName: "Subcategory 1.1",
+        subcategoryName: "Stock Records",
         items: [
           {
             id: 0,
-            title: "Item 1.1",
+            title: "Stock Records",
             thumbnails: [
               {
                 title: "Thumbnail 1",
@@ -72,7 +72,21 @@ export const category = [
           },
           {
             id: 1,
-            title: "Item 1.2",
+            title: "Import A.P. Records",
+            thumbnails: [
+              {
+                title: "Thumbnail 3",
+                url: "https://i.pinimg.com/736x/ed/93/6f/ed936fa3053731b50c0af7a8018453ee.jpg",
+              },
+              {
+                title: "Thumbnail 4",
+                url: "https://via.placeholder.com/150",
+              },
+            ],
+          },
+          {
+            id: 1,
+            title: "A.P. Branches",
             thumbnails: [
               {
                 title: "Thumbnail 3",
@@ -86,39 +100,20 @@ export const category = [
           },
         ],
       },
-      {
-        subcategoryId: 1,
-        subcategoryName: "Subcategory 1.2",
-        items: [
-          {
-            id: 2,
-            title: "Item 1.3",
-            thumbnails: [
-              {
-                title: "Thumbnail 5",
-                url: "https://via.placeholder.com/150",
-              },
-              {
-                title: "Thumbnail 6",
-                url: "https://via.placeholder.com/150",
-              },
-            ],
-          },
-        ],
-      },
+      
     ],
   },
   {
     categoryId: 1,
-    categoryName: "Category 2",
+    categoryName: "Finance",
     subcategories: [
       {
         subcategoryId: 2,
-        subcategoryName: "Subcategory 2.1",
+        subcategoryName: "Car Look Up",
         items: [
           {
             id: 3,
-            title: "Item 2.1",
+            title: "Car Look Up",
             thumbnails: [
               {
                 title: "Thumbnail 7",
@@ -137,15 +132,15 @@ export const category = [
 
   {
     categoryId: 2,
-    categoryName: "Category 3",
+    categoryName: "Inventory",
     subcategories: [
       {
         subcategoryId: 3,
-        subcategoryName: "Subcategory 2.1",
+        subcategoryName: "Inventory",
         items: [
           {
             id: 4,
-            title: "Item 2.1",
+            title: "Inventory",
             thumbnails: [
               {
                 title: "Thumbnail 7",

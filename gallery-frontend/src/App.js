@@ -6,18 +6,15 @@ import "./Assets/Css/HeaderFooter.css";
 import AppRoute from "./router";
 import { useLocation } from "react-router-dom";
 
-function App() { 
+function App() {
   // const location = useLocation(); , '/login', '/logout'
-  const hideHeaderFooter = ['/videos'].includes(window.location.pathname);
+  // const hideHeaderFooter = ['/videos'].includes(window.location.pathname);
+  const hideHeaderFooter = false;
 
-  
   return (
-    
-    
     <>
       <Header />
       <AppRoute />
-
       {!hideHeaderFooter && <Footer />}
     </>
   );

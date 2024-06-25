@@ -24,7 +24,7 @@ const CategoryAccordion = ({ data, setSelectedItem }) => {
               <Accordion.Body>
                 {category.subcategories.map(subcategory => (
                   <div key={subcategory.subcategoryId}>
-                    <h5>{subcategory.subcategoryName}</h5>
+                    {/* <h5>{subcategory.subcategoryName}</h5> */}
                     <ul>
                       {subcategory.items.map(item => (
                         <li key={item.id} onClick={() => handleSelect(item.id)}>

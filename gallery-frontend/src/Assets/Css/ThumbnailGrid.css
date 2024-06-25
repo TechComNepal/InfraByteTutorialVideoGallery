@@ -5,7 +5,8 @@
   .thumbnails {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 25px;
+    margin: 30px;
   }
   
   .thumbnail-item {
