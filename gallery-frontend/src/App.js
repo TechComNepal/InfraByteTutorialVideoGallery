@@ -8,14 +8,15 @@ import { useLocation } from "react-router-dom";
 
 function App() {
   // const location = useLocation(); , '/login', '/logout'
-  // const hideHeaderFooter = ['/videos'].includes(window.location.pathname);
-  const hideHeaderFooter = false;
+  const hideFooter = ["/videos"].includes(window.location.pathname);
+  // const hideHeader = ['/'].includes(window.location.pathname);
+  // const hideFooter = false;
 
   return (
     <>
-      <Header />
+      
       <AppRoute />
-      {!hideHeaderFooter && <Footer />}
+      {!hideFooter && <Footer />}
     </>
   );
 }

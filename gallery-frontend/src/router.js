@@ -4,13 +4,21 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import VideoListpage from "./Pages/VideoListsPage";
 import Homepage from "./Pages/Homepage";
 import NoPage from "./Pages/NoPage";
+import Header from "./Components/Header";
 
 const AppRoute = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/videos" element={<VideoListpage />} />
+        <Route
+          path="/videos"
+          element={
+            <>
+              <Header /> <VideoListpage />
+            </>
+          }
+        />
         <Route path="*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>

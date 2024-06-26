@@ -18,10 +18,7 @@ header h1 {
   opacity: 0.8;
 }
 
-.btn-search
-{position: relative;
-right: 0;
-}
+
 
 footer {
   background-image: linear-gradient(#fda600, #db6e01);
@@ -44,7 +41,7 @@ footer {
 }
 
 .nav-bottom {
-  border-bottom: #fd8f00 10px solid;    padding: 10px;
+  border-bottom: #fd8f00 10px solid;  
 }
 
 nav {

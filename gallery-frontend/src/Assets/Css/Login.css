@@ -1,0 +1,39 @@
+.login-container {
+    width: 50%;
+display: flex;
+justify-content: center;
+align-items: center;
+
+  
+}
+
+.login-container {
+    padding: 100px;
+  }
+  
+  .company-details {
+    margin-bottom: 20px;
+  }
+  
+  .login-form {
+    margin-bottom: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .company-details,
+    .login-form {
+      margin-bottom: 20px;
+    }
+  
+    .card {
+      padding: 15px;
+    }
+  }
+  
+  @media (min-width: 769px) {
+
+    
+    .company-details {
+      margin-right: 20px;
+    }
+  }

@@ -9,21 +9,21 @@ function Header() {
           <img src="nonon.png" alt="logo" width="100" hight="100" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mx-auto">
+        <Navbar.Collapse id="basic-navbar-nav" >
+          {/* <Nav className="mx-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/">Dasboard</Nav.Link>
             <Nav.Link href="/videos">
               courses
             </Nav.Link>
-          </Nav>
-          <Form className="d-flex">
+          </Nav> */}
+          <Form className="d-flex justify-content-end w-100 mt-2 mb-2">
             <Form.Control
               type="text"
-              placeholder="Search your video "
+              placeholder="Search infrabyte videos . . . "
               className="search-container"
             />
-            <Button variant=" btn btn-outline-warning btn-search">Search</Button>
+            <Button variant=" mx-2 button-container">Search</Button>
           </Form>
         </Navbar.Collapse>
       </Navbar>
