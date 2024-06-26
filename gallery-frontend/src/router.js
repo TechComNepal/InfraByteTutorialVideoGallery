@@ -15,7 +15,7 @@ import NoPage from "./Pages/NoPage";
 const AppRoute = () => {
   return (
     <Routes>
-      <Route path="/" element={<Homepage />} />
+      <Route exact path="/" element={<Homepage />} />
       <Route path="/videos" element={<VideoListpage />} />
       <Route path="*" element={<NoPage />} />
     </Routes>
