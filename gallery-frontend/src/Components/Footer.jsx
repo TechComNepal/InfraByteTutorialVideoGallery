@@ -1,12 +1,13 @@
 import React from "react";
+import logo from '../Assets/images/mywebsite.png'
 
 function Footer() {
   return (
     <footer>
       <div className="container footer-container">
         <p>
-          <a href="https://infrabyte.com.au/">
-            <img src="mywebsite.png" alt="bar" width="100" hight="100" />
+          <a href="/">
+            <img src={logo} alt="logo" width="100" hight="100" />
           </a>
         </p>
         <p>

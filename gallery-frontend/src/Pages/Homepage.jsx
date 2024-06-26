@@ -8,7 +8,7 @@ function Homepage() {
 
   return (
     <div className="home-container">
-      <div className="home-page hide-container">
+      <div className="home-page ">
         <div className="overlay">
           <div className="inner-container">
             <div>
@@ -18,7 +18,7 @@ function Homepage() {
               </h1>
 
               <a
-                className="button-container "
+                className="button-container hide-container"
                 href="https://infrabyte.com.au/"
                 target="_blank"
               >

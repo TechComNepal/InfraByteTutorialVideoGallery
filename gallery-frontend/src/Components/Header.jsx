@@ -1,12 +1,13 @@
 import React from "react";
 import { Navbar, Nav, Form, Button } from "react-bootstrap";
+import logo from '../Assets/images/nonon.png'
 
 function Header() {
   return (
     <div className="nav-bottom" >
       <Navbar bg="white" variant="#201f41" className="container" expand="lg">
         <Navbar.Brand href="/">
-          <img src="nonon.png" alt="logo" width="100" hight="100" />
+          <img src={logo} alt="logo" width="100" hight="100" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" >

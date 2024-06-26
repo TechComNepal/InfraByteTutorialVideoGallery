@@ -78,9 +78,9 @@
 
 /* Tablet view */
 @media (max-width: 768px) {
-  /* .hide-container {
+  .hide-container {
     display: none;
-  } */
+  }
   .overlay{
   padding: 10px;
   }

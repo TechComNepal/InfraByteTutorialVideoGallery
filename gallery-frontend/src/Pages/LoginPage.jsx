@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
-import "../Assets/Css/Login.css";
 import { useNavigate } from "react-router-dom";
+
+import logo from '../Assets/images/nonon.png'
+import "../Assets/Css/Login.css";
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +30,7 @@ const LoginPage = () => {
     <>
       <Container className="login-container">
         <Col className="justify-content-space-around d-flex flex-column ">
-          <img src="nonon.png" alt="bar" width="120" hight="120" />
+          <img src={logo} alt="bar" width="120" hight="120" />
           <Col className="mt-3">
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <h2 className="heading3">Please sign-in to continue!</h2>
