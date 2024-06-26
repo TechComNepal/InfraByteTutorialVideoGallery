@@ -3,12 +3,11 @@
 display: flex;
 justify-content: center;
 align-items: center;
-
-  
 }
 
 .login-container {
-    padding: 100px;
+    padding-left: 30px;
+    padding-right: 30px;
   }
   
   .company-details {
@@ -20,20 +19,21 @@ align-items: center;
   }
   
   @media (max-width: 768px) {
-    .company-details,
+    .login-container {
+        width: 100%;
+        padding: 100px;
+    }
     .login-form {
       margin-bottom: 20px;
     }
-  
     .card {
       padding: 15px;
     }
   }
-  
-  @media (min-width: 769px) {
 
-    
-    .company-details {
-      margin-right: 20px;
+  @media (max-width: 480px) {
+    .login-container {
+        padding: 30px;
     }
   }
+ 
