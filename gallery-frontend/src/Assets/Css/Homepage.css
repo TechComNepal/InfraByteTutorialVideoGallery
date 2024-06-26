@@ -1,45 +1,104 @@
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 .home-page {
   text-align: center;
-  color: rgb(255, 255, 255);
+  color: rgb(247, 148, 29);
   margin: auto;
   padding: auto;
-  background-image: url(background.png);
+  background-image: url("../images/auto-care-backgroun.jpg");
+  background-size: cover;
   width: 100%;
-  height: 662px;
-  flex-wrap: wrap;
-  background-size: auto auto;
-  border: 1px solid;
+  height: 100vh;
   background-repeat: no-repeat;
+  background-position: center;
+  animation-name: scale-in;
+  /* animation-duration: 1s; */
+  text-align: left;
 }
+
+@keyframes scale-in {
+  0% {
+    background-size: 98%;
+  }
+  100% {
+    background-size: 100%;
+  }
+}
+
+.overlay {
+  z-index: 5;
+  height: 100vh;
+  width: 100%;
+  /* background-color: rgba(247, 148, 29, 0.2); */
+  background-color: rgba(19, 18, 18, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-container{
+  display: flex;
+}
+
+
+
+.button-container {
+  background-image: linear-gradient(orange, rgb(255, 153, 0));
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  text-size-adjust: 10px;
+  border-color: transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.button-container:hover {
+  padding-right: 12px;
+}
+
+.heading1 {
+  font-size: 42px;
+}
+
+.heading2 {
+  font-size: 18px;
+  color: white;
+}
+
+.heading3 {
+  font-size: 18px;
+}
+
 
 /* Tablet view */
 @media (max-width: 768px) {
-  .home-page {
-    height: auto; /* Adjust height to fit content */
-    background-size: cover; /* Cover background to fit */
-    padding: 20px; /* Add padding for better layout */
+  .hide-container {
+    display: none;
   }
+  .overlay{
+  padding: 10px;
+  }
+ 
+ 
 }
 
 /* Mobile view */
 @media (max-width: 480px) {
-  .home-page {
-    height: auto; /* Adjust height to fit content */
-    background-size: cover; /* Cover background to fit */
-    padding: 10px; /* Add padding for better layout */
-    text-align: left; /* Align text to the left for better readability on small screens */
+  .home-page{
+    height: 50vh;
+  }
+  .overlay{
+    height: 50vh;
+  }
+  .home-container{
+    display: flex;
+    flex-direction: column;
   }
 }
-
-.login-container {
-  background-image: linear-gradient(orange, rgb(255, 217, 0) );
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  width: 300px;
-  text-align: center;
-  text-size-adjust: 10px;
-  }

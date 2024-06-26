@@ -9,24 +9,44 @@ header {
 header h1 {
   margin: 0;
 }
-
-footer {
-  background-image: linear-gradient(#fda600, #fe8000);
-  color: rgb(0, 0, 0);
-  padding: 20px 0;
-  text-align: center;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
+.search-container{
+  position: relative;
+  border-color: #fda600;
+}
+.search-container::placeholder{
+  color: #fda600;
+  opacity: 0.8;
 }
 
-footer p {
-  margin: 0;
-  padding-bottom: 10px;
+
+
+footer {
+  background-image: linear-gradient(#fda600, #db6e01);
+  color: rgb(0, 0, 0);
+  padding: 40px;
+
+  /* position: absolute; */
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-container a {
+  color: white;
+}
+
+.nav-bottom {
+  border-bottom: #fd8f00 10px solid;   
 }
 
 nav {
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 nav ul {
@@ -51,8 +71,8 @@ nav ul li a:hover {
 
 @media (max-width: 600px) {
   nav ul li {
-      display: block;
-      margin: 5px 0;
+    display: block;
+    margin: 5px 0;
   }
 }
 
@@ -62,7 +82,12 @@ main {
 }
 
 @media (max-width: 600px) {
-  header, footer {
-      padding: 20px 0;
+  header,
+  footer {
+    padding: 20px 0;
+  }
+
+  .nav-bottom {
+    padding: 10px;
   }
 }
