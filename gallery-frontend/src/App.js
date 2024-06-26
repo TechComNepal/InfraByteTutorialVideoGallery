@@ -4,7 +4,10 @@ import Homepage from "./Pages/Homepage";
 import Footer from "./Components/Footer";
 import "./Assets/Css/HeaderFooter.css";
 import AppRoute from "./router";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { isAuthenticated } from "./services/auth";
+
 
 function App() {
   // const location = useLocation(); , '/login', '/logout'
@@ -12,11 +15,20 @@ function App() {
   // const hideHeader = ['/'].includes(window.location.pathname);
   // const hideFooter = false;
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate("/videos");
+      return;
+    }
+  }, [navigate]);
+
   return (
     <>
-      
       <AppRoute />
-      {!hideFooter && <Footer />}
+      {/* {!hideFooter && <Footer />} */}
+      <Footer />
     </>
   );
 }

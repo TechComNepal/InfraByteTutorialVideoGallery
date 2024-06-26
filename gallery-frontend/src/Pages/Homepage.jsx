@@ -13,7 +13,7 @@ function Homepage() {
           <div className="inner-container">
             <div>
               <h6 className="heading1">Enroll InfraByte Videos</h6>
-              <h1 className="heading2 mt-2 mb-4">
+              <h1 className="heading2 mt-3 mb-5">
                 InfraByte videos are ready to play
               </h1>
 

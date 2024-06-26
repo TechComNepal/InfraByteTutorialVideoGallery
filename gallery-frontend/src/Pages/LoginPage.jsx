@@ -22,6 +22,7 @@ const LoginPage = () => {
 
     setValidated(true);
     if (validated) {
+        localStorage.setItem('token', 'mockToken');
       navigate("/videos");
     }
   };

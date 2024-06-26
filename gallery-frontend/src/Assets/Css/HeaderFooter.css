@@ -41,7 +41,7 @@ footer {
 }
 
 .nav-bottom {
-  border-bottom: #fd8f00 10px solid;  
+  border-bottom: #fd8f00 10px solid;   
 }
 
 nav {
@@ -85,5 +85,9 @@ main {
   header,
   footer {
     padding: 20px 0;
+  }
+
+  .nav-bottom {
+    padding: 10px;
   }
 }

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "../../Assets/Css/ThumbnailGrid.css";
 import PlayButtonOverlay from "./PlayButtonOverlay";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Container, Modal } from "react-bootstrap";
 
-const ThumbnailGrid = ({ selectedItem }) => {
+const ThumbnailGrid = ({ selectedItem, handleShow }) => {
   const [showModal, setShowModal] = useState(false);
   const [videoUrl, setVideoUrl] = useState("");
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
 
   const playVideo = (url) => {
     setVideoUrl(url);
@@ -14,7 +14,7 @@ const ThumbnailGrid = ({ selectedItem }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 769);
     };
 
     window.addEventListener("resize", handleResize);
@@ -32,7 +32,13 @@ const ThumbnailGrid = ({ selectedItem }) => {
         </video>
       </div>
       <div className={`thumbnail-grid ${isMobile ? "mobile-list" : ""}`}>
-        {}
+        {isMobile && (
+          <center>
+            <Container onClick={handleShow} style={{backgroundColor:"gray",padding:'10px', color:'white'}}>
+              <i className="fas fa-eye"></i> Show Video List
+            </Container>
+          </center>
+        )}
         {selectedItem && (
           <>
             <h3 className="mt-5 mb-3">{selectedItem.title}</h3>

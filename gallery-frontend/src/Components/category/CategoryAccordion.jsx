@@ -3,7 +3,7 @@ import { Accordion, Card, Button } from "react-bootstrap";
 import "../../Assets/Css/CategoryAccordion.css";
 
 
-const CategoryAccordion = ({ data, setSelectedItem }) => {
+const CategoryAccordion = ({ data, setSelectedItem , modalClose}) => {
     const handleSelect = (itemId) => {
         const selectedItem = data.reduce((acc, category) => {
           const foundItem = category.subcategories.flatMap(subcategory => subcategory.items)
@@ -13,6 +13,7 @@ const CategoryAccordion = ({ data, setSelectedItem }) => {
           }
           return acc;
         }, null);
+        modalClose();
         setSelectedItem(selectedItem);
       };
     
