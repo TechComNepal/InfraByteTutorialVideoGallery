@@ -18,19 +18,20 @@ const VideoListsPage = () => {
       <Header />
       <Container className="mt-5 mb-5" style={{ minHeight: "100vh" }}>
         <Row>
-          <Col md={9}>
-           
-            
-            <div className="output">
-              <ThumbnailGrid selectedItem={selectedItem} handleShow={handleShow} />
-            </div>
-          </Col>
           <Col md={3} className="hide-container">
             <CategoryAccordion
               data={category}
               setSelectedItem={setSelectedItem}
               modalClose={handleClose}
             />
+          </Col>
+          <Col md={9}>
+            <div className="output">
+              <ThumbnailGrid
+                selectedItem={selectedItem}
+                handleShow={handleShow}
+              />
+            </div>
           </Col>
         </Row>
 
