@@ -34,7 +34,14 @@ const ThumbnailGrid = ({ selectedItem, handleShow }) => {
       <div className={`thumbnail-grid ${isMobile ? "mobile-list" : ""}`}>
         {isMobile && (
           <center>
-            <Container onClick={handleShow} style={{backgroundColor:"gray",padding:'10px', color:'white'}}>
+            <Container
+              onClick={handleShow}
+              style={{
+                backgroundColor: "gray",
+                padding: "10px",
+                color: "white",
+              }}
+            >
               <i className="fas fa-eye"></i> Show Video List
             </Container>
           </center>
@@ -52,12 +59,12 @@ const ThumbnailGrid = ({ selectedItem, handleShow }) => {
                       className="thumbnail-image"
                       onClick={() => playVideo(thumbnail.videoUrl)}
                     />
-                    <PlayButtonOverlay
-                      onClick={() => playVideo(thumbnail.videoUrl)}
-                    />
                     <div className="thumbnail-overlay">
                       <span className="thumbnail-title">{thumbnail.title}</span>
                     </div>
+                    <PlayButtonOverlay
+                      onClick={() => playVideo(thumbnail.videoUrl)}
+                    />
                   </div>
                 ))}
               </div>
