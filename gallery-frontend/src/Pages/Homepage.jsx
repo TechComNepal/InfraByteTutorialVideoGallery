@@ -12,7 +12,7 @@ function Homepage() {
         <div className="overlay">
           <div className="inner-container">
             <div>
-              <h6 className="heading1">Enroll InfraByte Videos</h6>
+              <h6 className="heading1">InfraByte Videos</h6>
               <h1 className="heading2 mt-3 mb-5">
                 InfraByte videos are ready to play
               </h1>
@@ -22,7 +22,14 @@ function Homepage() {
                 href="https://infrabyte.com.au/"
                 target="_blank"
               >
-                Visit site
+                Visit Site
+              </a>
+              <a
+                className="button-container hide-container mx-3"
+                href="https://app.infrabyte.com.au/"
+                target="_blank"
+              >
+                  Visit App
               </a>
             </div>
           </div>
