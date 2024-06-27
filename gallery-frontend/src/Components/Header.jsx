@@ -3,10 +3,11 @@ import { Navbar, Nav, Form, Button } from "react-bootstrap";
 import logo from "../Assets/images/nonon.png";
 import { redirect, useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../services/auth";
+import UserDropdown from "./UserDropdown";
 
 function Header() {
   let navigate = useNavigate();
-
+  const username = "Username"; 
   const handleLogout = () => {
     localStorage.removeItem("token");
   
@@ -37,12 +38,8 @@ function Header() {
             />
             <Button variant=" mx-2 button-container">Search</Button>
           </Form>
-          <Button
-            variant="btn btn-outline-secondary mx-2 p-2"
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
+          
+          <UserDropdown username={username} onLogout={handleLogout} />
         </Navbar.Collapse>
       </Navbar>
     </div>
