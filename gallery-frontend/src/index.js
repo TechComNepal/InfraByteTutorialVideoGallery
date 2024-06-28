@@ -5,16 +5,6 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, useNavigate } from "react-router-dom";
 import { AuthProvider } from "oidc-react";
 
-// const oidcConfig = {
-//   onSignIn: () => {
-//     onSigninCallback()
-//   },
-//   authority: "https://security.staging.infrabyte.com.au",
-//   clientId: "jobbookingapi_mobile_app",
-//   redirectUri: 'a1mobile://a1Express.oidc.callback',
-//   response_type: "code",
-//   scope: "openid profile email jobbookingapi offline_access",
-// };
 
 const oidcConfig = {
   onSignIn: () => {
@@ -23,14 +13,14 @@ const oidcConfig = {
   authority: "https://localhost:5020",
   clientId: "react_tutorial_client",
   redirectUri: "http://localhost:3000/callback",
-  PostLogoutRedirectUris: "http://localhost:3000/",
+  postLogoutRedirectUri: "http://localhost:3000/",
   response_type: "code",
   scope: "openid profile email jobbookingapi offline_access",
 };
 
 function onSigninCallback() {
-  localStorage.setItem("token", "mockToken");
-  window.location.href = "/videos";
+  // localStorage.setItem("token", "mockToken");
+  // window.location.href = "/videos";
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
