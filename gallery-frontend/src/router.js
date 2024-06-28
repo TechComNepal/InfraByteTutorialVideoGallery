@@ -16,6 +16,7 @@ const AppRoute = () => {
   return (
     <Routes>
       <Route exact path="/" element={<Homepage />} />
+      <Route exact path="/callback" element={<Homepage />} />
       <Route path="/videos" element={<VideoListpage />} />
       <Route path="*" element={<NoPage />} />
     </Routes>

@@ -6,19 +6,21 @@ import "./Assets/Css/HeaderFooter.css";
 import AppRoute from "./router";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { isAuthenticated } from "./services/auth";
+import { isAuthenticatedUser } from "./services/auth";
+import { useAuth } from "oidc-react";
 
 
 function App() {
   // const location = useLocation(); , '/login', '/logout'
-  const hideFooter = ["/videos"].includes(window.location.pathname);
+  const hideFooter = ["/",].includes(window.location.pathname);
   // const hideHeader = ['/'].includes(window.location.pathname);
   // const hideFooter = false;
 
   const navigate = useNavigate();
+  const { signIn,isLoading} = useAuth();
 
   useEffect(() => {
-    if (isAuthenticated()) {
+    if (isAuthenticatedUser()|| !isLoading) {
       navigate("/videos");
       return;
     }
@@ -27,8 +29,8 @@ function App() {
   return (
     <>
       <AppRoute />
-      {/* {!hideFooter && <Footer />} */}
-      <Footer />
+      {!hideFooter && <Footer />}
+      {/* <Footer /> */}
     </>
   );
 }

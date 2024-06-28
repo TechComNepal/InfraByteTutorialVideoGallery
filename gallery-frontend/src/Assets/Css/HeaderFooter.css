@@ -23,7 +23,7 @@ header h1 {
 footer {
   background-image: linear-gradient(#fda600, #db6e01);
   color: rgb(0, 0, 0);
-  padding: 40px;
+  padding: 30px 0px 20px 0px;
 
   /* position: absolute; */
   bottom: 0;
