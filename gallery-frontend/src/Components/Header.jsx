@@ -18,16 +18,17 @@ function Header() {
 
   const handleLogout = async () => {
     localStorage.removeItem("token");
-    // navigate("/");
-    window.location.href = "/";
-    var res = await auth
-      .signOutRedirect()
-      .then(() => {})
-      .catch((error) => {
-        console.error("Error during signout:", error);
-      });
 
-    // redirect("/");
+    // var res = await  auth
+    // .signOut()
+    //   .then(() => {})
+    //   .catch((error) => {
+    //     console.error("Error during signout:", error);
+    //   });
+    auth.signOut();
+    navigate("/", { replace: true });
+
+    window.location.href = "/";
   };
 
   return (
