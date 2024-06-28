@@ -16,29 +16,31 @@ import { AuthProvider } from "oidc-react";
 //   scope: "openid profile email jobbookingapi offline_access",
 // };
 
-
 const oidcConfig = {
   onSignIn: () => {
-    onSigninCallback()
+    onSigninCallback();
   },
   authority: "https://localhost:5020",
   clientId: "react_tutorial_client",
-  redirectUri: 'http://localhost:3000/callback',
-  PostLogoutRedirectUris :'http://localhost:3000/',
+  redirectUri: "http://localhost:3000/callback",
+  PostLogoutRedirectUris: "http://localhost:3000/",
   response_type: "code",
   scope: "openid profile email jobbookingapi offline_access",
 };
 
 function onSigninCallback() {
-
-  // window.location.href = "/";
-  // window.open('/videos');
+  localStorage.setItem("token", "mockToken");
+  window.location.href = "/videos";
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <AuthProvider {...oidcConfig} autoSignIn={false} >
+    <AuthProvider
+      {...oidcConfig}
+      autoSignIn={false}
+      onSignIn={onSigninCallback}
+    >
       <BrowserRouter>
         <App />
       </BrowserRouter>

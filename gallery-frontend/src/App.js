@@ -12,7 +12,7 @@ import { useAuth } from "oidc-react";
 
 function App() {
   // const location = useLocation(); , '/login', '/logout'
-  const hideFooter = ["/",].includes(window.location.pathname);
+  const hideFooter = ["/","/callback"].includes(window.location.pathname);
   // const hideHeader = ['/'].includes(window.location.pathname);
   // const hideFooter = false;
 
