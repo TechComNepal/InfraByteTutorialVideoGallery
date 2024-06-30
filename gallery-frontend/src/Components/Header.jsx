@@ -4,15 +4,31 @@ import logo from "../Assets/images/nonon.png";
 import { redirect, useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../services/auth";
 import UserDropdown from "./UserDropdown";
+import { useAuth } from "oidc-react";
 
 function Header() {
   let navigate = useNavigate();
-  const username = "Username"; 
-  const handleLogout = () => {
+
+  const auth = useAuth();
+
+  const username = "Username";
+  const token = localStorage.getItem("token");
+
+  var link = `https://localhost:5020/connect/endsession?id_token=${token}&post_logout_redirect_uri=http://localhost:3000`;
+
+  const handleLogout = async () => {
     localStorage.removeItem("token");
-  
-    navigate("/");
-    // redirect("/");
+
+    // var res = await  auth
+    // .signOut()
+    //   .then(() => {})
+    //   .catch((error) => {
+    //     console.error("Error during signout:", error);
+    //   });
+    auth.signOut();
+    navigate("/", { replace: true });
+
+    window.location.href = "/";
   };
 
   return (
@@ -38,7 +54,7 @@ function Header() {
             />
             <Button variant=" mx-2 button-container">Search</Button>
           </Form>
-          
+
           <UserDropdown username={username} onLogout={handleLogout} />
         </Navbar.Collapse>
       </Navbar>

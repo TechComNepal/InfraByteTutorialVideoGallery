@@ -646,7 +646,7 @@ export const category = [
                 title: "Thumbnail 7",
                 url: "https://via.placeholder.com/150",
               },
-            ],
+            ],  
           },
           {
             id: 43,
