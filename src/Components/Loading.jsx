@@ -9,7 +9,7 @@ const Loading = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const useQuery = () => {
+  const useQuery = () => {  
     return new URLSearchParams(useLocation().search);
   };
   const query = useQuery();
@@ -21,6 +21,7 @@ const Loading = () => {
       const code = query.get("code");
       if (code) {
         console.log("Authorization code:", code);
+        // connect/token
         localStorage.setItem("token", code);
         navigate("/videos");
         return;
