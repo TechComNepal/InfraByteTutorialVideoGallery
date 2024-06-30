@@ -6,7 +6,7 @@ import ThumbnailGrid from "../Components/category/ThumbnailGrid";
 import Header from "../Components/Header";
 import RightSideModal from "../Components/RightSideModal";
 
-const VideoListsPage = () => {
+const YourVideoListsPage = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -17,7 +17,8 @@ const VideoListsPage = () => {
     <>
       
       <Container className="mt-5 mb-5" style={{ minHeight: "100vh" }}>
-        <Row>
+      <h1 className="heading3 mb-3">Your videos</h1>
+       <Row>
           <Col md={3} className="hide-container">
             <CategoryAccordion
               data={category}
@@ -47,4 +48,4 @@ const VideoListsPage = () => {
   );
 };
 
-export default VideoListsPage;
+export default YourVideoListsPage;

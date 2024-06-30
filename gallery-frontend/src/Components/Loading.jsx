@@ -23,8 +23,8 @@ const Loading = () => {
         console.log("Authorization code:", code);
         // connect/token
         localStorage.setItem("token", code);
-        navigate("/videos");
-        return;
+        navigate("/videos",{replace:true});
+       
       }
     }, 2000);
   }, [navigate]);

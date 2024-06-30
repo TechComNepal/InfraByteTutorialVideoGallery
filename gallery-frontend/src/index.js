@@ -5,11 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, useNavigate } from "react-router-dom";
 import { AuthProvider } from "oidc-react";
 
-
 const oidcConfig = {
-  onSignIn: () => {
-    onSigninCallback();
-  },
   authority: "https://localhost:5020",
   clientId: "react_tutorial_client",
   redirectUri: "http://localhost:3000/callback",
@@ -18,19 +14,10 @@ const oidcConfig = {
   scope: "openid profile email jobbookingapi offline_access",
 };
 
-function onSigninCallback() {
-  // localStorage.setItem("token", "mockToken");
-  // window.location.href = "/videos";
-}
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <AuthProvider
-      {...oidcConfig}
-      autoSignIn={false}
-      onSignIn={onSigninCallback}
-    >
+    <AuthProvider {...oidcConfig} autoSignIn={false}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
