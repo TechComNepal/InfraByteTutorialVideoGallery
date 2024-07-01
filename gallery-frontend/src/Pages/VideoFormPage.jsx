@@ -18,13 +18,11 @@ const VideoFormPage = () => {
 
   const [inputValue, setInputValue] = useState("");
 
-
-  const [categorySelected, setCategory] = useState('');
-    const [subcategory, setSubcategory] = useState('');
-    const [subcategories, setSubcategories] = useState([]);
+  const [categorySelected, setCategory] = useState("");
+  const [subcategory, setSubcategory] = useState("");
+  const [subcategories, setSubcategories] = useState([]);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
-
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -92,11 +90,10 @@ const VideoFormPage = () => {
     console.log("Tags:", tags);
   };
 
-
   const handleCategoryChange = (event) => {
     const selectedCategory = event.target.value;
     setCategory(selectedCategory);
-    setSubcategory(''); // Reset subcategory when category changes
+    setSubcategory(""); // Reset subcategory when category changes
 
     // var item= ( category.reduce((acc, category) => {
     //   const foundItem = category.subcategories
@@ -108,12 +105,11 @@ const VideoFormPage = () => {
     //   return acc;
     // }, null));
     // setSubcategories(item || []);
-};
+  };
 
-
-const handleSubcategoryChange = (event) => {
-  setSubcategory(event.target.value);
-};
+  const handleSubcategoryChange = (event) => {
+    setSubcategory(event.target.value);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -133,14 +129,17 @@ const handleSubcategoryChange = (event) => {
             <h2 className="heading3 mb-4">Upload infrabyte video</h2>
 
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
-              {  (
+              {
                 <div className="video-preview">
                   <video controls key={videoURL}>
-                    <source src={videoURL} type={video!=null? video.type:'video/mp4'} />
+                    <source
+                      src={videoURL}
+                      type={video != null ? video.type : "video/mp4"}
+                    />
                     Your browser does not support the video tag.
                   </video>
                 </div>
-              )}
+              }
 
               <Form.Group controlId="video" className="mt-3">
                 <Form.Label>Choose a video</Form.Label>
@@ -189,7 +188,7 @@ const handleSubcategoryChange = (event) => {
                         type="button"
                         onClick={() => handleRemoveTag(index)}
                       >
-                        x
+                        <i className="fas fa-close"></i>
                       </button>
                     </li>
                   ))}
@@ -199,38 +198,51 @@ const handleSubcategoryChange = (event) => {
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group controlId="formBasicEmail" className="mt-3">
-                <Form.Label>Title</Form.Label>
+              <Form.Group controlId="formBasicSelect" className="mt-3">
+                <Form.Label>Select a category</Form.Label>
                 <Form.Control
-                  type="text"
                   placeholder="Title"
-                  as={"select"}
-                  id="category" value={category} onChange={handleCategoryChange}
+                  as="select"
+                  value={categorySelected}
+                  onChange={handleCategoryChange}
+                  id="category"
                   required
-                />
+                > <option value="">Select a category</option>
+                  {category.map((cat) => (
+                    <option key={cat.categoryName} value={cat.categoryName}>
+                      {cat.categoryName}
+                    </option>
+                  ))}
+                </Form.Control>
                 <Form.Control.Feedback type="invalid">
-                  Please provide a valid email.
+                  Please Select a category.
                 </Form.Control.Feedback>
               </Form.Group>
-              <div className="form-group">
-                    <label htmlFor="category">Category</label>
-                    <select id="category" value={category} onChange={handleCategoryChange}>
-                        <option value="">Select a category</option>
-                        {category.map((cat) => (
-                            <option key={cat.categoryName} value={cat.categoryName}>{cat.categoryName}</option>
-                        ))}
-                    </select>
-                </div>
 
-                <div className="form-group">
-                    <label htmlFor="subcategory">Subcategory</label>
-                    <select id="subcategory" value={subcategory} onChange={handleSubcategoryChange} disabled={!category}>
-                        <option value="">Select a subcategory</option>
-                        {subcategories.map((subcat) => (
-                            <option key={subcat} value={subcat}>{subcat}</option>
-                        ))}
-                    </select>
-                </div>
+              <Form.Group controlId="formBasicSelect" className="mt-3">
+                <Form.Label>Select a sub category</Form.Label>
+                <Form.Control
+                 
+                  as="select"
+                 
+                  id="subcategory"
+                  value={subcategory}
+                  onChange={handleSubcategoryChange}
+                  disabled={!categorySelected}
+                  required
+                > <option value="">Select a subcategory</option>
+                  {subcategories.map((subcat) => (
+                    <option key={subcat} value={subcat}>
+                      {subcat}
+                    </option>
+                  ))}
+                </Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  Please Select a sub category.
+                </Form.Control.Feedback>
+              </Form.Group>
+              
+             
               <Form.Group
                 controlId="exampleForm.ControlTextarea1"
                 className="mt-3"
@@ -249,8 +261,6 @@ const handleSubcategoryChange = (event) => {
                   Please provide a descrition.
                 </Form.Control.Feedback>
               </Form.Group>
-
-              
 
               <div className="container d-flex mt-3">
                 <Button

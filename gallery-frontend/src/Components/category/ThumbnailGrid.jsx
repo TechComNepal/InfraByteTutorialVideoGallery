@@ -20,7 +20,7 @@ const ThumbnailGrid = ({ selectedItem, handleShow }) => {
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
-    };
+    };      
   }, []);
 
   return (
@@ -38,7 +38,7 @@ const ThumbnailGrid = ({ selectedItem, handleShow }) => {
               onClick={handleShow}
               style={{
                 backgroundColor: "gray",
-                padding: "10px",
+                padding: "10px",  
                 color: "white",
               }}
             >

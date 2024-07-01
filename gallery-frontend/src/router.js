@@ -14,6 +14,7 @@ import NoPage from "./Pages/NoPage";
 import Loading from "./Components/Loading";
 import VideoFormPage from "./Pages/VideoFormPage";
 import YourVideoListsPage from "./Pages/YourVideoListPage";
+import Header from "./Components/Header";
 
 const AppRoute = () => {
   return (
@@ -21,9 +22,11 @@ const AppRoute = () => {
       <Route exact path="/" element={<Homepage />} />
       <Route exact path="/callback" element={<Loading />} />
       {/* <Route exact path="/logout" element={ <Loading />} /> */}
-      <Route path="/videos" element={<VideoListpage />} />
-      <Route path="/your-video" element={<YourVideoListsPage />} />
-      <Route path="/add/video" element={<VideoFormPage />} />
+      <Route path="/videos" element={<> <Header />
+        <VideoListpage />
+      </> } />
+      <Route path="/your-video" element={<> <Header /><YourVideoListsPage /></>} />
+      <Route path="/add/video" element={<> <Header /><VideoFormPage /></>} />
       <Route path="*" element={<NoPage />} />
     </Routes>
   );
