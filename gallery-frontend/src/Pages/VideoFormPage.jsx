@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 import { category } from "../data/category";
 import "../Assets/Css/Login.css";
@@ -11,8 +12,9 @@ const VideoFormPage = () => {
 
   const [validated, setValidated] = useState(false);
 
-  const [video, setVideo] = useState(null);
-  const [videoURL, setVideoURL] = useState("");
+ 
+  const [videos, setVideos] = useState([]);
+  const [videoURLs, setVideoURLs] = useState([]);
   const [error, setError] = useState("");
   const [tags, setTags] = useState([]);
 
@@ -43,36 +45,32 @@ const VideoFormPage = () => {
   };
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
+    const files = Array.from(event.target.files);
     const allowedTypes = ["video/mp4", "video/webm", "video/ogg"];
     const maxSize = 50 * 1024 * 1024; // 50MB
 
-    if (file) {
-      if (!allowedTypes.includes(file.type)) {
-        setError(
-          "File type not supported. Please upload an MP4, WebM, or Ogg video."
-        );
-        setVideo(null);
-        setVideoURL("");
-        return;
-      }
-      if (file.size > maxSize) {
-        setError("File size exceeds the maximum limit of 50MB.");
-        setVideo(null);
-        setVideoURL("");
-        return;
-      }
+    let validFiles = [];
+    let validUrls = [];
+    files.forEach(file => {
+        if (allowedTypes.includes(file.type) && file.size <= maxSize) {
+            validFiles.push(file);
+            validUrls.push(URL.createObjectURL(file))
+        } else {
+            setError('Some files are not supported or exceed the size limit of 50MB.');
+        }
+    });
 
-      setVideo(file);
+    setVideos([...videos, ...validFiles]);
 
       setError("");
-      setVideoURL(URL.createObjectURL(file));
-    }
+    setVideoURLs([ ...validUrls])
+
+    
   };
 
   let navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit =async  (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -81,41 +79,52 @@ const VideoFormPage = () => {
 
     setValidated(true);
 
-    if (!video) {
-      setError("Please upload a video before submitting.");
-      return;
-    }
+   
 
-    console.log("Video uploaded:", video);
     console.log("Tags:", tags);
     // 'Video on Job Booking'
     var data = {
       title: title,
       tags: tags,
-      category: "Job Bookings",
-      sub_category: "Jobs",
+      category: categorySelected,
+      sub_category: subcategory,
       description: description,
-      fileName: video.name,
+      // fileName: video.name,
     };
+    if (videos.length === 0) {
+      setError('Please upload at least one video before submitting.');
+      return;
+  }
 
+  const formData = new FormData();
+  videos.forEach((video, index) => {
+      formData.append(`videos[${index}]`, video);
+  });
+  formData.append('tags', JSON.stringify(tags));
+
+  try {
+      const response = await axios.post('/upload', formData, {
+          headers: {
+              'Content-Type': 'multipart/form-data'
+          }
+      });
+      console.log('Upload successful:', response.data);
+  } catch (err) {
+      console.error('Upload failed:', err);
+      setError('Upload failed. Please try again.');
+  }
     console.log(data);
   };
 
   const handleCategoryChange = (event) => {
     const selectedCategory = event.target.value;
-    setCategory(selectedCategory);
+    setCategory(selectedCategory);  
     setSubcategory(""); // Reset subcategory when category changes
 
-    // var item= ( category.reduce((acc, category) => {
-    //   const foundItem = category.subcategories
-    //     .flatMap((subcategory) => subcategory.items)
-    //     .find((item) => item.id === event);
-    //   if (foundItem) {
-    //     return foundItem;
-    //   }
-    //   return acc;
-    // }, null));
-    // setSubcategories(item || []);
+    const categoryObject = category.find(cat => cat.categoryName === selectedCategory);
+    var subCat= categoryObject ? categoryObject.subcategories[0]['items'] : [];
+    setSubcategories(subCat)
+   
   };
 
   const handleSubcategoryChange = (event) => {
@@ -158,16 +167,20 @@ const VideoFormPage = () => {
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               {
                 <div className="video-preview">
-                  <video controls key={videoURL}>
+                {videoURLs.map((videoURL) => (
+                    <video controls key={videoURL}>
                     <source
                       src={videoURL}
-                      type={video != null ? video.type : "video/mp4"}
+                      type="video/mp4"
+                      // type={video != null ? video.type : "video/mp4"}
                     />
                     Your browser does not support the video tag.
                   </video>
+                  ))}
                 </div>
               }
-
+              
+              
               <Form.Group controlId="video" className="mt-3">
                 <Form.Label>Choose a video</Form.Label>
                 <Form.Control
@@ -177,6 +190,8 @@ const VideoFormPage = () => {
                   accept="video/mp4, video/webm, video/ogg"
                   onChange={handleFileChange}
                   required
+                  multiple
+                 
                 />
 
                 <Form.Control.Feedback type="invalid">
@@ -261,8 +276,8 @@ const VideoFormPage = () => {
                   {" "}
                   <option value="">Select a subcategory</option>
                   {subcategories.map((subcat) => (
-                    <option key={subcat} value={subcat}>
-                      {subcat}
+                    <option key={subcat.id} value={subcat.title}>
+                      {subcat.title}
                     </option>
                   ))}
                 </Form.Control>

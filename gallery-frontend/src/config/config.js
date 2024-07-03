@@ -8,10 +8,10 @@ if (process.env.REACT_APP_ENVIRONMENT == "production") {
   redirectUri = "https://tutorial.infrabyte.com.au/callback";
   postLogoutRedirectUri = "https://tutorial.infrabyte.com.au/";
 }
+// used to test
+// exports.loginUrl = `${authority}/connect/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid profile email jobbookingapi offline_access&state=2323&code_challenge=231232&code_challenge_method=S256`;
 
-exports.loginUrl = `${authority}/connect/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid profile email jobbookingapi offline_access&state=2323&code_challenge=231232&code_challenge_method=S256`;
-
-console.log(this.loginUrl)
+// console.log(this.loginUrl)
 
 exports.oidcConfig = {
   authority: authority,
