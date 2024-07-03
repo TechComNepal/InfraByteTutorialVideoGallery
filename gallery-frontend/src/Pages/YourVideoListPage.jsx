@@ -15,10 +15,16 @@ const YourVideoListsPage = () => {
 
   return (
     <>
-      
-      <Container className="mt-5 mb-5" style={{ minHeight: "100vh" }}>
-      <h1 className="heading3 mb-3">Your videos</h1>
-       <Row>
+    
+      <Container className="mt-5 mb-5" style={{ minHeight: "100vh" }}>  <a
+        href="/add/video"
+        variant="primary"
+        className="button-container mt-3  "
+      >
+        Back
+      </a>
+        <h1 className="heading3 mb-3 mt-5">Your videos</h1>
+        <Row>
           <Col md={3} className="hide-container">
             <CategoryAccordion
               data={category}

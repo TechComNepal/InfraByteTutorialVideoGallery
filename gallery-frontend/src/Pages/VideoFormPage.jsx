@@ -6,9 +6,9 @@ import { category } from "../data/category";
 import "../Assets/Css/Login.css";
 
 const VideoFormPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
   const [validated, setValidated] = useState(false);
 
   const [video, setVideo] = useState(null);
@@ -88,6 +88,17 @@ const VideoFormPage = () => {
 
     console.log("Video uploaded:", video);
     console.log("Tags:", tags);
+    // 'Video on Job Booking'
+    var data = {
+      title: title,
+      tags: tags,
+      category: "Job Bookings",
+      sub_category: "Jobs",
+      description: description,
+      fileName: video.name,
+    };
+
+    console.log(data);
   };
 
   const handleCategoryChange = (event) => {
@@ -123,8 +134,24 @@ const VideoFormPage = () => {
   }, []);
   return (
     <>
-      <Container className="form-container">
-        <Col className="justify-content-space-around d-flex flex-column ">
+      <Container className="form-container mt-5">
+        <a
+          variant="primary"
+          className="button-container  "
+          onClick={() => {
+            navigate("/your-video", { replace: true });
+          }}
+        >
+          Your videos
+        </a>
+        {/* <Button
+          onClick={() => {
+            navigate("/add/video", { replace: true });
+          }}
+        >
+          Upload a video
+        </Button> */}
+        <Col className="justify-content-space-around d-flex flex-column mt-3">
           <Col className="mt-3">
             <h2 className="heading3 mb-4">Upload infrabyte video</h2>
 
@@ -162,8 +189,8 @@ const VideoFormPage = () => {
                 <Form.Control
                   type="text"
                   placeholder="Title"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                   required
                 />
                 <Form.Control.Feedback type="invalid">
@@ -207,7 +234,9 @@ const VideoFormPage = () => {
                   onChange={handleCategoryChange}
                   id="category"
                   required
-                > <option value="">Select a category</option>
+                >
+                  {" "}
+                  <option value="">Select a category</option>
                   {category.map((cat) => (
                     <option key={cat.categoryName} value={cat.categoryName}>
                       {cat.categoryName}
@@ -222,15 +251,15 @@ const VideoFormPage = () => {
               <Form.Group controlId="formBasicSelect" className="mt-3">
                 <Form.Label>Select a sub category</Form.Label>
                 <Form.Control
-                 
                   as="select"
-                 
                   id="subcategory"
                   value={subcategory}
                   onChange={handleSubcategoryChange}
                   disabled={!categorySelected}
                   required
-                > <option value="">Select a subcategory</option>
+                >
+                  {" "}
+                  <option value="">Select a subcategory</option>
                   {subcategories.map((subcat) => (
                     <option key={subcat} value={subcat}>
                       {subcat}
@@ -241,8 +270,7 @@ const VideoFormPage = () => {
                   Please Select a sub category.
                 </Form.Control.Feedback>
               </Form.Group>
-              
-             
+
               <Form.Group
                 controlId="exampleForm.ControlTextarea1"
                 className="mt-3"
@@ -251,10 +279,10 @@ const VideoFormPage = () => {
                 <Form.Control
                   as={"textarea"}
                   placeholder="Description"
-                  value={password}
+                  value={description}
                   cols="40"
                   rows="5"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setDescription(e.target.value)}
                   required
                 />
                 <Form.Control.Feedback type="invalid">

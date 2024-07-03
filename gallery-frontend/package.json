@@ -1,5 +1,5 @@
 {
-  "homepage": "https://infrabyte1.github.io/InfraByteTutorialVideoGallery",
+  "homepage": "https://tutorial.infrabyte.com.au/",
   "name": "gallery-frontend",
   "version": "0.1.0",
   "private": true,
@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "dotenv": "^16.4.5",
     "gh-pages": "^6.1.1",
     "jwt-decode": "^4.0.0",
     "oidc-react": "^3.2.2",

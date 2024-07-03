@@ -5,8 +5,9 @@ import { redirect, useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../services/auth";
 import UserDropdown from "./UserDropdown";
 import { useAuth } from "oidc-react";
-// import { jwtDecode } from "jwt-decode";
-import * as jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+import { oidcConfig } from "../config/config";
+// import * as jwt_decode from "jwt-decode";
 
 function Header() {
   let navigate = useNavigate();
@@ -35,13 +36,14 @@ function Header() {
 
   useEffect(() => {
     const item = window.sessionStorage.getItem(
-      "oidc.user:https://localhost:5020:react_tutorial_client"
+      `oidc.user:${oidcConfig.authority}:react_tutorial_client`
     );
-    console.warn(item);
-    // console.warn(item["access_token"]);
+    // console.warn(JSON.parse(item));
+    // console.log(JSON.parse(item)["access_token"]);
+    var token = jwtDecode(JSON.parse(item)["access_token"]);
 
     // console.info(JSON.stringify(item["access_token"]));
-    // setUsername(jwt_decode.jwtDecode())
+    setUsername(token["http://schemas.a1gaas.com/identity/claims/name"]);
   }, []);
 
   return (

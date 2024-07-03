@@ -25,8 +25,9 @@ const AppRoute = () => {
       <Route path="/videos" element={<> <Header />
         <VideoListpage />
       </> } />
-      <Route path="/your-video" element={<> <Header /><YourVideoListsPage /></>} />
-      <Route path="/add/video" element={<> <Header /><VideoFormPage /></>} />
+      <Route path="/your-video" element={<> <YourVideoListsPage /></>} />
+      <Route path="/add/video" element={<> 
+      <VideoFormPage /></>} />
       <Route path="*" element={<NoPage />} />
     </Routes>
   );

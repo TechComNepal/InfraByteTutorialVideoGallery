@@ -20,24 +20,7 @@ const UserDropdown = ({ username, onLogout }) => {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item
-        
-          onClick={() => {
-            navigate("/your-video",{replace:true});
-           
-          }}
-        >
-          Your video
-        </Dropdown.Item>
-        <Dropdown.Item
-        
-          onClick={() => {
-            navigate("/add/video",{replace:true});
-           
-          }}
-        >
-          Upload a video
-        </Dropdown.Item>
+       
         <Dropdown.Item onClick={onLogout}>Logout</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
