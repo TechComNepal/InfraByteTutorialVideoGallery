@@ -5,6 +5,7 @@ import { Button, Form } from "react-bootstrap";
 import LoginPage from "./LoginPage";
 import { useAuth } from "oidc-react";
 import logo from "../Assets/images/nonon.png";
+import { loginUrl } from "../config/config";
 
 function Homepage() {
   let navigate = useNavigate();
@@ -49,7 +50,7 @@ function Homepage() {
                   <img src={logo} alt="logo" width="100" hight="100" />
                 </span>{" "}
                 videos are ready to play .
-              </h1>
+              </h1>   
 
               <button
                 className="button-container  mx-0"

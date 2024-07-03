@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import "../Assets/Css/Loading.css";
 import { isAuthenticatedUser } from "../services/auth";
 import { useLocation, useNavigate } from "react-router-dom";
+import { oidcConfig } from "../config/config";
+import { jwtDecode } from "jwt-decode";
 
 const Loading = () => {
   const navigate = useNavigate();
@@ -23,6 +25,15 @@ const Loading = () => {
         console.log("Authorization code:", code);
         // connect/token
         localStorage.setItem("token", code);
+        // const item = window.sessionStorage.getItem(
+        //   `oidc.user:${oidcConfig.authority}:react_tutorial_client`
+        // );
+        // if(item!=null){
+        //   var token = jwtDecode(JSON.parse(item)["access_token"]);
+        //   // console.info(JSON.stringify(item["access_token"]));
+        //   localStorage.setItem(token["http://schemas.a1gaas.com/identity/claims/name"])
+        // }
+        
         navigate("/videos",{replace:true});
        
       }

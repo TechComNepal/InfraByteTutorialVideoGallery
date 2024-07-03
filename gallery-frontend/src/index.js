@@ -8,15 +8,6 @@ import { oidcConfig } from "./config/config";
 
 
 
-// const oidcConfig = {
-//   authority: "https://localhost:5020",
-//   clientId: "react_tutorial_client",
-//   redirectUri: "https://tutorial.infrabyte.com.au/callback",
-//   postLogoutRedirectUri: "https://tutorial.infrabyte.com.au/",
-//   response_type: "code",
-//   scope: "openid profile email jobbookingapi offline_access",
-// };
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

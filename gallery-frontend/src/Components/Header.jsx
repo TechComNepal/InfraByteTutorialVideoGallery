@@ -31,19 +31,31 @@ function Header() {
     auth.signOut();
     navigate("/", { replace: true });
 
-    window.location.href = "/";
+    // window.location.href = "/";
+  };
+
+  const getUserName = () => {
+    const userName = localStorage.getItem("userName");
+    if (userName != null) {
+      setUsername(userName);
+    } else {
+    }
   };
 
   useEffect(() => {
-    const item = window.sessionStorage.getItem(
+    const item = sessionStorage.getItem(
       `oidc.user:${oidcConfig.authority}:react_tutorial_client`
     );
     // console.warn(JSON.parse(item));
     // console.log(JSON.parse(item)["access_token"]);
-    var token = jwtDecode(JSON.parse(item)["access_token"]);
 
-    // console.info(JSON.stringify(item["access_token"]));
-    setUsername(token["http://schemas.a1gaas.com/identity/claims/name"]);
+    if (item != null) {
+      var token = jwtDecode(JSON.parse(item)["access_token"]);
+      // console.info(JSON.stringify(item["access_token"]));
+      setUsername(token["http://schemas.a1gaas.com/identity/claims/name"]);
+      // const userName= localStorage.setItem("userName",token["http://schemas.a1gaas.com/identity/claims/name"])
+      getUserName();
+    }
   }, []);
 
   return (
