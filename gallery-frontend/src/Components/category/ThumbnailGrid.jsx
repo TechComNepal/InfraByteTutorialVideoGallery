@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../../Assets/Css/ThumbnailGrid.css";
 import PlayButtonOverlay from "./PlayButtonOverlay";
 import { Button, Container, Modal } from "react-bootstrap";
+
+import "../../Assets/Css/ThumbnailGrid.css";
 
 const ThumbnailGrid = ({ selectedItem, handleShow }) => {
   const [showModal, setShowModal] = useState(false);
@@ -52,19 +53,24 @@ const ThumbnailGrid = ({ selectedItem, handleShow }) => {
             <center>
               <div className="thumbnails">
                 {selectedItem.thumbnails.map((thumbnail, index) => (
+                  <div className="thumbnail-container">
                   <div key={index} className="thumbnail-item">
+                    
                     <img
                       src={thumbnail.url}
                       alt={thumbnail.title}
                       className="thumbnail-image"
                       onClick={() => playVideo(thumbnail.videoUrl)}
                     />
-                    <div className="thumbnail-overlay">
-                      <span className="thumbnail-title">{thumbnail.title}</span>
-                    </div>
+                    {/* <div className="thumbnail-overlay"> */}
+                    
+                    {/* </div> */}
+                   
                     <PlayButtonOverlay
                       onClick={() => playVideo(thumbnail.videoUrl)}
                     />
+                  </div>
+                  <h2 className="thumbnail-title">{thumbnail.title}</h2>
                   </div>
                 ))}
               </div>

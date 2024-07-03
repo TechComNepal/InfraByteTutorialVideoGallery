@@ -30,12 +30,6 @@ function Homepage() {
     var result = auth.signIn();
   };
 
-  // useEffect(()=>{
-  //   const isRedirect = ["a1mobile://a1Express.oidc.callback"].includes(window.location.href);
-  //   if(isRedirect)
-  //     navigate("/videos");
-  // });
-
   return (
     <div className="home-container">
       <div className="home-page ">
@@ -50,7 +44,7 @@ function Homepage() {
                   <img src={logo} alt="logo" width="100" hight="100" />
                 </span>{" "}
                 videos are ready to play .
-              </h1>   
+              </h1>
 
               <button
                 className="button-container  mx-0"

@@ -45,8 +45,8 @@ const VideoFormPage = () => {
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
-    const allowedTypes = ["video/mp4", "video/webm", "video/ogg"];
-    const maxSize = 50 * 1024 * 1024; // 50MB
+    const allowedTypes = ["video/mp4",];
+    const maxSize = 50 * 1024 * 1024; // 50MB  "video/webm", "video/ogg"
 
     let validFiles = [];
     let validUrls = [];
@@ -173,7 +173,7 @@ const VideoFormPage = () => {
                   className="video-preview"
                   style={videos.length == 0 ? { height: "50vh" } : {}}
                 >
-                  {videos.length == 0 && <h3>Video Preview </h3>}
+                  {videos.length == 0 && <center>Video Preview </center>}
                   {videos.map((video, index) => (
                     <div className="video-container">
                       <video controls key={video}>

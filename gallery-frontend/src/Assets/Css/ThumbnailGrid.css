@@ -28,7 +28,7 @@
   }
   
   .thumbnail-overlay {
-    position: absolute;
+    /* position: absolute;
     bottom: 0;
     left: 0;
     margin-bottom: 0px;
@@ -40,16 +40,25 @@
     text-align: center;
     opacity: 0;
     transition: opacity 0.3s ease;
-    text-align: left;
+    text-align: left; */
   }
   
   .thumbnail-item:hover .thumbnail-overlay {
     opacity: 1;
   }
+
+  .thumbnail-container{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+  }
   
   .thumbnail-title {
-    font-size: 14px;
-  
+
+    font-size: medium;
+    font-weight: 500;
+    padding: 10px;
   }
 
   @media (max-width: 769px) {
