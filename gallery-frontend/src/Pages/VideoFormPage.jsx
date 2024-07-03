@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 import { category } from "../data/category";
 import "../Assets/Css/Login.css";
@@ -12,7 +12,6 @@ const VideoFormPage = () => {
 
   const [validated, setValidated] = useState(false);
 
- 
   const [videos, setVideos] = useState([]);
   const [videoURLs, setVideoURLs] = useState([]);
   const [error, setError] = useState("");
@@ -51,26 +50,31 @@ const VideoFormPage = () => {
 
     let validFiles = [];
     let validUrls = [];
-    files.forEach(file => {
-        if (allowedTypes.includes(file.type) && file.size <= maxSize) {
-            validFiles.push(file);
-            validUrls.push(URL.createObjectURL(file))
-        } else {
-            setError('Some files are not supported or exceed the size limit of 50MB.');
-        }
+    files.forEach((file) => {
+      if (allowedTypes.includes(file.type) && file.size <= maxSize) {
+        validFiles.push(file);
+        validUrls.push(URL.createObjectURL(file));
+      } else {
+        setError(
+          "Some files are not supported or exceed the size limit of 50MB."
+        );
+      }
     });
 
-    setVideos([...videos, ...validFiles]);
+    setVideos([ ...validFiles]);
 
-      setError("");
-    setVideoURLs([ ...validUrls])
+    setError("");
+    setVideoURLs([...validUrls]);
+  };
 
-    
+  const deleteSelectedVideos = (index) => {
+    setVideos(videos.filter((_, i) => i !== index));
+    setVideoURLs(videoURLs.filter((_, i) => i !== index));
   };
 
   let navigate = useNavigate();
 
-  const handleSubmit =async  (event) => {
+  const handleSubmit = async (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -78,11 +82,8 @@ const VideoFormPage = () => {
     }
 
     setValidated(true);
-
-   
-
     console.log("Tags:", tags);
-    // 'Video on Job Booking'
+
     var data = {
       title: title,
       tags: tags,
@@ -92,39 +93,40 @@ const VideoFormPage = () => {
       // fileName: video.name,
     };
     if (videos.length === 0) {
-      setError('Please upload at least one video before submitting.');
+      setError("Please upload at least one video before submitting.");
       return;
-  }
+    }
 
-  const formData = new FormData();
-  videos.forEach((video, index) => {
+    const formData = new FormData();
+    videos.forEach((video, index) => {
       formData.append(`videos[${index}]`, video);
-  });
-  formData.append('tags', JSON.stringify(tags));
+    });
+    formData.append("tags", JSON.stringify(tags));
 
-  try {
-      const response = await axios.post('/upload', formData, {
-          headers: {
-              'Content-Type': 'multipart/form-data'
-          }
+    try {
+      const response = await axios.post("/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
-      console.log('Upload successful:', response.data);
-  } catch (err) {
-      console.error('Upload failed:', err);
-      setError('Upload failed. Please try again.');
-  }
+      console.log("Upload successful:", response.data);
+    } catch (err) {
+      console.error("Upload failed:", err);
+      setError("Upload failed. Please try again.");
+    }
     console.log(data);
   };
 
   const handleCategoryChange = (event) => {
     const selectedCategory = event.target.value;
-    setCategory(selectedCategory);  
+    setCategory(selectedCategory);
     setSubcategory(""); // Reset subcategory when category changes
 
-    const categoryObject = category.find(cat => cat.categoryName === selectedCategory);
-    var subCat= categoryObject ? categoryObject.subcategories[0]['items'] : [];
-    setSubcategories(subCat)
-   
+    const categoryObject = category.find(
+      (cat) => cat.categoryName === selectedCategory
+    );
+    var subCat = categoryObject ? categoryObject.subcategories[0]["items"] : [];
+    setSubcategories(subCat);
   };
 
   const handleSubcategoryChange = (event) => {
@@ -141,6 +143,7 @@ const VideoFormPage = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   return (
     <>
       <Container className="form-container mt-5">
@@ -167,20 +170,29 @@ const VideoFormPage = () => {
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               {
                 <div className="video-preview">
-                {videoURLs.map((videoURL) => (
-                    <video controls key={videoURL}>
-                    <source
-                      src={videoURL}
-                      type="video/mp4"
-                      // type={video != null ? video.type : "video/mp4"}
-                    />
-                    Your browser does not support the video tag.
-                  </video>
+                  {videos.map((video, index) => (
+                    <div className="video-container">
+                      <video controls key={video} >
+                        <source
+                          src={URL.createObjectURL(video)}
+                          type={video != null ? video.type : "video/mp4"}
+                          
+                        />
+                        Your browser does not support the video tag.
+                      </video>
+                      <button
+                        type="button"
+                        className="button-container mt-3"
+                        onClick={() => deleteSelectedVideos(index)}
+                      >
+                        
+                        Delete
+                      </button>
+                    </div>
                   ))}
                 </div>
               }
-              
-              
+
               <Form.Group controlId="video" className="mt-3">
                 <Form.Label>Choose a video</Form.Label>
                 <Form.Control
@@ -191,7 +203,6 @@ const VideoFormPage = () => {
                   onChange={handleFileChange}
                   required
                   multiple
-                 
                 />
 
                 <Form.Control.Feedback type="invalid">
