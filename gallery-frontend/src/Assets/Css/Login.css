@@ -89,6 +89,10 @@
   max-width: 1020px;
   overflow-x: scroll;
   overflow-y: hidden;
+  border: 2px dotted rgb(44, 44, 44);
+  padding: 10px;
+  border-radius: 5px; 
+  /* height: 60vh; */
 }
 
 .video-preview video {
@@ -105,18 +109,16 @@
 
 .video-preview .video-container {
   display: flex;
-flex-direction: column;
+  flex-direction: column;
   align-items: start;
-
   gap: 25px;
   margin: 30px;
-
-  /* justify-content: ; */
 }
 
 .video-preview .video-container video {
   position: relative;
-  max-width: 320px; border: 1px solid #ddd;
+  max-width: 320px;
+  border: 1px solid #ddd;
   border-radius: 5px;
 }
 

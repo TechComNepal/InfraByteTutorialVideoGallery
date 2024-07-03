@@ -61,7 +61,7 @@ const VideoFormPage = () => {
       }
     });
 
-    setVideos([ ...validFiles]);
+    setVideos([...validFiles]);
 
     setError("");
     setVideoURLs([...validUrls]);
@@ -169,14 +169,17 @@ const VideoFormPage = () => {
 
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               {
-                <div className="video-preview">
+                <div
+                  className="video-preview"
+                  style={videos.length == 0 ? { height: "50vh" } : {}}
+                >
+                  {videos.length == 0 && <h3>Video Preview </h3>}
                   {videos.map((video, index) => (
                     <div className="video-container">
-                      <video controls key={video} >
+                      <video controls key={video}>
                         <source
                           src={URL.createObjectURL(video)}
                           type={video != null ? video.type : "video/mp4"}
-                          
                         />
                         Your browser does not support the video tag.
                       </video>
@@ -185,7 +188,6 @@ const VideoFormPage = () => {
                         className="button-container mt-3"
                         onClick={() => deleteSelectedVideos(index)}
                       >
-                        
                         Delete
                       </button>
                     </div>
