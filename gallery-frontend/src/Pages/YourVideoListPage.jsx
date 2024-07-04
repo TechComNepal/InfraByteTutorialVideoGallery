@@ -21,7 +21,7 @@ const YourVideoListsPage = () => {
         variant="primary"
         className="button-container mt-3  "
       >
-        Back
+        Upload video
       </a>
         <h1 className="heading3 mb-3 mt-5">Your videos</h1>
         <Row>

@@ -26,6 +26,8 @@ const VideoFormPage = () => {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
 
+  const [loading, setLoading] = useState(false);
+
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
@@ -76,14 +78,15 @@ const VideoFormPage = () => {
   let navigate = useNavigate();
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
     }
     var token = localStorage.getItem("token");
-    // setValidated(true);
-    console.log("Tags:", token);
+    setValidated(true);
+    // console.log("Token:", token);
 
     // var data = {
     //   title: title,
@@ -100,32 +103,36 @@ const VideoFormPage = () => {
 
     const formData = new FormData();
     formData.append("Title", title);
-    formData.append("Tags", JSON.stringify(tags));
+    formData.append("Tags", tags);
     formData.append("Category", categorySelected);
     formData.append("SubCategory", subcategory);
-    formData.append("Description", description);  
-    formData.append("fileName", '');  
+    formData.append("Description", description);
+    formData.append("FileName", "");
     videos.forEach((video, index) => {
-      formData.append(`VideoFiles[${index}]`, video);
+      formData.append(`VideoFiles`, video);
     });
 
-    console.log(tutorialUpload);
+    // for (let [key, value] of formData.entries()) {
+    //   console.log(`${key}: ${value}`);
+    // }
+    // console.log(tutorialUpload);
 
     try {
-      const response = await axios.post(tutorialUpload, formData, {
+      const response = await axios.post(tutorialUpload.toString(), formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          Authorization: "Bearer " + token,
         },
       });
       console.log("Upload successful:", response.data);
       alert("upload success");
     } catch (err) {
-      // console.error("Upload failed:", err);
-      alert("upload success" + err);
+      console.error("Upload failed:", err);
+      alert("upload Error ::" + err);
       setError("Upload failed. Please try again.");
     }
-    console.log(formData);
+    setLoading(false);
   };
 
   const handleCategoryChange = (event) => {
@@ -157,8 +164,14 @@ const VideoFormPage = () => {
 
   return (
     <>
-      <Container className="form-container mt-5">
-        {/* <a
+      {loading ? (
+        <div className="loading-container" >
+          <div className="spinner"></div>
+          <p>Please wait ...</p>
+        </div>
+      ) : (
+        <Container className="form-container mt-5">
+          {/* <a
           variant="primary"
           className="button-container  "
           onClick={() => {
@@ -167,185 +180,190 @@ const VideoFormPage = () => {
         >
           Your videos
         </a> */}
-        {/* <Button
+          {/* <Button
           onClick={() => {
             navigate("/add/video", { replace: true });
           }}
         >
           Upload a video
         </Button> */}
-        <Col className="justify-content-space-around d-flex flex-column mt-3">
-          <Col className="mt-3">
-            <h2 className="heading3 mb-4">Upload infrabyte video</h2>
+          <Col className="justify-content-space-around d-flex flex-column mt-3">
+            <Col className="mt-3">
+              <h2 className="heading3 mb-4">Upload infrabyte video</h2>
 
-            <Form noValidate validated={validated} onSubmit={handleSubmit} >
-              {
-                <div
-                  className="video-preview"
-                  style={videos.length == 0 ? { height: "50vh" } : {}}
-                >
-                  {videos.length == 0 && <center>Video Preview </center>}
-                  {videos.map((video, index) => (
-                    <div className="video-container" key={index}>
-                      <video controls key={index}>
-                        <source
-                          src={URL.createObjectURL(video)}
-                          type={video != null ? video.type : "video/mp4"}
-                        />
-                        Your browser does not support the video tag.
-                      </video>
-                      <button
-                        type="button"
-                        className="button-container mt-3"
-                        onClick={() => deleteSelectedVideos(index)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  ))}
+              <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                {
+                  <div
+                    className="video-preview"
+                    style={videos.length == 0 ? { height: "50vh" } : {}}
+                  >
+                    {videos.length == 0 && <center>Video Preview </center>}
+                    {videos.map((video, index) => (
+                      <div className="video-container" key={index}>
+                        <video controls key={index}>
+                          <source
+                            src={URL.createObjectURL(video)}
+                            type={video != null ? video.type : "video/mp4"}
+                          />
+                          Your browser does not support the video tag.
+                        </video>
+                        <button
+                          type="button"
+                          className="button-container mt-3"
+                          onClick={() => deleteSelectedVideos(index)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                }
+
+                <Form.Group className="mt-3">
+                  <Form.Label>Choose a video</Form.Label>
+                  <Form.Control
+                    type="file"
+                    placeholder="Upload"
+                    id="video-upload"
+                    accept="video/mp4"
+                    onChange={handleFileChange}
+                    required
+                    multiple
+                  />
+
+                  <Form.Control.Feedback type="invalid">
+                    {error && <div className="error-message">{error}</div>}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group className="mt-3">
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid email.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group className="mt-3">
+                  <Form.Label>Add tags</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Add tags (press enter or comma)"
+                    value={inputValue}
+                    onChange={handleInputChange}
+                    onKeyPress={handleInputKeyPress}
+                  />
+                  <ul className="tags-list">
+                    {tags.map((tag, index) => (
+                      <li key={index} className="tag">
+                        {tag}
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveTag(index)}
+                        >
+                          <i className="fas fa-close"></i>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a tags.
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group className="mt-3">
+                  <Form.Label>Select a category</Form.Label>
+                  <Form.Control
+                    placeholder="Category"
+                    as="select"
+                    value={categorySelected}
+                    onChange={handleCategoryChange}
+                    id="category"
+                    required
+                  >
+                    {" "}
+                    <option value="">Select a category</option>
+                    {category.map((cat) => (
+                      <option key={cat.categoryName} value={cat.categoryName}>
+                        {cat.categoryName}
+                      </option>
+                    ))}
+                  </Form.Control>
+                  <Form.Control.Feedback type="invalid">
+                    Please Select a category.
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group className="mt-3">
+                  <Form.Label>Select a sub category</Form.Label>
+                  <Form.Control
+                    as="select"
+                    id="subcategory"
+                    value={subcategory}
+                    onChange={handleSubcategoryChange}
+                    disabled={!categorySelected}
+                    required
+                  >
+                    {" "}
+                    <option value="">Select a subcategory</option>
+                    {subcategories.map((subcat) => (
+                      <option key={subcat.id} value={subcat.title}>
+                        {subcat.title}
+                      </option>
+                    ))}
+                  </Form.Control>
+                  <Form.Control.Feedback type="invalid">
+                    Please Select a sub category.
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group className="mt-3">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    as={"textarea"}
+                    placeholder="Description"
+                    value={description}
+                    cols="40"
+                    rows="5"
+                    onChange={(e) => setDescription(e.target.value)}
+                    required
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a descrition.
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <div className="container d-flex mt-3">
+                  <Button
+                    variant="primary"
+                    className="button-container mt-3  "
+                    type="submit"
+                    block
+                  >
+                    Submit
+                  </Button>{" "}
+                  {loading && <div className="spinner"></div>}
+                  <Button
+                    variant="primary"
+                    className="button-container cancel mt-3 mx-2"
+                    block
+                    onClick={() => {
+                      navigate("/videos");
+                    }}
+                  >
+                    Cancel
+                  </Button>
                 </div>
-              }
-
-              <Form.Group controlId="video" className="mt-3">
-                <Form.Label>Choose a video</Form.Label>
-                <Form.Control
-                  type="file"
-                  placeholder="Upload"
-                  id="video-upload"
-                  accept="video/mp4"
-                  onChange={handleFileChange}
-                  required
-                  multiple
-                />
-
-                <Form.Control.Feedback type="invalid">
-                  {error && <div className="error-message">{error}</div>}
-                </Form.Control.Feedback>
-              </Form.Group>
-
-              <Form.Group controlId="formTitle" className="mt-3">
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-                />
-                <Form.Control.Feedback type="invalid">
-                  Please provide a valid email.
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="mt-3">
-                <Form.Label>Add tags</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Add tags (press enter or comma)"
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  onKeyPress={handleInputKeyPress}
-                />
-                <ul className="tags-list">
-                  {tags.map((tag, index) => (
-                    <li key={index} className="tag">
-                      {tag}
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveTag(index)}
-                      >
-                        <i className="fas fa-close"></i>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-                <Form.Control.Feedback type="invalid">
-                  Please provide a tags.
-                </Form.Control.Feedback>
-              </Form.Group>
-
-              <Form.Group controlId="formCategorySelect" className="mt-3">
-                <Form.Label>Select a category</Form.Label>
-                <Form.Control
-                  placeholder="Category"
-                  as="select"
-                  value={categorySelected}
-                  onChange={handleCategoryChange}
-                  id="category"
-                  required
-                >
-                  {" "}
-                  <option value="">Select a category</option>
-                  {category.map((cat) => (
-                    <option key={cat.categoryName} value={cat.categoryName}>
-                      {cat.categoryName}
-                    </option>
-                  ))}
-                </Form.Control>
-                <Form.Control.Feedback type="invalid">
-                  Please Select a category.
-                </Form.Control.Feedback>
-              </Form.Group>
-
-              <Form.Group controlId="formSubCategorySelect" className="mt-3">
-                <Form.Label>Select a sub category</Form.Label>
-                <Form.Control
-                  as="select"
-                  id="subcategory"
-                  value={subcategory}
-                  onChange={handleSubcategoryChange}
-                  disabled={!categorySelected}
-                  required
-                >
-                  {" "}
-                  <option value="">Select a subcategory</option>
-                  {subcategories.map((subcat) => (
-                    <option key={subcat.id} value={subcat.title}>
-                      {subcat.title}
-                    </option>
-                  ))}
-                </Form.Control>
-                <Form.Control.Feedback type="invalid">
-                  Please Select a sub category.
-                </Form.Control.Feedback>
-              </Form.Group>
-
-              <Form.Group controlId="formDescription" className="mt-3">
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  as={"textarea"}
-                  placeholder="Description"
-                  value={description}
-                  cols="40"
-                  rows="5"
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                />
-                <Form.Control.Feedback type="invalid">
-                  Please provide a descrition.
-                </Form.Control.Feedback>
-              </Form.Group>
-
-              <div className="container d-flex mt-3">
-                <Button
-                  variant="primary"
-                  className="button-container mt-3  "
-                  type="submit"
-                  block
-                >
-                  Submit
-                </Button>{" "}
-                <Button
-                  variant="primary"
-                  className="button-container cancel mt-3 mx-2"
-                  block
-                >
-                  Cancel
-                </Button>
-              </div>
-            </Form>
+              </Form>
+            </Col>
           </Col>
-        </Col>
-      </Container>
+        </Container>
+      )}
     </>
   );
 };
