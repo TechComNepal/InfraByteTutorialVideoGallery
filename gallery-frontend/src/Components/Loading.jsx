@@ -36,8 +36,15 @@ const Loading = () => {
         
         navigate("/videos",{replace:true});
        
+      }else{
+        const item = sessionStorage.getItem(
+          `oidc.user:${oidcConfig.authority}:react_tutorial_client`
+        );
+        if (item != null) { setLoading(false);
+          navigate("/videos",{replace:true});
+        }
       }
-    }, 2000);
+    }, 3000);
   }, [navigate]);
 
   return (

@@ -17,7 +17,7 @@ function Header() {
   const [username, setUsername] = useState("Username");
   const token = localStorage.getItem("token");
 
-  var link = `https://localhost:5020/connect/endsession?id_token=${token}&post_logout_redirect_uri=http://localhost:3000`;
+  // var link = `https://localhost:5020/connect/endsession?id_token=${token}&post_logout_redirect_uri=http://localhost:3000`;
 
   const handleLogout = async () => {
     localStorage.removeItem("token");
@@ -51,10 +51,23 @@ function Header() {
 
     if (item != null) {
       var token = jwtDecode(JSON.parse(item)["access_token"]);
+      localStorage.setItem("token", JSON.parse(item)["access_token"]);
       // console.info(JSON.stringify(item["access_token"]));
-      setUsername(token["http://schemas.a1gaas.com/identity/claims/name"]);
       // const userName= localStorage.setItem("userName",token["http://schemas.a1gaas.com/identity/claims/name"])
+      setUsername(token["http://schemas.a1gaas.com/identity/claims/name"]);
+      var roles =
+        token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      if (
+        roles.includes("Admin") ||
+        roles.includes("System Admin") ||
+        roles.includes("Super Admin")
+      ) {
+        localStorage.setItem("role", true);
+      }
+
       getUserName();
+    } else {
+      navigate("/callback", { replace: true });
     }
   }, []);
 

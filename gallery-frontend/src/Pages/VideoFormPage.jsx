@@ -5,17 +5,18 @@ import axios from "axios";
 
 import { category } from "../data/category";
 import "../Assets/Css/Login.css";
+import { tutorialUpload } from "../config/config";
 
 const VideoFormPage = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("test");
+  const [description, setDescription] = useState("test desx");
 
   const [validated, setValidated] = useState(false);
 
   const [videos, setVideos] = useState([]);
   const [videoURLs, setVideoURLs] = useState([]);
   const [error, setError] = useState("");
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState(["how to do job booking", "job booking"]);
 
   const [inputValue, setInputValue] = useState("");
 
@@ -45,7 +46,7 @@ const VideoFormPage = () => {
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
-    const allowedTypes = ["video/mp4",];
+    const allowedTypes = ["video/mp4"];
     const maxSize = 50 * 1024 * 1024; // 50MB  "video/webm", "video/ogg"
 
     let validFiles = [];
@@ -80,41 +81,51 @@ const VideoFormPage = () => {
       event.preventDefault();
       event.stopPropagation();
     }
+    var token = localStorage.getItem("token");
+    // setValidated(true);
+    console.log("Tags:", token);
 
-    setValidated(true);
-    console.log("Tags:", tags);
-
-    var data = {
-      title: title,
-      tags: tags,
-      category: categorySelected,
-      sub_category: subcategory,
-      description: description,
-      // fileName: video.name,
-    };
+    // var data = {
+    //   title: title,
+    //   tags: tags,
+    //   category: categorySelected,
+    //   sub_category: subcategory,
+    //   description: description,
+    //    fileName: video.name,
+    // };
     if (videos.length === 0) {
       setError("Please upload at least one video before submitting.");
       return;
     }
 
     const formData = new FormData();
+    formData.append("Title", title);
+    formData.append("Tags", JSON.stringify(tags));
+    formData.append("Category", categorySelected);
+    formData.append("SubCategory", subcategory);
+    formData.append("Description", description);  
+    formData.append("fileName", '');  
     videos.forEach((video, index) => {
-      formData.append(`videos[${index}]`, video);
+      formData.append(`VideoFiles[${index}]`, video);
     });
-    formData.append("tags", JSON.stringify(tags));
+
+    console.log(tutorialUpload);
 
     try {
-      const response = await axios.post("/upload", formData, {
+      const response = await axios.post(tutorialUpload, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       });
       console.log("Upload successful:", response.data);
+      alert("upload success");
     } catch (err) {
-      console.error("Upload failed:", err);
+      // console.error("Upload failed:", err);
+      alert("upload success" + err);
       setError("Upload failed. Please try again.");
     }
-    console.log(data);
+    console.log(formData);
   };
 
   const handleCategoryChange = (event) => {
@@ -147,7 +158,7 @@ const VideoFormPage = () => {
   return (
     <>
       <Container className="form-container mt-5">
-        <a
+        {/* <a
           variant="primary"
           className="button-container  "
           onClick={() => {
@@ -155,7 +166,7 @@ const VideoFormPage = () => {
           }}
         >
           Your videos
-        </a>
+        </a> */}
         {/* <Button
           onClick={() => {
             navigate("/add/video", { replace: true });
@@ -167,7 +178,7 @@ const VideoFormPage = () => {
           <Col className="mt-3">
             <h2 className="heading3 mb-4">Upload infrabyte video</h2>
 
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form noValidate validated={validated} onSubmit={handleSubmit} >
               {
                 <div
                   className="video-preview"
@@ -175,8 +186,8 @@ const VideoFormPage = () => {
                 >
                   {videos.length == 0 && <center>Video Preview </center>}
                   {videos.map((video, index) => (
-                    <div className="video-container">
-                      <video controls key={video}>
+                    <div className="video-container" key={index}>
+                      <video controls key={index}>
                         <source
                           src={URL.createObjectURL(video)}
                           type={video != null ? video.type : "video/mp4"}
@@ -201,7 +212,7 @@ const VideoFormPage = () => {
                   type="file"
                   placeholder="Upload"
                   id="video-upload"
-                  accept="video/mp4, video/webm, video/ogg"
+                  accept="video/mp4"
                   onChange={handleFileChange}
                   required
                   multiple
@@ -212,7 +223,7 @@ const VideoFormPage = () => {
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group controlId="formBasicEmail" className="mt-3">
+              <Form.Group controlId="formTitle" className="mt-3">
                 <Form.Label>Title</Form.Label>
                 <Form.Control
                   type="text"
@@ -225,7 +236,7 @@ const VideoFormPage = () => {
                   Please provide a valid email.
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group controlId="formBasicPassword" className="mt-3">
+              <Form.Group className="mt-3">
                 <Form.Label>Add tags</Form.Label>
                 <Form.Control
                   type="text"
@@ -233,7 +244,6 @@ const VideoFormPage = () => {
                   value={inputValue}
                   onChange={handleInputChange}
                   onKeyPress={handleInputKeyPress}
-                  required
                 />
                 <ul className="tags-list">
                   {tags.map((tag, index) => (
@@ -253,10 +263,10 @@ const VideoFormPage = () => {
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group controlId="formBasicSelect" className="mt-3">
+              <Form.Group controlId="formCategorySelect" className="mt-3">
                 <Form.Label>Select a category</Form.Label>
                 <Form.Control
-                  placeholder="Title"
+                  placeholder="Category"
                   as="select"
                   value={categorySelected}
                   onChange={handleCategoryChange}
@@ -276,7 +286,7 @@ const VideoFormPage = () => {
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group controlId="formBasicSelect" className="mt-3">
+              <Form.Group controlId="formSubCategorySelect" className="mt-3">
                 <Form.Label>Select a sub category</Form.Label>
                 <Form.Control
                   as="select"
@@ -299,10 +309,7 @@ const VideoFormPage = () => {
                 </Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group
-                controlId="exampleForm.ControlTextarea1"
-                className="mt-3"
-              >
+              <Form.Group controlId="formDescription" className="mt-3">
                 <Form.Label>Description</Form.Label>
                 <Form.Control
                   as={"textarea"}
