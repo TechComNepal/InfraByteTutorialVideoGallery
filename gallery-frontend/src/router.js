@@ -29,8 +29,19 @@ const AppRoute = () => {
       <Route path="/add/video" element={<> <Header />
       <VideoFormPage /></>} />
       <Route path="*" element={<NoPage />} />
+      <Route path="/protected" component={Protected} />
     </Routes>
   );
+};
+
+const Protected = () => {
+  const accessToken = localStorage.getItem('access_token');
+  
+  if (!accessToken) {
+      return <div>Access Denied. Please login first.</div>;
+  }
+
+  return <div>Protected Content</div>;
 };
 
 export default AppRoute;

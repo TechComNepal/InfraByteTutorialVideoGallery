@@ -86,7 +86,7 @@ const VideoFormPage = () => {
     }
     var token = localStorage.getItem("token");
     setValidated(true);
-    // console.log("Token:", token);
+    console.log("Token:", token);
 
     // var data = {
     //   title: title,
@@ -122,14 +122,15 @@ const VideoFormPage = () => {
         headers: {
           "Content-Type": "multipart/form-data",
           Accept: "application/json",
-          Authorization: "Bearer " + token,
+          Authorization: "Bearer " + token.toString(),
+          "Access-Control-Allow-Origin": "*",
         },
       });
       console.log("Upload successful:", response.data);
       alert("upload success");
     } catch (err) {
       console.error("Upload failed:", err);
-      alert("upload Error ::" + err);
+      alert("Upload failed. Please try again.\n" + err);
       setError("Upload failed. Please try again.");
     }
     setLoading(false);
@@ -165,7 +166,7 @@ const VideoFormPage = () => {
   return (
     <>
       {loading ? (
-        <div className="loading-container" >
+        <div className="loading-container">
           <div className="spinner"></div>
           <p>Please wait ...</p>
         </div>

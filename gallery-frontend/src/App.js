@@ -7,7 +7,7 @@ import AppRoute from "./router";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { isAuthenticatedUser } from "./services/auth";
-import { useAuth } from "oidc-react";
+
 import Loading from "./Components/Loading";
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
   const callback = ["/callback"].includes(window.location.pathname);
 
   const navigate = useNavigate();
-  const { signIn, isLoading } = useAuth();
+
 
  
   return (

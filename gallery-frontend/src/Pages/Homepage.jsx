@@ -3,31 +3,41 @@ import "../Assets/Css/Homepage.css";
 import { useNavigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import LoginPage from "./LoginPage";
-import { useAuth } from "oidc-react";
+// import { useAuth } from "oidc-react";
 import logo from "../Assets/images/nonon.png";
-import { loginUrl } from "../config/config";
+import { getAuthorizationUrl, loginUrl, oidcConfig } from "../config/config";
+import Cookies from "js-cookie";
+import { generateCodeChallenge, generateCodeVerifier } from "../config/pkce";
 
 function Homepage() {
   let navigate = useNavigate();
-  const auth = useAuth();
+  // const auth = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  if (auth.isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (auth.isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
-  if (auth.error) {
-    return <div>Error: {auth.error.message}</div>;
-  }
+  // if (auth.error) {
+  //   return <div>Error: {auth.error.message}</div>;
+  // }
 
-  if (auth.isAuthenticated) {
-    return <div>Welcome, {auth.user.profile.name}!</div>;
-  }
+  // if (auth.isAuthenticated) {
+  //   return <div>Welcome, {auth.user.profile.name}!</div>;
+  // }
 
-  const handleLogin = () => {
-    setIsLoading(true);
-    var result = auth.signIn();
+  // const handleLogin = () => {
+  //   setIsLoading(true);
+  //   var result = auth.signIn();
+  // };
+
+  const login = async () => {
+    const codeVerifier = generateCodeVerifier(128);
+    const codeChallenge = await generateCodeChallenge(codeVerifier);
+
+    Cookies.set("pkce_code_verifier", codeVerifier);
+    window.location.href = `${getAuthorizationUrl}?client_id=${oidcConfig.clientId}&redirect_uri=${oidcConfig.redirectUri}&response_type=${oidcConfig.response_type}&scope=${oidcConfig.scope}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
   };
 
   return (
@@ -48,9 +58,8 @@ function Homepage() {
 
               <button
                 className="button-container  mx-0"
-                // href={loginUrl}
-                // onClick={auth.signIn}
-                onClick={handleLogin}
+                // onClick={handleLogin}
+                onClick={login}
               >
                 Get Started
               </button>
