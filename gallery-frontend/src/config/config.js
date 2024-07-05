@@ -1,3 +1,5 @@
+
+// deveslopment
 var authority = "https://localhost:5020";
 var clientId = "react_tutorial_client";
 var redirectUri = "http://localhost:3000/callback";
@@ -21,7 +23,7 @@ if (process.env.REACT_APP_ENVIRONMENT == "production") {
 // console.log(this.loginUrl)
 
 exports.tutorialUpload = `${apiBaseUrl}v6.1/BookingTutorial/UploadJobBookingTutorialFiles`;
-exports.getTokenUrl = `${authority}/connect/token`;
+exports.getTokenUrl = `${authority}/connect/token`; 
 // exports.getAuthorizationUrl= `${authority}`;
 exports.getAuthorizationUrl = `${authority}/connect/authorize`;
 
@@ -33,7 +35,6 @@ exports.oidcConfig = {
   redirectUri: redirectUri,
   postLogoutRedirectUri: postLogoutRedirectUri,
   response_type: "code",
-
   scope: "openid profile email jobbookingapi offline_access",
 
   // state:getState(),

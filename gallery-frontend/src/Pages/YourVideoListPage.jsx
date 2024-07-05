@@ -15,17 +15,18 @@ const YourVideoListsPage = () => {
 
   return (
     <>
-    
-      <Container className="mt-5 mb-5" style={{ minHeight: "100vh" }}>  <a
-        href="/add/video"
-        variant="primary"
-        className="button-container mt-3  "
-      >
-        Upload video
-      </a>
+      <Container className="mt-5 mb-5" style={{ minHeight: "100vh" }}>
+        <a
+          href="/add/video"
+          variant="primary"
+          className="button-container mt-3  "
+        >
+          Upload video
+        </a>
         <h1 className="heading3 mb-3 mt-5">Your videos</h1>
         <Row>
           <Col md={3} className="hide-container">
+            {/* hides if mobile */}
             <CategoryAccordion
               data={category}
               setSelectedItem={setSelectedItem}
@@ -37,11 +38,11 @@ const YourVideoListsPage = () => {
               <ThumbnailGrid
                 selectedItem={selectedItem}
                 handleShow={handleShow}
+                showUpdate={true}
               />
             </div>
           </Col>
         </Row>
-
         <RightSideModal show={showModal} handleClose={handleClose}>
           <CategoryAccordion
             data={category}

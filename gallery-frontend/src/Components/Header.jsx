@@ -22,12 +22,27 @@ function Header() {
     // auth.signOut();
     // window.location.href = `${getAuthorizationUrl}?client_id=${oidcConfig.clientId}&redirect_uri=${oidcConfig.redirectUri}&response_type=${oidcConfig.response_type}&scope=${oidcConfig.scope}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
     const idTokenFound = localStorage.getItem("id_token");
-    if (idTokenFound) {
-      localStorage.removeItem("token");
-      window.location.href = `${oidcConfig.authority}/connect/endsession?id_token=${idTokenFound}&post_logout_redirect_uri=${oidcConfig.postLogoutRedirectUri}`;
-    } else {
-      window.location.href = oidcConfig.postLogoutRedirectUri;
-    }
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("id_token");
+    localStorage.removeItem("token");
+    const logoutUrl =`${oidcConfig.authority}/connect/endsession?id_token=${idTokenFound}&post_logout_redirect_uri=${oidcConfig.postLogoutRedirectUri}`;
+    // if (idTokenFound) {
+      
+    //   window.location.href = `${oidcConfig.authority}/connect/endsession?id_token=${idTokenFound}&post_logout_redirect_uri=${oidcConfig.postLogoutRedirectUri}`;
+    // } else {
+    //   window.location.href = oidcConfig.postLogoutRedirectUri;
+    // }
+    // navigate("/", { replace: true });
+
+    const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = logoutUrl;
+            document.body.appendChild(iframe);
+
+            iframe.onload = () => {
+                document.body.removeChild(iframe);
+                navigate("/", { replace: true });
+            };
     // navigate("/", { replace: true });
 
     // window.location.href = "/";
@@ -75,49 +90,6 @@ function Header() {
       // navigate("/callback", { replace: true });
     }
   }, []);
-
-  const setTokenUser = async (item) => {
-    try {
-      var payload = {
-        grant_type: "authorization_code",
-        code: localStorage.getItem("code") ?? "",
-        code_verifier: generateCodeVerifier() ?? "",
-        client_id: oidcConfig.clientId,
-        scope: oidcConfig.scope,
-        // redirect_uri: oidcConfig.redirectUri,
-        // 'grant_type': 'refresh_token',
-        // 'client_id': oidcConfig.clientId,
-        // refresh_token: JSON.parse(item)["refresh_token"],
-        client_secret: "65O(86zh{}`yFD~};&H>A(]}5:y<L|Lt^=RhHW",
-      };
-
-      // const params = new URLSearchParams();
-      // params.append("grant_type", "authorization_code");
-      // params.append("code", localStorage.getItem("code") ?? "");
-      // params.append("client_id", oidcConfig.clientId);
-      // params.append("code_verifier", generateCodeVerifier() ?? "");
-      // params.append("scope", oidcConfig.scope);
-
-      const response = await axios.post(getTokenUrl.toString(), payload, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
-
-      alert("token success", response.data);
-    } catch (err) {
-      alert("token Error ::" + err);
-    }
-  };
-  function dec2hex(dec) {
-    return ("0" + dec.toString(16)).substr(-2);
-  }
-
-  function generateCodeVerifier() {
-    var array = new Uint32Array(50 / 2);
-    window.crypto.getRandomValues(array);
-    return Array.from(array, dec2hex).join("");
-  }
 
   return (
     <div className="nav-bottom">

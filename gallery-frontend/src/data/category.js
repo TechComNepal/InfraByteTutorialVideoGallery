@@ -15,7 +15,7 @@ export const category = [
                 title: "Thumbnail 7",
                 url: "https://via.placeholder.com/150",
                 videoUrl:
-                  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                  "https://productionagaas.blob.core.windows.net/a1gaas-prod-drill1/93659078-b959-421a-9184-9a26485e363b/JobBookingTutorial/Finance/Car Look Up/ae512280-b840-45a6-999e-34fe200544a5.mp4",
               },
               {
                 title: "Thumbnail 8",

@@ -15,7 +15,6 @@ const VideoListsPage = () => {
 
   return (
     <>
-      
       <Container className="mt-5 mb-5" style={{ minHeight: "100vh" }}>
         <Row>
           <Col md={3} className="hide-container">
@@ -30,6 +29,7 @@ const VideoListsPage = () => {
               <ThumbnailGrid
                 selectedItem={selectedItem}
                 handleShow={handleShow}
+                showUpdate={false}
               />
             </div>
           </Col>

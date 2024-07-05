@@ -4,7 +4,7 @@ import { Button, Container, Modal } from "react-bootstrap";
 
 import "../../Assets/Css/ThumbnailGrid.css";
 
-const ThumbnailGrid = ({ selectedItem, handleShow }) => {
+const ThumbnailGrid = ({ selectedItem, handleShow, showUpdate }) => {
   const [showModal, setShowModal] = useState(false);
   const [videoUrl, setVideoUrl] = useState("");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
@@ -21,7 +21,7 @@ const ThumbnailGrid = ({ selectedItem, handleShow }) => {
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
-    };      
+    };
   }, []);
 
   return (
@@ -39,7 +39,7 @@ const ThumbnailGrid = ({ selectedItem, handleShow }) => {
               onClick={handleShow}
               style={{
                 backgroundColor: "gray",
-                padding: "10px",  
+                padding: "10px",
                 color: "white",
               }}
             >
@@ -49,28 +49,34 @@ const ThumbnailGrid = ({ selectedItem, handleShow }) => {
         )}
         {selectedItem && (
           <>
+            {showUpdate&&<a
+              href="/add/video"
+              variant="primary"
+              className="button-container mt-3  "
+            >
+              Update video
+            </a>}
             <h3 className="mt-5 mb-3">{selectedItem.title}</h3>
             <center>
               <div className="thumbnails">
                 {selectedItem.thumbnails.map((thumbnail, index) => (
                   <div className="thumbnail-container">
-                  <div key={index} className="thumbnail-item">
-                    
-                    <img
-                      src={thumbnail.url}
-                      alt={thumbnail.title}
-                      className="thumbnail-image"
-                      onClick={() => playVideo(thumbnail.videoUrl)}
-                    />
-                    {/* <div className="thumbnail-overlay"> */}
-                    
-                    {/* </div> */}
-                   
-                    <PlayButtonOverlay
-                      onClick={() => playVideo(thumbnail.videoUrl)}
-                    />
-                  </div>
-                  <h2 className="thumbnail-title">{thumbnail.title}</h2>
+                    <div key={index} className="thumbnail-item">
+                      <img  
+                        src={thumbnail.url}
+                        alt={thumbnail.title}
+                        className="thumbnail-image"
+                        onClick={() => playVideo(thumbnail.videoUrl)}
+                      />
+                      {/* <div className="thumbnail-overlay"> */}
+
+                      {/* </div> */}
+
+                      <PlayButtonOverlay
+                        onClick={() => playVideo(thumbnail.videoUrl)}
+                      />
+                    </div>
+                    <h2 className="thumbnail-title">{thumbnail.title}</h2>
                   </div>
                 ))}
               </div>

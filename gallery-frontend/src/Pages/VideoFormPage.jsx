@@ -86,7 +86,7 @@ const VideoFormPage = () => {
     }
     var token = localStorage.getItem("token");
     setValidated(true);
-    console.log("Token:", token);
+    // console.log("Token:", token);
 
     // var data = {
     //   title: title,
@@ -126,10 +126,12 @@ const VideoFormPage = () => {
           "Access-Control-Allow-Origin": "*",
         },
       });
+      setLoading(false);
       console.log("Upload successful:", response.data);
-      alert("upload success");
+      // alert("upload success");
     } catch (err) {
       console.error("Upload failed:", err);
+      setLoading(false);
       alert("Upload failed. Please try again.\n" + err);
       setError("Upload failed. Please try again.");
     }
