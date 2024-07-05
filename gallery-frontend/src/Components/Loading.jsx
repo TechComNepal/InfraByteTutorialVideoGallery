@@ -69,7 +69,28 @@ const Loading = () => {
         // Save tokens to localStorage or state management
         localStorage.setItem("access_token", accessToken);
         localStorage.setItem("id_token", idToken);
+        localStorage.setItem("token", accessToken);
+        var token = jwtDecode(accessToken);
+        localStorage.setItem(
+          "userName",
+          token["http://schemas.a1gaas.com/identity/claims/name"]
+        );
 
+        var roles =
+          token[
+            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+          ];
+
+        //if admins then true
+        if (
+          roles.includes("Admin") ||
+          roles.includes("System Admin") ||
+          roles.includes("Super Admin")
+        ) {
+          localStorage.setItem("role", true);
+        } else {
+          localStorage.setItem("role", false);
+        }
         navigate("/videos", { replace: true });
       })
       .catch((error) => {
@@ -84,7 +105,7 @@ const Loading = () => {
   return (
     <div className="loading-container">
       <div className="spinner"></div>
-      <p>Please wait ...</p>
+      <p>Logging in ...</p>
     </div>
   );
 };

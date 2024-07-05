@@ -122,7 +122,7 @@ const VideoFormPage = () => {
         headers: {
           "Content-Type": "multipart/form-data",
           Accept: "application/json",
-          Authorization: "Bearer " + token.toString(),
+          Authorization: `Bearer ${token}`,
           "Access-Control-Allow-Origin": "*",
         },
       });

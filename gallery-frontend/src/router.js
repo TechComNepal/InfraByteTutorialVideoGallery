@@ -15,12 +15,14 @@ import Loading from "./Components/Loading";
 import VideoFormPage from "./Pages/VideoFormPage";
 import YourVideoListsPage from "./Pages/YourVideoListPage";
 import Header from "./Components/Header";
+import LogoutCallback from "./Components/LogoutCallback";
 
 const AppRoute = () => {
   return (
     <Routes>
       <Route exact path="/" element={<Homepage />} />
       <Route exact path="/callback" element={<Loading />} />
+      <Route exact path="/logout-callback" element={<LogoutCallback />} />
       {/* <Route exact path="/logout" element={ <Loading />} /> */}
       <Route path="/videos" element={<> <Header />
         <VideoListpage />
