@@ -9,6 +9,11 @@ if (process.env.REACT_APP_ENVIRONMENT == "production") {
   redirectUri = "https://tutorial.infrabyte.com.au/callback";
   postLogoutRedirectUri = "https://tutorial.infrabyte.com.au/logout-callback";
   apiBaseUrl = "https://api.infrabyte.com.au/api/";
+} else if (process.env.REACT_APP_ENVIRONMENT == "staging") {
+  authority = "https://security.staging.infrabyte.com.au";
+  redirectUri = "https://tutorial.infrabyte.com.au/callback";
+  postLogoutRedirectUri = "https://tutorial.infrabyte.com.au/logout-callback";
+  apiBaseUrl = "https://api.staging.infrabyte.com.au/api/";
 }
 // used to test
 // exports.loginUrl = `${authority}/connect/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid profile email jobbookingapi offline_access&state=2323&code_challenge=231232&code_challenge_method=S256`;
@@ -21,7 +26,6 @@ exports.getTokenUrl = `${authority}/connect/token`;
 exports.getAuthorizationUrl = `${authority}/connect/authorize`;
 
 exports.tokenPayload = () => {};
-
 
 exports.oidcConfig = {
   authority: authority,
