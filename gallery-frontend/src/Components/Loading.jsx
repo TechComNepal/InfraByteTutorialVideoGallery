@@ -27,6 +27,9 @@ const Loading = () => {
 
       localStorage.setItem("code", code);
       getToken(code);
+    } else {
+      setLoading(false);
+      navigate("/", { replace: true });
     }
     //  else {
     //   // const item = sessionStorage.getItem(
@@ -77,9 +80,7 @@ const Loading = () => {
         );
 
         var roles =
-          token[
-            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-          ];
+          token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
         //if admins then true
         if (
@@ -105,7 +106,7 @@ const Loading = () => {
   return (
     <div className="loading-container">
       <div className="spinner"></div>
-      <p>Logging in ...</p>
+      <p>Please wait ...</p>
     </div>
   );
 };
