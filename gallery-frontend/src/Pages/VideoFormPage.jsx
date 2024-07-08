@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -28,7 +28,10 @@ const VideoFormPage = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
 
   const [loading, setLoading] = useState(false);
-
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const listRef = useRef(null);
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
@@ -187,6 +190,27 @@ const VideoFormPage = () => {
     setVideos(updatedVideos);
   };
 
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.pageX - listRef.current.offsetLeft);
+    setScrollLeft(listRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    const x = e.pageX - listRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // The multiplier can be adjusted for faster/slower scroll
+    listRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 769);
@@ -343,6 +367,12 @@ const VideoFormPage = () => {
                   <div
                     className="video-preview mt-3"
                     style={videoDetails.length == 0 ? { height: "50vh" } : {}}
+
+                    ref={listRef}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
                   >
                     {videoDetails.length == 0 && (
                       <center className="d-flex justify-content-center flex-column align-item-center w-100">

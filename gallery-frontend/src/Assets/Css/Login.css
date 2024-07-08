@@ -87,12 +87,16 @@
   margin-bottom: 20px;
   width: 100%;
   /* max-width: 1020px; */
-  overflow-x: scroll;
+  overflow-x: auto;
+  cursor: grab;
   overflow-y: hidden;
   border: 2px dotted rgb(44, 44, 44);
   padding: 10px;
   border-radius: 5px; 
   /* height: 60vh; */
+}
+.video-preview:active {
+  cursor: grabbing;
 }
 
 .video-preview video {
