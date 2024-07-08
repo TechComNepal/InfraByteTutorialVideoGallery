@@ -86,7 +86,7 @@
   /* gap: 2px; */
   margin-bottom: 20px;
   width: 100%;
-  max-width: 1020px;
+  /* max-width: 1020px; */
   overflow-x: scroll;
   overflow-y: hidden;
   border: 2px dotted rgb(44, 44, 44);

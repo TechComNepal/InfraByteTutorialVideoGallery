@@ -23,7 +23,7 @@ const Loading = () => {
 
     const code = query.get("code");
     if (code) {
-      console.log("Authorization code:", code);
+      // console.log("Authorization code:", code);
 
       localStorage.setItem("code", code);
       getToken(code);

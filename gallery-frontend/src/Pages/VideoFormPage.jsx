@@ -14,7 +14,8 @@ const VideoFormPage = () => {
   const [validated, setValidated] = useState(false);
 
   const [videos, setVideos] = useState([]);
-  const [videoURLs, setVideoURLs] = useState([]);
+  const [videoDetails, setVideoDetails] = useState([]);
+  // const [videoURLs, setVideoURLs] = useState([]);
   const [error, setError] = useState("");
   const [tags, setTags] = useState(["how to do job booking", "job booking"]);
 
@@ -64,15 +65,31 @@ const VideoFormPage = () => {
       }
     });
 
-    setVideos([...validFiles]);
+    setVideos([...videos, ...validFiles]);
 
     setError("");
-    setVideoURLs([...validUrls]);
+    // setVideoURLs([...validUrls]);
+    var videoDetail = [];
+    if (videos.length == 0) {
+      validFiles.forEach((e,i) => {
+        videoDetail.push({id:i, videoUrl: e, title: "", thumbnail: "" });
+      });
+    } else {
+      videos.forEach((e,i) => {
+        videoDetail.push({id:i, videoUrl: e, title: "", thumbnail: "" });
+      });
+    }
+
+    setVideoDetails(videoDetail);
   };
 
   const deleteSelectedVideos = (index) => {
-    setVideos(videos.filter((_, i) => i !== index));
-    setVideoURLs(videoURLs.filter((_, i) => i !== index));
+    // const updatedVideos = vids
+    const updatedVideos = videoDetails.filter((_, i) => i !== index);
+
+    setVideoDetails(updatedVideos);
+    
+    // setVideoURLs(videoURLs.filter((_, i) => i !== index));
   };
 
   let navigate = useNavigate();
@@ -102,12 +119,14 @@ const VideoFormPage = () => {
     }
 
     const formData = new FormData();
-    formData.append("Title", title);
+    // formData.append("Title", title);
     formData.append("Tags", tags);
     formData.append("Category", categorySelected);
     formData.append("SubCategory", subcategory);
     formData.append("Description", description);
     formData.append("FileName", "");
+    formData.append("videoDetails", [{ title: "", thumbnail: "" }]);
+
     videos.forEach((video, index) => {
       formData.append(`VideoFiles`, video);
     });
@@ -154,6 +173,20 @@ const VideoFormPage = () => {
     setSubcategory(event.target.value);
   };
 
+  const handleTitleChange = (index, newTitle) => {
+    const updatedVideos = videoDetails.map((video, i) =>
+      i === index ? { ...video, title: newTitle } : video
+    );
+    setVideos(updatedVideos);
+  };
+
+  const onThumbnailChange = (index, newThumbnail) => {
+    const updatedVideos = videos.map((video, i) =>
+      i === index ? { ...video, thumbnail: newThumbnail } : video
+    );
+    setVideos(updatedVideos);
+  };
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 769);
@@ -195,90 +228,6 @@ const VideoFormPage = () => {
               <h2 className="heading3 mb-4">Upload infrabyte video</h2>
 
               <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                {
-                  <div
-                    className="video-preview"
-                    style={videos.length == 0 ? { height: "50vh" } : {}}
-                  >
-                    {videos.length == 0 && <center>Video Preview </center>}
-                    {videos.map((video, index) => (
-                      <div className="video-container" key={index}>
-                        <video controls key={index}>
-                          <source
-                            src={URL.createObjectURL(video)}
-                            type={video != null ? video.type : "video/mp4"}
-                          />
-                          Your browser does not support the video tag.
-                        </video>
-                        <button
-                          type="button"
-                          className="button-container mt-3"
-                          onClick={() => deleteSelectedVideos(index)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                }
-
-                <Form.Group className="mt-3">
-                  <Form.Label>Choose a video</Form.Label>
-                  <Form.Control
-                    type="file"
-                    placeholder="Upload"
-                    id="video-upload"
-                    accept="video/mp4"
-                    onChange={handleFileChange}
-                    required
-                    multiple
-                  />
-
-                  <Form.Control.Feedback type="invalid">
-                    {error && <div className="error-message">{error}</div>}
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group className="mt-3">
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please provide a valid email.
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group className="mt-3">
-                  <Form.Label>Add tags</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Add tags (press enter or comma)"
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    onKeyPress={handleInputKeyPress}
-                  />
-                  <ul className="tags-list">
-                    {tags.map((tag, index) => (
-                      <li key={index} className="tag">
-                        {tag}
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveTag(index)}
-                        >
-                          <i className="fas fa-close"></i>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                  <Form.Control.Feedback type="invalid">
-                    Please provide a tags.
-                  </Form.Control.Feedback>
-                </Form.Group>
-
                 <Form.Group className="mt-3">
                   <Form.Label>Select a category</Form.Label>
                   <Form.Control
@@ -340,6 +289,143 @@ const VideoFormPage = () => {
                     Please provide a descrition.
                   </Form.Control.Feedback>
                 </Form.Group>
+
+                <Form.Group className="mt-3">
+                  <Form.Label>Add tags</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Add tags (press enter or comma)"
+                    value={inputValue}
+                    onChange={handleInputChange}
+                    onKeyPress={handleInputKeyPress}
+                  />
+                  <ul className="tags-list">
+                    {tags.map((tag, index) => (
+                      <li key={index} className="tag">
+                        {tag}
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveTag(index)}
+                        >
+                          <i className="fas fa-close"></i>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a tags.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                {/* to test  */}
+                {/* {videoDetails &&
+                  videoDetails.map((v, i) => (
+                    <div>
+                      <h1>{v.title}</h1>
+                    </div>
+                  ))} */}
+                <Form.Group className="mt-3">
+                  <Form.Label>Choose a video</Form.Label>
+                  <Form.Control
+                    type="file"
+                    placeholder="Upload"
+                    id="video-upload"
+                    accept="video/mp4"
+                    onChange={handleFileChange}
+                    required
+                    multiple
+                  />
+
+                  <Form.Control.Feedback type="invalid">
+                    {error && <div className="error-message">{error}</div>}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                {
+                  <div
+                    className="video-preview mt-3"
+                    style={videoDetails.length == 0 ? { height: "50vh" } : {}}
+                  >
+                    {videoDetails.length == 0 && (
+                      <center className="d-flex justify-content-center flex-column align-item-center w-100">
+                        Video Preview <p>You can select multiple videos</p>
+                      </center>
+                    )}
+
+                    {videoDetails &&
+                      videoDetails.map((video, index) => (
+                        <div className="video-container" key={video.id}>
+                          <video controls key={video.id}>
+                            <source
+                              src={URL.createObjectURL(video.videoUrl)}
+                              type={
+                                video.videoUrl != null
+                                  ? video.videoUrl.type
+                                  : "video/mp4"
+                              }
+                            />
+                            Your browser does not support the video tag.
+                          </video>
+                          <Form.Group className="mt-3 w-100">
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="Title"
+                              value={video.title}
+                              onChange={(e) => {
+                                videoDetails[index].title = e.target.value;
+                                handleTitleChange(index, e.target.value);
+                                // setVideoDetails(videoDetails);
+                              }}
+                              required
+                            />
+                            {/* <img
+                              src={video.thumbnail}
+                              alt={video.title}
+                              width="270"
+                              height="270"
+                            
+                              className="thumbnail"
+                            /> */}
+                            <Form.Group className="mt-3">
+                              <Form.Label>Thumbnail</Form.Label>
+                              <Form.Control
+                                type="file"
+                                placeholder="Upload"
+                                id="thumbnail-upload"
+                                accept="image/jpg"
+                                onChange={(e) => {
+                                  const file = e.target.files[0];
+                                  if (file) {
+                                    const reader = new FileReader();
+                                    reader.onloadend = () => {
+                                      onThumbnailChange(index, reader.result);
+                                    };
+                                    reader.readAsDataURL(file);
+                                  }
+                                }}
+                                required
+                              />
+
+                              <Form.Control.Feedback type="invalid">
+                                {error && (
+                                  <div className="error-message">{error}</div>
+                                )}
+                              </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Control.Feedback type="invalid">
+                              Please provide a valid title.
+                            </Form.Control.Feedback>
+                          </Form.Group>
+                          <button
+                            type="button"
+                            className="button-container mt-3"
+                            onClick={() => deleteSelectedVideos(index)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      ))}
+                  </div>
+                }
 
                 <div className="container d-flex mt-3">
                   <Button
