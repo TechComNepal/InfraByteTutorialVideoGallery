@@ -8,8 +8,8 @@ import "../Assets/Css/Login.css";
 import { tutorialUpload } from "../config/config";
 
 const VideoFormPage = () => {
-  const [title, setTitle] = useState("test");
-  const [description, setDescription] = useState("test desx");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const [validated, setValidated] = useState(false);
 
@@ -17,7 +17,8 @@ const VideoFormPage = () => {
   const [videoDetails, setVideoDetails] = useState([]);
   // const [videoURLs, setVideoURLs] = useState([]);
   const [error, setError] = useState("");
-  const [tags, setTags] = useState(["how to do job booking", "job booking"]);
+  // const [tags, setTags] = useState(["how to do job booking", "job booking"]);
+  const [tags, setTags] = useState([]);
 
   const [inputValue, setInputValue] = useState("");
 
@@ -74,12 +75,12 @@ const VideoFormPage = () => {
     // setVideoURLs([...validUrls]);
     var videoDetail = [];
     if (videos.length == 0) {
-      validFiles.forEach((e,i) => {
-        videoDetail.push({id:i, videoUrl: e, title: "", thumbnail: "" });
+      validFiles.forEach((e, i) => {
+        videoDetail.push({ id: i, videoUrl: e, title: "", thumbnail: null });
       });
     } else {
-      videos.forEach((e,i) => {
-        videoDetail.push({id:i, videoUrl: e, title: "", thumbnail: "" });
+      videos.forEach((e, i) => {
+        videoDetail.push({ id: i, videoUrl: e, title: "", thumbnail:null });
       });
     }
 
@@ -91,7 +92,7 @@ const VideoFormPage = () => {
     const updatedVideos = videoDetails.filter((_, i) => i !== index);
 
     setVideoDetails(updatedVideos);
-    
+
     // setVideoURLs(videoURLs.filter((_, i) => i !== index));
   };
 
@@ -99,11 +100,25 @@ const VideoFormPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
+
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
     }
+    var isTitleValid = false;
+    videoDetails.map((v, i) => {
+      if (!(v.title == "" || v.title == null)) {
+        isTitleValid = true;
+      } else {
+      }
+    });
+
+    if (!isTitleValid) {
+      alert("Title is required for all videos");
+      return;
+    }
+
+    setLoading(true);
     var token = localStorage.getItem("token");
     setValidated(true);
     // console.log("Token:", token);
@@ -121,22 +136,29 @@ const VideoFormPage = () => {
       return;
     }
 
+    var videoDetail = [];
+    videoDetails.forEach((v, i) => {
+      videoDetail.push({ Title: v.title, Thumbnail: v.thumbnail });
+    });
     const formData = new FormData();
     // formData.append("Title", title);
     formData.append("Tags", tags);
     formData.append("Category", categorySelected);
     formData.append("SubCategory", subcategory);
     formData.append("Description", description);
-    formData.append("FileName", "");
-    formData.append("videoDetails", [{ title: "", thumbnail: "" }]);
+    // formData.append("videoDetails", [{ title: "", thumbnail: "" }]);
+    formData.append("VideoDetails", videoDetail);
 
-    videos.forEach((video, index) => {
-      formData.append(`VideoFiles`, video);
+    videoDetails.forEach((video, index) => {
+      formData.append(`VideoFiles`, video.videoUrl);
     });
 
-    // for (let [key, value] of formData.entries()) {
-    //   console.log(`${key}: ${value}`);
-    // }
+    console.log(videoDetail);
+
+
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
     // console.log(tutorialUpload);
 
     try {
@@ -145,7 +167,7 @@ const VideoFormPage = () => {
           "Content-Type": "multipart/form-data",
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": "https://tutorial.infrabyte.com.au",
         },
       });
       setLoading(false);
@@ -184,7 +206,7 @@ const VideoFormPage = () => {
   };
 
   const onThumbnailChange = (index, newThumbnail) => {
-    const updatedVideos = videos.map((video, i) =>
+    const updatedVideos = videoDetails.map((video, i) =>
       i === index ? { ...video, thumbnail: newThumbnail } : video
     );
     setVideos(updatedVideos);
@@ -367,12 +389,11 @@ const VideoFormPage = () => {
                   <div
                     className="video-preview mt-3"
                     style={videoDetails.length == 0 ? { height: "50vh" } : {}}
-
                     ref={listRef}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseLeave}
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseLeave}
                   >
                     {videoDetails.length == 0 && (
                       <center className="d-flex justify-content-center flex-column align-item-center w-100">
@@ -426,8 +447,9 @@ const VideoFormPage = () => {
                                   const file = e.target.files[0];
                                   if (file) {
                                     const reader = new FileReader();
+                                    onThumbnailChange(index, file);
                                     reader.onloadend = () => {
-                                      onThumbnailChange(index, reader.result);
+                                     
                                     };
                                     reader.readAsDataURL(file);
                                   }
