@@ -10,6 +10,7 @@ import { tutorialUpload } from "../config/config";
 const VideoFormPage = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [errors, setErrors] = useState({});
 
   const [validated, setValidated] = useState(false);
 
@@ -76,11 +77,23 @@ const VideoFormPage = () => {
     var videoDetail = [];
     if (videos.length == 0) {
       validFiles.forEach((e, i) => {
-        videoDetail.push({ id: i, videoUrl: e, title: "", thumbnail: null });
+        videoDetail.push({
+          id: i,
+          videoUrl: e,
+          title: "",
+          thumbnail: null,
+          thumbnailFile: null,
+        });
       });
     } else {
       videos.forEach((e, i) => {
-        videoDetail.push({ id: i, videoUrl: e, title: "", thumbnail:null });
+        videoDetail.push({
+          id: i,
+          videoUrl: e,
+          title: "",
+          thumbnail: null,
+          thumbnailFile: null,
+        });
       });
     }
 
@@ -98,12 +111,37 @@ const VideoFormPage = () => {
 
   let navigate = useNavigate();
 
+  const validateForm = () => {
+    let formErrors = {};
+    if (!categorySelected) {
+      formErrors.category = "Please select your category";
+    }
+
+    if (!subcategory) {
+      formErrors.subCategory = "Please select your sub category";
+    }
+    if (tags.length === 0) {
+      formErrors.tags = "Please provide tags";
+    }
+    if (videoDetails.length === 0) {
+      formErrors.videoDetails = "Please select your video(s)";
+    }
+    return formErrors;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
+    // if (form.checkValidity() === false) {
+    //   event.stopPropagation();
+    // }
+
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length != 0) {
+      setErrors(formErrors);
+      setValidated(true);
+      return;
     }
     var isTitleValid = false;
     videoDetails.map((v, i) => {
@@ -120,6 +158,7 @@ const VideoFormPage = () => {
 
     setLoading(true);
     var token = localStorage.getItem("token");
+
     setValidated(true);
     // console.log("Token:", token);
 
@@ -138,7 +177,7 @@ const VideoFormPage = () => {
 
     var videoDetail = [];
     videoDetails.forEach((v, i) => {
-      videoDetail.push({ Title: v.title, Thumbnail: v.thumbnail });
+      videoDetail.push({ Title: v.title, Thumbnail: v.thumbnailFile });
     });
     const formData = new FormData();
     // formData.append("Title", title);
@@ -155,7 +194,6 @@ const VideoFormPage = () => {
 
     console.log(videoDetail);
 
-
     for (let [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
     }
@@ -167,7 +205,8 @@ const VideoFormPage = () => {
           "Content-Type": "multipart/form-data",
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
-          "Access-Control-Allow-Origin": "https://tutorial.infrabyte.com.au",
+          "Access-Control-Allow-Origin": "*",
+          // "Access-Control-Allow-Origin": "https://tutorial.infrabyte.com.au",
         },
       });
       setLoading(false);
@@ -284,7 +323,6 @@ const VideoFormPage = () => {
                     id="category"
                     required
                   >
-                    {" "}
                     <option value="">Select a category</option>
                     {category.map((cat) => (
                       <option key={cat.categoryName} value={cat.categoryName}>
@@ -292,9 +330,11 @@ const VideoFormPage = () => {
                       </option>
                     ))}
                   </Form.Control>
-                  <Form.Control.Feedback type="invalid">
-                    Please Select a category.
-                  </Form.Control.Feedback>
+                  {errors.category && (
+                    <Form.Control.Feedback type="invalid">
+                      Please Select a category
+                    </Form.Control.Feedback>
+                  )}
                 </Form.Group>
 
                 <Form.Group className="mt-3">
@@ -315,9 +355,11 @@ const VideoFormPage = () => {
                       </option>
                     ))}
                   </Form.Control>
-                  <Form.Control.Feedback type="invalid">
-                    Please Select a sub category.
-                  </Form.Control.Feedback>
+                  {errors.subCategory && (
+                    <Form.Control.Feedback type="invalid">
+                      Please Select a sub category.
+                    </Form.Control.Feedback>
+                  )}
                 </Form.Group>
 
                 <Form.Group className="mt-3">
@@ -329,7 +371,6 @@ const VideoFormPage = () => {
                     cols="40"
                     rows="5"
                     onChange={(e) => setDescription(e.target.value)}
-                    required
                   />
                   <Form.Control.Feedback type="invalid">
                     Please provide a descrition.
@@ -344,6 +385,7 @@ const VideoFormPage = () => {
                     value={inputValue}
                     onChange={handleInputChange}
                     onKeyPress={handleInputKeyPress}
+                    required
                   />
                   <ul className="tags-list">
                     {tags.map((tag, index) => (
@@ -358,15 +400,18 @@ const VideoFormPage = () => {
                       </li>
                     ))}
                   </ul>
-                  <Form.Control.Feedback type="invalid">
-                    Please provide a tags.
-                  </Form.Control.Feedback>
+                  {errors.tags && (
+                    <Form.Control.Feedback type="invalid">
+                      Please provide a tags.
+                    </Form.Control.Feedback>
+                  )}
                 </Form.Group>
                 {/* to test  */}
                 {/* {videoDetails &&
                   videoDetails.map((v, i) => (
                     <div>
-                      <h1>{v.title}</h1>
+                      <h1>{v.title}</h1> 
+                      <img src={v.thumbnail}></img>
                     </div>
                   ))} */}
                 <Form.Group className="mt-3">
@@ -380,7 +425,11 @@ const VideoFormPage = () => {
                     required
                     multiple
                   />
-
+                  {errors.videoDetails && (
+                    <Form.Control.Feedback type="invalid">
+                      {errors.videoDetails}
+                    </Form.Control.Feedback>
+                  )}
                   <Form.Control.Feedback type="invalid">
                     {error && <div className="error-message">{error}</div>}
                   </Form.Control.Feedback>
@@ -447,9 +496,13 @@ const VideoFormPage = () => {
                                   const file = e.target.files[0];
                                   if (file) {
                                     const reader = new FileReader();
-                                    onThumbnailChange(index, file);
+
                                     reader.onloadend = () => {
-                                     
+                                      videoDetails[index].thumbnail =
+                                        reader.result;
+                                      videoDetails[index].thumbnailFile = file;
+
+                                      onThumbnailChange(index, reader.result);
                                     };
                                     reader.readAsDataURL(file);
                                   }

@@ -9,7 +9,7 @@ const CategoryAccordion = ({ data, setSelectedItem, modalClose }) => {
   const [selectedItem, setSelectedAccordionItem] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const handleSelect = (itemId) => {
+  const handleSelect = async (itemId) => {
     var item = data.reduce((acc, category) => {
       const foundItem = category.subcategories
         .flatMap((subcategory) => subcategory.items)
@@ -24,19 +24,24 @@ const CategoryAccordion = ({ data, setSelectedItem, modalClose }) => {
       category: selectedCategory ?? "Dashboard",
       subCategory: item.title,
     };
-
-    axios
+    var resData;
+    await axios
       .post(getJobTutorialsByCategorySubCategory, reqData, {
         headers: getHeaders(),
       })
       .then((response) => {
         console.log(response.data);
-        setSelectedItem(response.data);
+        resData = response.data;
+        // setSelectedItem(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-
+    if (resData != null) {
+      setSelectedItem(resData);
+    } else {
+      alert("Video are not available");
+    }
     setSelectedAccordionItem(item);
   };
 
