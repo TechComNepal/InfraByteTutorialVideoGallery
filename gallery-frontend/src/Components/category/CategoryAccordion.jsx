@@ -51,7 +51,7 @@ const CategoryAccordion = ({
     if (resData != null) {
       setSelectedItem(resData);
     } else {
-      toast.info("Video are unavailable");
+      toast.info(`${item.title} videos are unavailable`);
     }
     setLoading(false);
   };
