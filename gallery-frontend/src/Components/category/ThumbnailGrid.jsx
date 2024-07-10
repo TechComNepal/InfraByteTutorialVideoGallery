@@ -68,8 +68,8 @@ const ThumbnailGrid = ({
 
             {yourVideosData && (
               <>
-                {" "}
                 <h3 className="mt-5 mb-3">{selectedItem.subCategory}</h3>
+                <h6 className="mt-5 mb-3">{selectedItem.description}</h6>
                 <center>
                   <div className="thumbnails">
                     {selectedItem.videoTutorials.map((thumbnail, index) => (
@@ -110,7 +110,7 @@ const ThumbnailGrid = ({
                 <h3 className="mt-5 mb-3">
                   {selectedItem.subCategories[0].subCategory}
                 </h3>
-
+                <h6 className="mt-5 mb-3">{selectedItem.subCategories[0].description}</h6>
                 <center>
                   <div className="thumbnails">
                     {selectedItem.subCategories[0].videoTutorials.map(
