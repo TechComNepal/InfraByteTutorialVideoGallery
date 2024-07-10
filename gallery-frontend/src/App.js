@@ -9,21 +9,21 @@ import { useEffect, useState } from "react";
 import { isAuthenticatedUser } from "./services/auth";
 
 import Loading from "./Components/Loading";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   // const location = useLocation(); , '/login', '/logout'
   const hideFooter = ["/", "/callback"].includes(window.location.pathname);
-  const hideHeader = ['/',"*"].includes(window.location.pathname);
+  const hideHeader = ["/", "*"].includes(window.location.pathname);
   // const hideFooter = false;
   const callback = ["/callback"].includes(window.location.pathname);
 
   const navigate = useNavigate();
 
-
- 
   return (
     <>
-    {/* {!hideHeader && <Header />} */}
+      {/* {!hideHeader && <Header />} */}
+      <ToastContainer />
       <AppRoute />
       {!hideFooter && <Footer />}
       {/* <Footer /> */}

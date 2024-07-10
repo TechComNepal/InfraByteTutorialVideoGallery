@@ -4,7 +4,12 @@ import { Button, Container, Modal } from "react-bootstrap";
 
 import "../../Assets/Css/ThumbnailGrid.css";
 
-const ThumbnailGrid = ({ selectedItem, handleShow, showUpdate }) => {
+const ThumbnailGrid = ({
+  selectedItem,
+  yourVideosData,
+  handleShow,
+  showUpdate,
+}) => {
   const [showModal, setShowModal] = useState(false);
   const [videoUrl, setVideoUrl] = useState("");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
@@ -32,6 +37,7 @@ const ThumbnailGrid = ({ selectedItem, handleShow, showUpdate }) => {
           Your browser does not support the video tag.
         </video>
       </div>
+
       <div className={`thumbnail-grid ${isMobile ? "mobile-list" : ""}`}>
         {isMobile && (
           <center>
@@ -47,7 +53,7 @@ const ThumbnailGrid = ({ selectedItem, handleShow, showUpdate }) => {
             </Container>
           </center>
         )}
-        {/* {selectedItem==null && <>Videos are not available</>} */}
+        {!selectedItem && <p>Welcome to InfraByte video tutorial. </p>}
         {selectedItem && (
           <>
             {showUpdate && (
@@ -59,36 +65,73 @@ const ThumbnailGrid = ({ selectedItem, handleShow, showUpdate }) => {
                 Update video
               </a>
             )}
-            <h3 className="mt-5 mb-3">
-              {selectedItem.subCategories[0].subCategory}
-            </h3>
-            <center>
-              <div className="thumbnails">
-                {selectedItem.subCategories[0].videoTutorials.map(
-                  (thumbnail, index) => (
-                    <div className="thumbnail-container" key={index}>
-                      <div key={index} className="thumbnail-item">
-                        {thumbnail.thumbnailName != null ? (
-                          <img
-                            src={thumbnail.thumbnailPath}
-                            alt={thumbnail.fileName}
-                            className="thumbnail-image"
+
+            {yourVideosData && (
+              <>
+                {" "}
+                <h3 className="mt-5 mb-3">{selectedItem.subCategory}</h3>
+                <center>
+                  <div className="thumbnails">
+                    {selectedItem.videoTutorials.map((thumbnail, index) => (
+                      <div className="thumbnail-container" key={index}>
+                        <div key={index} className="thumbnail-item">
+                          {thumbnail.thumbnailName != null ? (
+                            <img
+                              src={thumbnail.thumbnailPath}
+                              alt={thumbnail.fileName}
+                              className="thumbnail-image"
+                              onClick={() => playVideo(thumbnail.filePath)}
+                            />
+                          ) : (
+                            <video src={thumbnail.filePath}></video>
+                          )}
+
+                          <PlayButtonOverlay
                             onClick={() => playVideo(thumbnail.filePath)}
                           />
-                        ) : (
-                          <video src={thumbnail.filePath}></video>
-                        )}
-
-                        <PlayButtonOverlay
-                          onClick={() => playVideo(thumbnail.filePath)}
-                        />
+                        </div>
+                        <h2 className="thumbnail-title">{thumbnail.title}</h2>
                       </div>
-                      <h2 className="thumbnail-title">{thumbnail.title}</h2>
-                    </div>
-                  )
-                )}
-              </div>
-            </center>
+                    ))}
+                  </div>
+                </center>
+              </>
+            )}
+            {!yourVideosData && (
+              <>
+                <h3 className="mt-5 mb-3">
+                  {selectedItem.subCategories[0].subCategory}
+                </h3>
+
+                <center>
+                  <div className="thumbnails">
+                    {selectedItem.subCategories[0].videoTutorials.map(
+                      (thumbnail, index) => (
+                        <div className="thumbnail-container" key={index}>
+                          <div key={index} className="thumbnail-item">
+                            {thumbnail.thumbnailName != null ? (
+                              <img
+                                src={thumbnail.thumbnailPath}
+                                alt={thumbnail.fileName}
+                                className="thumbnail-image"
+                                onClick={() => playVideo(thumbnail.filePath)}
+                              />
+                            ) : (
+                              <video src={thumbnail.filePath}></video>
+                            )}
+
+                            <PlayButtonOverlay
+                              onClick={() => playVideo(thumbnail.filePath)}
+                            />
+                          </div>
+                          <h2 className="thumbnail-title">{thumbnail.title}</h2>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </center>
+              </>
+            )}
             {/* <Modal show={showModal} onHide={handleClose} size="lg">
             <Modal.Header closeButton>
               <Modal.Title>{selectedItem.title}</Modal.Title>

@@ -52,7 +52,7 @@ const CategoryAccordion = ({
       toast.info("Video are unavailable");
     }
   };
-
+  
   const handleYourVideo = async (subCategory) => {
     var item = yourVideosData.reduce((acc, category) => {
       const foundItem = category.subCategories.find(

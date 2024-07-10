@@ -146,7 +146,7 @@ const VideoFormPage = () => {
     }
     var isTitleValid = false;
     if (tags.length === 0) {
-      toast.info("Tags are required");
+      toast.info("Please provide tags");
       return;
     }
     videoDetails.map((v, i) => {
@@ -312,7 +312,7 @@ const VideoFormPage = () => {
         </div>
       ) : (
         <Container className="form-container mt-5">
-          <ToastContainer />
+          
           {/* <a
           variant="primary"
           className="button-container  "

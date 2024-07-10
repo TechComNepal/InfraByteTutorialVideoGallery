@@ -59,6 +59,7 @@ const YourVideoListsPage = () => {
             <div className="output">
               <ThumbnailGrid
                 selectedItem={selectedItem}
+                yourVideosData={data}
                 handleShow={handleShow}
                 showUpdate={true}
               />
