@@ -193,7 +193,7 @@ const VideoFormPage = () => {
     formData.append("Description", description);
 
     // formData.append("VideoDetails", videoDetail);
-    console.log("video files");
+    // console.log("video files");
     videoDetails.forEach((video, index) => {
       formData.append(`VideoDetails[${index}].Title`, video.title);
       formData.append(`VideoDetails[${index}].Thumbnail`, video.thumbnailFile);
@@ -212,9 +212,9 @@ const VideoFormPage = () => {
     // console.log(videoDetail);
     // console.log(videoFiles);
 
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
+    // for (let [key, value] of formData.entries()) {
+    //   console.log(`${key}: ${value}`);
+    // }
     // console.log(tutorialUpload);
 
     try {
@@ -223,14 +223,14 @@ const VideoFormPage = () => {
           "Content-Type": "multipart/form-data",
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
-          // "Access-Control-Allow-Origin": "*",
-          // "Access-Control-Allow-Origin": "https://tutorial.infrabyte.com.au",
+
           "Access-Control-Allow-Origin": oidcConfig.hostUrl,
         },
       });
       setLoading(false);
-      console.log("Upload successful:", response.data);
-      // alert("upload success");
+      // console.log("Upload successful:", response.data);
+      toast.success(`upload success. ${response.data.length} files uploaded.`);
+      resetFormFields();
     } catch (err) {
       console.error("Upload failed:", err);
       setLoading(false);
@@ -303,6 +303,16 @@ const VideoFormPage = () => {
     };
   }, []);
 
+  const resetFormFields = () => {
+    setCategory("");
+    setSubcategory("");
+    setSubcategories([]);
+    setDescription("");
+    setTags([]);
+    setVideoDetails([]);
+    setVideos([]);
+  };
+
   return (
     <>
       {loading ? (
@@ -312,7 +322,7 @@ const VideoFormPage = () => {
         </div>
       ) : (
         <Container className="form-container mt-5">
-          
+          <ToastContainer />
           {/* <a
           variant="primary"
           className="button-container  "

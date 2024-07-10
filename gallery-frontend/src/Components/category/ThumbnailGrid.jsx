@@ -85,7 +85,15 @@ const ThumbnailGrid = ({
                           ) : (
                             <video src={thumbnail.filePath}></video>
                           )}
-
+                          <div className="thumbnail-overlay">
+                            <a
+                              href="/add/video"
+                              variant="primary"
+                              className="mt-3 btn  btn-danger"
+                            >
+                              Delete
+                            </a>
+                          </div>
                           <PlayButtonOverlay
                             onClick={() => playVideo(thumbnail.filePath)}
                           />
