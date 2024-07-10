@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { Accordion, Card, Button } from "react-bootstrap";
 import "../../Assets/Css/CategoryAccordion.css";
+import { getJobTutorialsByCategorySubCategory } from "../../config/config";
+import { getHeaders } from "../../services/auth";
+import axios from "axios";
 
 const CategoryAccordion = ({ data, setSelectedItem, modalClose }) => {
   const [selectedItem, setSelectedAccordionItem] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
   const handleSelect = (itemId) => {
-    var item= ( data.reduce((acc, category) => {
+    var item = data.reduce((acc, category) => {
       const foundItem = category.subcategories
         .flatMap((subcategory) => subcategory.items)
         .find((item) => item.id === itemId);
@@ -13,9 +18,25 @@ const CategoryAccordion = ({ data, setSelectedItem, modalClose }) => {
         return foundItem;
       }
       return acc;
-    }, null));
+    }, null);
     modalClose();
-    setSelectedItem(item);
+    var reqData = {
+      category: selectedCategory ?? "Dashboard",
+      subCategory: item.title,
+    };
+
+    axios
+      .post(getJobTutorialsByCategorySubCategory, reqData, {
+        headers: getHeaders(),
+      })
+      .then((response) => {
+        console.log(response.data);
+        setSelectedItem(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
     setSelectedAccordionItem(item);
   };
 
@@ -25,6 +46,7 @@ const CategoryAccordion = ({ data, setSelectedItem, modalClose }) => {
         <Accordion.Item
           eventKey={category.categoryId.toString()}
           key={category.categoryId}
+          // onClick={(e)=>{setSelectedCategory(e)}}
         >
           <Accordion.Header
             className={
@@ -33,6 +55,10 @@ const CategoryAccordion = ({ data, setSelectedItem, modalClose }) => {
                 ? "active"
                 : ""
             }
+            id={category.categoryName}
+            onClick={(e) => {
+              setSelectedCategory(e.target.textContent);
+            }}
           >
             {category.categoryName}
           </Accordion.Header>
@@ -42,12 +68,15 @@ const CategoryAccordion = ({ data, setSelectedItem, modalClose }) => {
                 {/* <h5>{subcategory.subcategoryName}</h5> */}
                 <ul>
                   {subcategory.items.map((item) => (
-                    <li key={item.id} onClick={() => handleSelect(item.id)} className={
-                      selectedItem != null &&
-                      selectedItem.id == item.id
-                        ? "active"
-                        : ""
-                    }>
+                    <li
+                      key={item.id}
+                      onClick={() => handleSelect(item.id)}
+                      className={
+                        selectedItem != null && selectedItem.id == item.id
+                          ? "active"
+                          : ""
+                      }
+                    >
                       {item.title}
                     </li>
                   ))}

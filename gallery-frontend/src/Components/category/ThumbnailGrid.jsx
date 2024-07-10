@@ -56,24 +56,21 @@ const ThumbnailGrid = ({ selectedItem, handleShow, showUpdate }) => {
             >
               Update video
             </a>}
-            <h3 className="mt-5 mb-3">{selectedItem.title}</h3>
+            <h3 className="mt-5 mb-3">{selectedItem.subCategories[0].subCategory}</h3>
             <center>
               <div className="thumbnails">
-                {selectedItem.thumbnails.map((thumbnail, index) => (
-                  <div className="thumbnail-container">
+                {selectedItem.subCategories[0].videoTutorials.map((thumbnail, index) => (
+                  <div className="thumbnail-container" key={index}>
                     <div key={index} className="thumbnail-item">
                       <img  
-                        src={thumbnail.url}
-                        alt={thumbnail.title}
+                        src={thumbnail.thumbnailPath}
+                        alt={thumbnail.fileName}
                         className="thumbnail-image"
-                        onClick={() => playVideo(thumbnail.videoUrl)}
+                        onClick={() => playVideo(thumbnail.filePath)}
                       />
-                      {/* <div className="thumbnail-overlay"> */}
-
-                      {/* </div> */}
-
+                    
                       <PlayButtonOverlay
-                        onClick={() => playVideo(thumbnail.videoUrl)}
+                        onClick={() => playVideo(thumbnail.filePath)}
                       />
                     </div>
                     <h2 className="thumbnail-title">{thumbnail.title}</h2>
