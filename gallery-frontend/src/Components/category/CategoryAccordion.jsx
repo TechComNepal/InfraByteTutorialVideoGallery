@@ -4,12 +4,15 @@ import "../../Assets/Css/CategoryAccordion.css";
 import { getJobTutorialsByCategorySubCategory } from "../../config/config";
 import { getHeaders } from "../../services/auth";
 import axios from "axios";
-import { toast, ToastContainer } from 'react-toastify';
- import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-
- 
-const CategoryAccordion = ({ data, setSelectedItem, modalClose }) => {
+const CategoryAccordion = ({
+  data,
+  yourVideosData,
+  setSelectedItem,
+  modalClose,
+}) => {
   const [selectedItem, setSelectedAccordionItem] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -23,6 +26,7 @@ const CategoryAccordion = ({ data, setSelectedItem, modalClose }) => {
       }
       return acc;
     }, null);
+
     modalClose();
     var reqData = {
       category: selectedCategory ?? "Dashboard",
@@ -41,17 +45,80 @@ const CategoryAccordion = ({ data, setSelectedItem, modalClose }) => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-      setSelectedAccordionItem(item);
+    setSelectedAccordionItem(item);
     if (resData != null) {
       setSelectedItem(resData);
     } else {
       toast.info("Video are unavailable");
     }
-  
   };
 
+  const handleYourVideo = async (subCategory) => {
+    var item = yourVideosData.reduce((acc, category) => {
+      const foundItem = category.subCategories.find(
+        (item) => item.subCategory === subCategory
+      );
+      if (foundItem) {
+        return foundItem;
+      }
+      return acc;
+    }, null);
+
+    modalClose();
+
+    setSelectedAccordionItem(item);
+
+    setSelectedItem(item);
+  };
+
+  if (yourVideosData != null) {
+    return (
+      <Accordion defaultActiveKey="default">
+        <ToastContainer />
+        {yourVideosData.map((category) => (
+          <Accordion.Item eventKey={category.category.toString()} key={category.category}>
+            <Accordion.Header
+              className={
+                selectedItem != null && selectedItem.category == category
+                  ? "active"
+                  : ""
+              }
+              id={category.category}
+              onClick={(e) => {
+                setSelectedCategory(e.target.textContent);
+              }}
+            >
+              {category.category}
+            </Accordion.Header>
+            <Accordion.Body>
+              {category.subCategories.map((subcategory) => (
+                <div key={subcategory.subCategory}>
+                  {/* <h5>{subcategory.subcategoryName}</h5> */}
+                  <ul>
+                    <li
+                      key={subcategory.subCategory}
+                      onClick={() => handleYourVideo(subcategory.subCategory)}
+                      className={
+                        selectedItem != null &&
+                        selectedItem.subCategory == subcategory.subCategory
+                          ? "active"
+                          : ""
+                      }
+                    >
+                      {subcategory.subCategory}
+                    </li>
+                  </ul>
+                </div>
+              ))}
+            </Accordion.Body>
+          </Accordion.Item>
+        ))}
+      </Accordion>
+    );
+  }
   return (
-    <Accordion defaultActiveKey="0"><ToastContainer />
+    <Accordion defaultActiveKey="0">
+      <ToastContainer />
       {data.map((category) => (
         <Accordion.Item
           eventKey={category.categoryId.toString()}

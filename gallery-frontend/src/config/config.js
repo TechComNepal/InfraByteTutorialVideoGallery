@@ -5,17 +5,20 @@ var clientId = "react_tutorial_client";
 var redirectUri = "http://localhost:3000/callback";
 var postLogoutRedirectUri = "http://localhost:3000/logout-callback";
 var apiBaseUrl = "https://api.staging.infrabyte.com.au/api/";
+var hostUrl = "http://localhost:3000";
 
 if (process.env.REACT_APP_ENVIRONMENT == "production") {
   authority = "https://security.staging.infrabyte.com.au";
   redirectUri = "https://tutorial.infrabyte.com.au/callback";
   postLogoutRedirectUri = "https://tutorial.infrabyte.com.au/logout-callback";
   apiBaseUrl = "https://api.infrabyte.com.au/api/";
+   hostUrl="https://tutorial.infrabyte.com.au"
 } else if (process.env.REACT_APP_ENVIRONMENT == "staging") {
   authority = "https://security.staging.infrabyte.com.au";
   redirectUri = "https://tutorial.infrabyte.com.au/callback";
   postLogoutRedirectUri = "https://tutorial.infrabyte.com.au/logout-callback";
   apiBaseUrl = "https://api.staging.infrabyte.com.au/api/";
+  hostUrl="https://tutorial.infrabyte.com.au"
 }
 // used to test
 // exports.loginUrl = `${authority}/connect/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid profile email jobbookingapi offline_access&state=2323&code_challenge=231232&code_challenge_method=S256`;
@@ -39,7 +42,7 @@ exports.oidcConfig = {
   postLogoutRedirectUri: postLogoutRedirectUri,
   response_type: "code",
   scope: "openid profile email jobbookingapi offline_access",
-
+  hostUrl:hostUrl
   // state:getState(),
   // code_challenge: getCodeChallenge(),
   // code_challenge_method:'S256'

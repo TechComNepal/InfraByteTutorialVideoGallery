@@ -50,7 +50,7 @@ const YourVideoListsPage = () => {
           <Col md={3} className="hide-container">
             {/* hides if mobile */}
             <CategoryAccordion
-              data={category}
+              yourVideosData={data}
               setSelectedItem={setSelectedItem}
               modalClose={handleClose}
             />

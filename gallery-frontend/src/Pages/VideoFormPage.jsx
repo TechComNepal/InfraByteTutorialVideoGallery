@@ -5,7 +5,8 @@ import axios from "axios";
 
 import { category } from "../data/category";
 import "../Assets/Css/Login.css";
-import { tutorialUpload } from "../config/config";
+import { oidcConfig, tutorialUpload } from "../config/config";
+import { toast, ToastContainer } from "react-toastify";
 
 const VideoFormPage = () => {
   const [title, setTitle] = useState("");
@@ -144,6 +145,10 @@ const VideoFormPage = () => {
       return;
     }
     var isTitleValid = false;
+    if (tags.length === 0) {
+      toast.info("Tags are required");
+      return;
+    }
     videoDetails.map((v, i) => {
       if (!(v.title == "" || v.title == null)) {
         isTitleValid = true;
@@ -152,6 +157,7 @@ const VideoFormPage = () => {
     });
 
     if (!isTitleValid) {
+      toast.info("Title is required for all videos");
       alert("Title is required for all videos");
       return;
     }
@@ -181,18 +187,30 @@ const VideoFormPage = () => {
     });
     const formData = new FormData();
     // formData.append("Title", title);
-    formData.append("Tags", tags);
+    formData.append("Tags", [tags]);
     formData.append("Category", categorySelected);
     formData.append("SubCategory", subcategory);
     formData.append("Description", description);
-    // formData.append("videoDetails", [{ title: "", thumbnail: "" }]);
-    formData.append("VideoDetails", videoDetail);
 
+    // formData.append("VideoDetails", videoDetail);
+    console.log("video files");
+    videoDetails.forEach((video, index) => {
+      formData.append(`VideoDetails[${index}].Title`, video.title);
+      formData.append(`VideoDetails[${index}].Thumbnail`, video.thumbnailFile);
+    });
     videoDetails.forEach((video, index) => {
       formData.append(`VideoFiles`, video.videoUrl);
+      console.log(video.videoUrl);
     });
 
-    console.log(videoDetail);
+    // var videoFiles=[] ;
+    // videoDetails.forEach((video, index) => {
+    // videoFiles.push(video.videoUrl)
+    // });
+    // formData.append(`VideoFiles`, videoFiles);
+
+    // console.log(videoDetail);
+    // console.log(videoFiles);
 
     for (let [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
@@ -205,8 +223,9 @@ const VideoFormPage = () => {
           "Content-Type": "multipart/form-data",
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
-          "Access-Control-Allow-Origin": "*",
+          // "Access-Control-Allow-Origin": "*",
           // "Access-Control-Allow-Origin": "https://tutorial.infrabyte.com.au",
+          "Access-Control-Allow-Origin": oidcConfig.hostUrl,
         },
       });
       setLoading(false);
@@ -215,8 +234,9 @@ const VideoFormPage = () => {
     } catch (err) {
       console.error("Upload failed:", err);
       setLoading(false);
-      alert("Upload failed. Please try again.\n" + err);
-      setError("Upload failed. Please try again.");
+      toast.error("Upload failed. Please try again.\n" + err);
+      // alert("Upload failed. Please try again.\n" + err);
+      // setError("Upload failed. Please try again.");
     }
     setLoading(false);
   };
@@ -292,6 +312,7 @@ const VideoFormPage = () => {
         </div>
       ) : (
         <Container className="form-container mt-5">
+          <ToastContainer />
           {/* <a
           variant="primary"
           className="button-container  "
@@ -380,7 +401,7 @@ const VideoFormPage = () => {
                 <Form.Group className="mt-3">
                   <Form.Label>Add tags</Form.Label>
                   <Form.Control
-                    type="text"
+                    // type="text"
                     placeholder="Add tags (press enter or comma)"
                     value={inputValue}
                     onChange={handleInputChange}
@@ -507,7 +528,6 @@ const VideoFormPage = () => {
                                     reader.readAsDataURL(file);
                                   }
                                 }}
-                                required
                               />
 
                               <Form.Control.Feedback type="invalid">
