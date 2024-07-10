@@ -10,6 +10,7 @@ import { isAuthenticatedUser } from "./services/auth";
 
 import Loading from "./Components/Loading";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   // const location = useLocation(); , '/login', '/logout'

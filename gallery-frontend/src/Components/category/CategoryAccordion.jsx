@@ -15,8 +15,10 @@ const CategoryAccordion = ({
 }) => {
   const [selectedItem, setSelectedAccordionItem] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSelect = async (itemId) => {
+    setLoading(true)
     var item = data.reduce((acc, category) => {
       const foundItem = category.subcategories
         .flatMap((subcategory) => subcategory.items)
@@ -51,6 +53,7 @@ const CategoryAccordion = ({
     } else {
       toast.info("Video are unavailable");
     }
+    setLoading(false);
   };
   
   const handleYourVideo = async (subCategory) => {
@@ -137,7 +140,7 @@ const CategoryAccordion = ({
               setSelectedCategory(e.target.textContent);
             }}
           >
-            {category.categoryName}
+            {category.categoryName} 
           </Accordion.Header>
           <Accordion.Body>
             {category.subcategories.map((subcategory) => (
@@ -154,12 +157,13 @@ const CategoryAccordion = ({
                           : ""
                       }
                     >
-                      {item.title}
+                      {item.title} 
+                     
                     </li>
                   ))}
                 </ul>
               </div>
-            ))}
+            ))}{loading && <span><div className="loading-spinner"></div></span>}
           </Accordion.Body>
         </Accordion.Item>
       ))}
