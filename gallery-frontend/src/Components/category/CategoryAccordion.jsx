@@ -4,7 +4,11 @@ import "../../Assets/Css/CategoryAccordion.css";
 import { getJobTutorialsByCategorySubCategory } from "../../config/config";
 import { getHeaders } from "../../services/auth";
 import axios from "axios";
+import { toast, ToastContainer } from 'react-toastify';
+ import 'react-toastify/dist/ReactToastify.css';
 
+
+ 
 const CategoryAccordion = ({ data, setSelectedItem, modalClose }) => {
   const [selectedItem, setSelectedAccordionItem] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -37,16 +41,17 @@ const CategoryAccordion = ({ data, setSelectedItem, modalClose }) => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
+      setSelectedAccordionItem(item);
     if (resData != null) {
       setSelectedItem(resData);
     } else {
-      alert("Video are not available");
+      toast.info("Video are unavailable");
     }
-    setSelectedAccordionItem(item);
+  
   };
 
   return (
-    <Accordion defaultActiveKey="0">
+    <Accordion defaultActiveKey="0"><ToastContainer />
       {data.map((category) => (
         <Accordion.Item
           eventKey={category.categoryId.toString()}
