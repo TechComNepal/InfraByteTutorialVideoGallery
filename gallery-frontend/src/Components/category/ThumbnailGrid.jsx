@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PlayButtonOverlay from "./PlayButtonOverlay";
 import { Button, Container, Modal } from "react-bootstrap";
+import noThumbnail from "../../Assets/images/no_thumbnail.jpg";
 
 import "../../Assets/Css/ThumbnailGrid.css";
 
@@ -79,11 +80,17 @@ const ThumbnailGrid = ({
                             <img
                               src={thumbnail.thumbnailPath}
                               alt={thumbnail.fileName}
-                              className="thumbnail-image"
+                              className="thumbnail-image "
                               onClick={() => playVideo(thumbnail.filePath)}
                             />
                           ) : (
-                            <video src={thumbnail.filePath}></video>
+                            <img
+                              src={noThumbnail}
+                              alt="No image"
+                              className="thumbnail-image "
+                              onClick={() => playVideo(thumbnail.filePath)}
+                            />
+                            // <video src={thumbnail.filePath}></video>
                           )}
                           <div className="thumbnail-overlay">
                             <a
@@ -110,7 +117,9 @@ const ThumbnailGrid = ({
                 <h3 className="mt-5 mb-3">
                   {selectedItem.subCategories[0].subCategory}
                 </h3>
-                <h6 className="mt-5 mb-3">{selectedItem.subCategories[0].description}</h6>
+                <h6 className="mt-5 mb-3">
+                  {selectedItem.subCategories[0].description}
+                </h6>
                 <center>
                   <div className="thumbnails">
                     {selectedItem.subCategories[0].videoTutorials.map(
@@ -125,14 +134,24 @@ const ThumbnailGrid = ({
                                 onClick={() => playVideo(thumbnail.filePath)}
                               />
                             ) : (
-                              <video src={thumbnail.filePath}></video>
+                              <img
+                                src={noThumbnail}
+                                alt="No image"
+                                className="thumbnail-image "
+                                onClick={() => playVideo(thumbnail.filePath)}
+                              /> // <video src={thumbnail.filePath} className="thumbnail-image" onClick={() => playVideo(thumbnail.filePath)}></video>
                             )}
 
                             <PlayButtonOverlay
                               onClick={() => playVideo(thumbnail.filePath)}
                             />
                           </div>
-                          <h2 className="thumbnail-title">{thumbnail.title}</h2>
+                          <h2 className="thumbnail-title">
+                            <span>
+                              <i className="fa fa-play-circle"></i>
+                            </span>{" "}
+                            {thumbnail.title}
+                          </h2>
                         </div>
                       )
                     )}

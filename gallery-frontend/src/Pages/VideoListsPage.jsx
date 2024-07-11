@@ -38,7 +38,7 @@ const VideoListsPage = () => {
           </Col>
         </Row>
 
-        <RightSideModal show={showModal} handleClose={handleClose}>
+        <RightSideModal show={showModal} handleClose={ handleClose}>
           <CategoryAccordion
             data={category}
             setSelectedItem={setSelectedItem}

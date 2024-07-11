@@ -18,7 +18,7 @@ const CategoryAccordion = ({
   const [loading, setLoading] = useState(false);
 
   const handleSelect = async (itemId) => {
-    setLoading(true)
+    setLoading(true);
     var item = data.reduce((acc, category) => {
       const foundItem = category.subcategories
         .flatMap((subcategory) => subcategory.items)
@@ -29,7 +29,6 @@ const CategoryAccordion = ({
       return acc;
     }, null);
 
-    modalClose();
     var reqData = {
       category: selectedCategory ?? "Dashboard",
       subCategory: item.title,
@@ -45,17 +44,19 @@ const CategoryAccordion = ({
         // setSelectedItem(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        // console.error("Error fetching data:", error);
       });
     setSelectedAccordionItem(item);
     if (resData != null) {
       setSelectedItem(resData);
+      modalClose();
     } else {
       toast.info(`${item.title} videos are unavailable`);
     }
+
     setLoading(false);
   };
-  
+
   const handleYourVideo = async (subCategory) => {
     var item = yourVideosData.reduce((acc, category) => {
       const foundItem = category.subCategories.find(
@@ -79,7 +80,10 @@ const CategoryAccordion = ({
       <Accordion defaultActiveKey="default">
         <ToastContainer />
         {yourVideosData.map((category) => (
-          <Accordion.Item eventKey={category.category.toString()} key={category.category}>
+          <Accordion.Item
+            eventKey={category.category.toString()}
+            key={category.category}
+          >
             <Accordion.Header
               className={
                 selectedItem != null && selectedItem.category == category
@@ -140,7 +144,7 @@ const CategoryAccordion = ({
               setSelectedCategory(e.target.textContent);
             }}
           >
-            {category.categoryName} 
+            {category.categoryName}
           </Accordion.Header>
           <Accordion.Body>
             {category.subcategories.map((subcategory) => (
@@ -157,13 +161,17 @@ const CategoryAccordion = ({
                           : ""
                       }
                     >
-                      {item.title} 
-                     
+                      {item.title}
                     </li>
                   ))}
                 </ul>
               </div>
-            ))}{loading && <span><div className="loading-spinner"></div></span>}
+            ))}
+            {loading && (
+              <span>
+                <div className="loading-spinner"></div>
+              </span>
+            )}
           </Accordion.Body>
         </Accordion.Item>
       ))}
