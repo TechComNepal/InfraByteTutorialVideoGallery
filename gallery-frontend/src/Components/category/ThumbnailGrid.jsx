@@ -84,13 +84,13 @@ const ThumbnailGrid = ({
                               onClick={() => playVideo(thumbnail.filePath)}
                             />
                           ) : (
-                            <img
-                              src={noThumbnail}
-                              alt="No image"
-                              className="thumbnail-image "
-                              onClick={() => playVideo(thumbnail.filePath)}
-                            />
-                            // <video src={thumbnail.filePath}></video>
+                            // <img
+                            //   src={noThumbnail}
+                            //   alt="No image"
+                            //   className="thumbnail-image "
+                            //   onClick={() => playVideo(thumbnail.filePath)}
+                            // />
+                            <video src={thumbnail.filePath} className="thumbnail-image" onClick={() => playVideo(thumbnail.filePath)}></video>
                           )}
                           <div className="thumbnail-overlay">
                             <a
