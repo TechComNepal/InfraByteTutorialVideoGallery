@@ -46,7 +46,7 @@ const UserDropdown = ({ username, onLogout }) => {
             </Dropdown.Item>
           </>
         )}
-        <Dropdown.Item onClick={onLogout}>Logout</Dropdown.Item>
+        <Dropdown.Item onClick={onLogout}>Logout</Dropdown.Item> 
       </Dropdown.Menu>
     </Dropdown>
   );

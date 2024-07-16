@@ -16,6 +16,7 @@ import VideoFormPage from "./Pages/VideoFormPage";
 import YourVideoListsPage from "./Pages/YourVideoListPage";
 import Header from "./Components/Header";
 import LogoutCallback from "./Components/LogoutCallback";
+import SearchPage from "./Pages/SearchPage";
 
 const AppRoute = () => {
   return (
@@ -30,6 +31,8 @@ const AppRoute = () => {
       <Route path="/your-video" element={<><Header /> <YourVideoListsPage /></>} />
       <Route path="/add/video" element={<> <Header />
       <VideoFormPage /></>} />
+      <Route path="/search-result/:query" exact element={<><Header /> <SearchPage /></>} />
+
       <Route path="*" element={<NoPage />} />
       <Route path="/protected" component={Protected} />
     </Routes>

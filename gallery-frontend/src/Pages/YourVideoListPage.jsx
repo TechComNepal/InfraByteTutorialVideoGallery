@@ -22,14 +22,14 @@ const YourVideoListsPage = () => {
     fetchData();
   }, []);
 
-  const fetchData =  () => {
-     axios
+  const fetchData = () => {
+    axios
       .get(getAllJobTutorials, {
         headers: getHeaders(),
       })
       .then((response) => {
         setData(response.data);
-        console.log(response.data)
+        // console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -68,7 +68,7 @@ const YourVideoListsPage = () => {
         </Row>
         <RightSideModal show={showModal} handleClose={handleClose}>
           <CategoryAccordion
-            data={category}
+            yourVideosData={data}
             setSelectedItem={setSelectedItem}
             modalClose={handleClose}
           />

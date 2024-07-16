@@ -159,7 +159,7 @@ const VideoFormPage = () => {
 
     if (!isTitleValid) {
       toast.info("Title is required for all videos");
-      alert("Title is required for all videos");
+      // alert("Title is required for all videos");
       return;
     }
 
