@@ -56,6 +56,7 @@ const VideoListsPage = () => {
                 selectedItem={selectedItem}
                 handleShow={handleShow}
                 showUpdate={false}
+                videoType={videoType}
               />
             </div>
           </Col>

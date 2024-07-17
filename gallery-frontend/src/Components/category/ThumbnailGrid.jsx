@@ -10,6 +10,7 @@ const ThumbnailGrid = ({
   yourVideosData,
   handleShow,
   showUpdate,
+  videoType,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [videoUrl, setVideoUrl] = useState("");
@@ -54,7 +55,7 @@ const ThumbnailGrid = ({
             </Container>
           </center>
         )}
-        {!selectedItem && <p>Welcome to InfraByte video tutorial. </p>}
+        {!selectedItem && <p>Welcome to InfraByte {videoType} video tutorial. </p>}
         {selectedItem && (
           <>
             {showUpdate && (
