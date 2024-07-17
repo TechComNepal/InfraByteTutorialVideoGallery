@@ -39,18 +39,17 @@ const SearchPage = () => {
 
   const fetchData = async () => {
     try {
-        setLoading(true);
-        if(query!=undefined){
-            const response = await axios.get(
-                `${getJobsTutorialByTags}?tags=${query}`,
-                {
-                  headers: getHeaders(),
-                }
-              );
-              setData(response.data);
-        }
-  
-      
+      setLoading(true);
+      if (query != undefined) {
+        const response = await axios.get(
+          `${getJobsTutorialByTags}?tags=${query}`,
+          {
+            headers: getHeaders(),
+          }
+        );
+        setData(response.data);
+      }
+
       setLoading(false);
     } catch (err) {
       // console.error("fetch failed:", err);
@@ -59,10 +58,8 @@ const SearchPage = () => {
     }
   };
   return (
-    <div className="container">
-     
-      
-      <div className="video-player mt-5">
+    <div className={`container thumbnail-grid ${isMobile ? "mobile-list" : ""}`}>
+      <div className="video-player mt-2">
         <video controls autoPlay key={videoUrl}>
           <source src={videoUrl} type="video/mp4" />
           Your browser does not support the video tag.
@@ -75,41 +72,46 @@ const SearchPage = () => {
       )}
       {/* {data[0]["id"]} */}
       {data && (
-              <>
-               
-                <center>
-                  <div className="thumbnails">
-                    {data.map((thumbnail, index) => (
-                      <div className="thumbnail-container" key={index}>
-                        <div key={index} className="thumbnail-item">
-                          {thumbnail.thumbnailName != null ? (
-                            <img
-                              src={`${thumbnail.storageUrl}/${thumbnail.thumbnailPath}`}
-                              alt={thumbnail.fileName}
-                              className="thumbnail-image "
-                              onClick={() => playVideo(thumbnail.filePath)}
-                            />
-                          ) : (
-                            <img
-                              src={noThumbnail}
-                              alt="No image"
-                              className="thumbnail-image "
-                              onClick={() => playVideo(thumbnail.filePath)}
-                            />
-                            // <video src={thumbnail.filePath} className="thumbnail-image" onClick={() => playVideo(thumbnail.filePath)}></video>
-                          )}
-                          
-                          <PlayButtonOverlay
-                            onClick={() => playVideo(thumbnail.filePath)}
-                          />
-                        </div>
-                        <h2 className="thumbnail-title">{thumbnail.title}</h2>
-                      </div>
-                    ))}
+        <>
+          <>
+            <div className="thumbnails mt-3 ">
+              {data.map((thumbnail, index) => (
+                <div className="thumbnail-container" key={index}>
+                  <div key={index} className="thumbnail-item">
+                    {thumbnail.thumbnailName != null ? (
+                      <img
+                        src={`${thumbnail.storageUrl}/${thumbnail.thumbnailPath}`}
+                        alt={thumbnail.fileName}
+                        className="thumbnail-image "
+                        onClick={() => playVideo(thumbnail.filePath)}
+                      />
+                    ) : (
+                      <img
+                        src={noThumbnail}
+                        alt="No image"
+                        className="thumbnail-image "
+                        onClick={() => playVideo(thumbnail.filePath)}
+                      />
+                      // <video src={thumbnail.filePath} className="thumbnail-image" onClick={() => playVideo(thumbnail.filePath)}></video>
+                    )}
+
+                    <PlayButtonOverlay
+                      onClick={() => playVideo(thumbnail.filePath)}
+                    />
                   </div>
-                </center>
-              </>
-            )}
+                  <h2 className="thumbnail-title">
+                    {" "}
+                    <span>
+                      <i className="fa fa-play-circle"></i>
+                    </span>{" "}
+                    {thumbnail.title}
+                  </h2>
+                </div>
+              ))}
+            </div>
+          </>
+        </>
+      )}
     </div>
   );
 };
