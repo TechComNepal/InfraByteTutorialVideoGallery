@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Form, Button } from "react-bootstrap";
 import logo from "../Assets/images/nonon.png";
 import { redirect, useNavigate } from "react-router-dom";
-import { getHeaders, isAuthenticated } from "../services/auth";
+import { getHeaders, isAuthenticated, isAuthenticatedUser } from "../services/auth";
 import UserDropdown from "./UserDropdown";
 // import { useAuth } from "oidc-react";
 import { jwtDecode } from "jwt-decode";
@@ -103,7 +103,11 @@ function Header() {
       // navigate("/callback", { replace: true });
     }
   }, []);
-
+ useEffect(() => {
+    if (!isAuthenticatedUser()) {
+    window.location.href = "/";
+  }
+  },[]);
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!searchKeyword) {

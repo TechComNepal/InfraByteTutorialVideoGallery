@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import "../Assets/Css/Homepage.css";
 import { useNavigate } from "react-router-dom";
 import UserDropdown from "../Components/UserDropdown";
-import { handleLogout } from "../services/auth";
+import { handleLogout, isAuthenticatedUser } from "../services/auth";
 import { toast } from "react-toastify";
 import { Form, Button } from "react-bootstrap";
 import logo from "../Assets/images/nonon.png";
@@ -50,7 +50,11 @@ function SelectVideoType() {
   useEffect(() => {
     getUserName();
   });
-
+  useEffect(() => {
+    if (!isAuthenticatedUser()) {
+    window.location.href = "/";
+  }
+  },[]);
   return (
     <div className="home-container ">
       <div className="home-page home-bg-container">
@@ -88,7 +92,7 @@ function SelectVideoType() {
                   </span>
                 )}
               </Form>
-              <h1 className="heading2 mt-3 mb-3">or Choose videos .</h1>
+              <h1 className="heading2 mt-3 mb-3">Choose videos.</h1>
               <button
                 className="button-container  mx-0"
                 onClick={openWebVideos}
