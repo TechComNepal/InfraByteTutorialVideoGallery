@@ -9,7 +9,6 @@ import { oidcConfig, tutorialUpload } from "../config/config";
 import { toast, ToastContainer } from "react-toastify";
 import { mobileCategory } from "../data/mobile_category";
 
-
 const VideoFormPage = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -37,7 +36,7 @@ const VideoFormPage = () => {
 
   const [loading, setLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);  
+  const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const listRef = useRef(null);
   const handleInputChange = (event) => {
@@ -246,17 +245,20 @@ const VideoFormPage = () => {
     setLoading(false);
   };
 
-const handleVideoTypeChange = (e)=>{
-  const selectedType = e.target.value
-  setVideoType(selectedType);
-  if (selectedType != undefined) {
-    if (selectedType == "web") {
-      setData(category);
-    } else {
-      setData(mobileCategory);
+  const handleVideoTypeChange = (e) => {
+    const selectedType = e.target.value;
+    setVideoType(selectedType);
+    if (selectedType != undefined) {
+      if (selectedType == "web") {
+        setData(category);
+      } else {
+        setData(mobileCategory);
+      }
+      setSubcategory("");
+      setSubcategories([]);
+
     }
-  }
-}
+  };
 
   const handleCategoryChange = (event) => {
     const selectedCategory = event.target.value;
@@ -361,7 +363,7 @@ const handleVideoTypeChange = (e)=>{
               <h2 className="heading3 mb-4">Upload infrabyte video</h2>
 
               <Form noValidate validated={validated} onSubmit={handleSubmit}>
-              <Form.Group className="mt-3">
+                <Form.Group className="mt-3">
                   <Form.Label>Select a video type</Form.Label>
                   <Form.Control
                     placeholder="videoType"
@@ -373,7 +375,6 @@ const handleVideoTypeChange = (e)=>{
                   >
                     <option value="web">Web</option>
                     <option value="mobile">Mobile</option>
-                    
                   </Form.Control>
                   {errors.category && (
                     <Form.Control.Feedback type="invalid">
