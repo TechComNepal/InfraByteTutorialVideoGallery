@@ -7,6 +7,7 @@ import { category } from "../data/category";
 import "../Assets/Css/Login.css";
 import { oidcConfig, tutorialUpload } from "../config/config";
 import { toast, ToastContainer } from "react-toastify";
+import { mobileCategory } from "../data/mobile_category";
 
 
 const VideoFormPage = () => {
@@ -29,11 +30,14 @@ const VideoFormPage = () => {
   const [subcategory, setSubcategory] = useState("");
   const [subcategories, setSubcategories] = useState([]);
 
+  const [videoType, setVideoType] = useState("web");
+  var [data, setData] = useState(category);
+
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
 
   const [loading, setLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
+  const [startX, setStartX] = useState(0);  
   const [scrollLeft, setScrollLeft] = useState(0);
   const listRef = useRef(null);
   const handleInputChange = (event) => {
@@ -192,7 +196,7 @@ const VideoFormPage = () => {
     formData.append("Category", categorySelected);
     formData.append("SubCategory", subcategory);
     formData.append("Description", description);
-
+    formData.append("VideoType", videoType);
     // formData.append("VideoDetails", videoDetail);
     // console.log("video files");
     videoDetails.forEach((video, index) => {
@@ -242,12 +246,24 @@ const VideoFormPage = () => {
     setLoading(false);
   };
 
+const handleVideoTypeChange = (e)=>{
+  const selectedType = e.target.value
+  setVideoType(selectedType);
+  if (selectedType != undefined) {
+    if (selectedType == "web") {
+      setData(category);
+    } else {
+      setData(mobileCategory);
+    }
+  }
+}
+
   const handleCategoryChange = (event) => {
     const selectedCategory = event.target.value;
     setCategory(selectedCategory);
     setSubcategory(""); // Reset subcategory when category changes
 
-    const categoryObject = category.find(
+    const categoryObject = data.find(
       (cat) => cat.categoryName === selectedCategory
     );
     var subCat = categoryObject ? categoryObject.subcategories[0]["items"] : [];
@@ -345,6 +361,26 @@ const VideoFormPage = () => {
               <h2 className="heading3 mb-4">Upload infrabyte video</h2>
 
               <Form noValidate validated={validated} onSubmit={handleSubmit}>
+              <Form.Group className="mt-3">
+                  <Form.Label>Select a video type</Form.Label>
+                  <Form.Control
+                    placeholder="videoType"
+                    as="select"
+                    value={videoType}
+                    onChange={handleVideoTypeChange}
+                    id="videoType"
+                    required
+                  >
+                    <option value="web">Web</option>
+                    <option value="mobile">Mobile</option>
+                    
+                  </Form.Control>
+                  {errors.category && (
+                    <Form.Control.Feedback type="invalid">
+                      Please Select a video Type
+                    </Form.Control.Feedback>
+                  )}
+                </Form.Group>
                 <Form.Group className="mt-3">
                   <Form.Label>Select a category</Form.Label>
                   <Form.Control
@@ -356,7 +392,7 @@ const VideoFormPage = () => {
                     required
                   >
                     <option value="">Select a category</option>
-                    {category.map((cat) => (
+                    {data.map((cat) => (
                       <option key={cat.categoryName} value={cat.categoryName}>
                         {cat.categoryName}
                       </option>

@@ -62,7 +62,7 @@ const SearchPage = () => {
     <div className="container">
      
       
-      <div className="video-player">
+      <div className="video-player mt-5">
         <video controls autoPlay key={videoUrl}>
           <source src={videoUrl} type="video/mp4" />
           Your browser does not support the video tag.

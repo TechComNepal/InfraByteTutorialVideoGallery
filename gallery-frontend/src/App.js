@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   // const location = useLocation(); , '/login', '/logout'
-  const hideFooter = ["/", "/callback"].includes(window.location.pathname);
+  const hideFooter = ["/", "/callback", "/videos"].includes(window.location.pathname);
   const hideHeader = ["/", "*"].includes(window.location.pathname);
   // const hideFooter = false;
   const callback = ["/callback"].includes(window.location.pathname);

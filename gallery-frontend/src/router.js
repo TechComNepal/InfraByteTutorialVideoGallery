@@ -17,6 +17,7 @@ import YourVideoListsPage from "./Pages/YourVideoListPage";
 import Header from "./Components/Header";
 import LogoutCallback from "./Components/LogoutCallback";
 import SearchPage from "./Pages/SearchPage";
+import SelectVideoType from "./Pages/SelectVideoType";
 
 const AppRoute = () => {
   return (
@@ -25,9 +26,14 @@ const AppRoute = () => {
       <Route exact path="/callback" element={<Loading />} />
       <Route exact path="/logout-callback" element={<LogoutCallback />} />
       {/* <Route exact path="/logout" element={ <Loading />} /> */}
-      <Route path="/videos" element={<> <Header />
+      <Route path="/videos" element={<> 
+        <SelectVideoType />
+      </> } />
+      
+      <Route path="/videos/:videoType" element={<> <Header />
         <VideoListpage />
       </> } />
+
       <Route path="/your-video" element={<><Header /> <YourVideoListsPage /></>} />
       <Route path="/add/video" element={<> <Header />
       <VideoFormPage /></>} />
