@@ -8,6 +8,7 @@ import logo from "../Assets/images/nonon.png";
 import { getAuthorizationUrl, loginUrl, oidcConfig } from "../config/config";
 import Cookies from "js-cookie";
 import { generateCodeChallenge, generateCodeVerifier } from "../config/pkce";
+import Loading from "../Components/Loading";
 
 function Homepage() {
   let navigate = useNavigate();
@@ -37,8 +38,16 @@ function Homepage() {
     const codeChallenge = await generateCodeChallenge(codeVerifier);
 
     Cookies.set("pkce_code_verifier", codeVerifier);
+
     window.location.href = `${getAuthorizationUrl}?client_id=${oidcConfig.clientId}&redirect_uri=${oidcConfig.redirectUri}&response_type=${oidcConfig.response_type}&scope=${oidcConfig.scope}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
   };
+
+  useEffect(() => {
+    if (document.referrer === "") {
+    } else {
+      login();
+    }
+  }, []);
 
   return (
     <div className="home-container">
