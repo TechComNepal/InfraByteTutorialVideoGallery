@@ -131,6 +131,9 @@ const VideoFormPage = () => {
     if (videoDetails.length === 0) {
       formErrors.videoDetails = "Please select your video(s)";
     }
+    if (!title) {
+      formErrors.title = "Please enter video title";
+    }
     return formErrors;
   };
 
@@ -196,6 +199,7 @@ const VideoFormPage = () => {
     formData.append("SubCategory", subcategory);
     formData.append("Description", description);
     formData.append("VideoType", videoType);
+    formData.append("VideoTitle ", title);
     // formData.append("VideoDetails", videoDetail);
     // console.log("video files");
     videoDetails.forEach((video, index) => {
@@ -256,7 +260,6 @@ const VideoFormPage = () => {
       }
       setSubcategory("");
       setSubcategories([]);
-
     }
   };
 
@@ -416,7 +419,6 @@ const VideoFormPage = () => {
                     disabled={!categorySelected}
                     required
                   >
-                    {" "}
                     <option value="">Select a subcategory</option>
                     {subcategories.map((subcat) => (
                       <option key={subcat.id} value={subcat.title}>
@@ -427,6 +429,22 @@ const VideoFormPage = () => {
                   {errors.subCategory && (
                     <Form.Control.Feedback type="invalid">
                       Please Select a sub category.
+                    </Form.Control.Feedback>
+                  )}
+                </Form.Group>
+
+                <Form.Group className="mt-3">
+                  <Form.Label>Video Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Video Title"
+                    value={title}
+                       required  
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                  {errors.title && (
+                    <Form.Control.Feedback type="invalid">
+                      Please enter a video title.
                     </Form.Control.Feedback>
                   )}
                 </Form.Group>

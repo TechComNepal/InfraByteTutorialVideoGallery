@@ -12,6 +12,7 @@ const CategoryAccordion = ({
   yourVideosData,
   setSelectedItem,
   modalClose,
+  videoType,
 }) => {
   const [selectedItem, setSelectedAccordionItem] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -32,6 +33,7 @@ const CategoryAccordion = ({
     var reqData = {
       category: selectedCategory ?? "Dashboard",
       subCategory: item.title,
+      videoType: videoType,
     };
     var resData;
     await axios

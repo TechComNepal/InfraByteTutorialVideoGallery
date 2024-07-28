@@ -47,6 +47,7 @@ const VideoListsPage = () => {
               data={data}
               setSelectedItem={setSelectedItem}
               modalClose={handleClose}
+              videoType={videoType}
             />
           </Col>
 

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import CategoryAccordion from "../Components/category/CategoryAccordion";
 import { category } from "../data/category";
+import { mobileCategory } from "../data/mobile_category";
+
 import ThumbnailGrid from "../Components/category/ThumbnailGrid";
 import Header from "../Components/Header";
 import RightSideModal from "../Components/RightSideModal";
@@ -17,40 +19,74 @@ const YourVideoListsPage = () => {
   const handleClose = () => setShowModal(false);
 
   const [data, setData] = useState([]);
+  const [videoType, setVideoType] = useState("web");
 
   useEffect(() => {
-    fetchData();
+    // fetchData();
+    setData(category);
   }, []);
 
-  const fetchData = () => {
-    axios
-      .get(getAllJobTutorials, {
-        headers: getHeaders(),
-      })
-      .then((response) => {
-        setData(response.data);
-        // console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+  // const fetchData = () => {
+  //   axios
+  //     .get(getAllJobTutorials, {
+  //       headers: getHeaders(),
+  //     })
+  //     .then((response) => {
+  //       setData(response.data);
+  //       // console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //     });
+  // };
+
+  const handleVideoTypeChange = (e) => {
+    const selectedType = e.target.value;
+    setVideoType(selectedType);
+    if (selectedType != undefined) {
+      if (selectedType == "web") {
+        setData(category);
+      } else {
+        setData(mobileCategory);
+      }
+    }
   };
+
   return (
     <>
       <Container className="mt-5 mb-5" style={{ minHeight: "100vh" }}>
-        <a
+        {/* <a
           href="/add/video"
           variant="primary"
           className="button-container mt-3  "
         >
           Upload video
-        </a>
+        </a> */}
+        <Form.Group className="mt-3">
+          <Form.Label>Select a video type</Form.Label>
+          <Form.Control
+            placeholder="videoType"
+            as="select"
+            value={videoType}
+            onChange={handleVideoTypeChange}
+            id="videoType"
+            required
+          >
+            <option value="web">Web</option>
+            <option value="mobile">Mobile</option>
+          </Form.Control>
+
+          <Form.Control.Feedback type="invalid">
+            Please Select a video Type
+          </Form.Control.Feedback>
+        </Form.Group>
         <h1 className="heading3 mb-3 mt-5">Your videos</h1>
         <Row>
           <Col md={3} className="hide-container">
             {/* hides if mobile */}
             <CategoryAccordion
-              yourVideosData={data}
+              // yourVideosData={data}
+              data={data}
               setSelectedItem={setSelectedItem}
               modalClose={handleClose}
             />
