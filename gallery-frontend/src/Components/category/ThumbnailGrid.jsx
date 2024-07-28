@@ -148,7 +148,7 @@ const ThumbnailGrid = ({
                     {" "}
                     <h6 className="mt-0 mb-3">{category.description}</h6>
                     <center>
-                      <div className="thumbnails">
+                      <div className="thumbnails ">
                         {category.videoTutorials.map((thumbnail, index) => (
                           <div className="thumbnail-container" key={index}>
                             <div key={index} className="thumbnail-item">
@@ -156,7 +156,7 @@ const ThumbnailGrid = ({
                                 <img
                                   src={thumbnail.thumbnailPath}
                                   alt={thumbnail.fileName}
-                                  className="thumbnail-image"
+                                  className="thumbnail-image w-100"
                                   onClick={() => playVideo(thumbnail.filePath)}
                                 />
                               ) : (
