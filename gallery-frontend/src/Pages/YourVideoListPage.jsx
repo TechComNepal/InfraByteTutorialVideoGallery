@@ -89,13 +89,14 @@ const YourVideoListsPage = () => {
               data={data}
               setSelectedItem={setSelectedItem}
               modalClose={handleClose}
+              videoType={videoType}
             />
           </Col>
           <Col md={9}>
             <div className="output">
               <ThumbnailGrid
                 selectedItem={selectedItem}
-                yourVideosData={data}
+                // yourVideosData={data}
                 handleShow={handleShow}
                 showUpdate={true}
               />

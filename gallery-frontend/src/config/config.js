@@ -31,7 +31,7 @@ exports.getAuthorizationUrl = `${authority}/connect/authorize`;
 
 exports.getAllJobTutorials =`${apiBaseUrl}v6/BookingTutorial/GetAllJobTutorials` 
 exports.getJobTutorialsByCategorySubCategory =`${apiBaseUrl}v6/BookingTutorial/GetJobTutorialsByCategorySubCategory`
-exports.tutorialUpload = `${apiBaseUrl}v6.1/BookingTutorial/UploadJobBookingTutorialFiles1`;
+exports.tutorialUpload = `${apiBaseUrl}v6.1/BookingTutorial/UploadJobBookingTutorialFiles`;
 exports.getJobsTutorialByTags = `${apiBaseUrl}v6.1/BookingTutorial/GetJobTutorialByTags`;
 
 exports.tokenPayload = () => {};

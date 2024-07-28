@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import PlayButtonOverlay from "./PlayButtonOverlay";
-import { Button, Container, Modal } from "react-bootstrap";
+import {
+  Accordion,
+  Button,
+  Container,
+  Modal,
+  ToastContainer,
+} from "react-bootstrap";
 import noThumbnail from "../../Assets/images/no_thumbnail.jpg";
 
 import "../../Assets/Css/ThumbnailGrid.css";
@@ -55,19 +61,11 @@ const ThumbnailGrid = ({
             </Container>
           </center>
         )}
-        {!selectedItem && <p>Welcome to InfraByte {videoType} video tutorial. </p>}
+        {!selectedItem && (
+          <p>Welcome to InfraByte {videoType} video tutorial. </p>
+        )}
         {selectedItem && (
           <>
-            {showUpdate && (
-              <a
-                href="/add/video"
-                variant="primary"
-                className="button-container mt-3  "
-              >
-                Update video
-              </a>
-            )}
-
             {yourVideosData && (
               <>
                 <h3 className="mt-5 mb-3">{selectedItem.subCategory}</h3>
@@ -91,7 +89,11 @@ const ThumbnailGrid = ({
                             //   className="thumbnail-image "
                             //   onClick={() => playVideo(thumbnail.filePath)}
                             // />
-                            <video src={thumbnail.filePath} className="thumbnail-image" onClick={() => playVideo(thumbnail.filePath)}></video>
+                            <video
+                              src={thumbnail.filePath}
+                              className="thumbnail-image"
+                              onClick={() => playVideo(thumbnail.filePath)}
+                            ></video>
                           )}
                           <div className="thumbnail-overlay">
                             <a
@@ -113,7 +115,80 @@ const ThumbnailGrid = ({
                 </center>
               </>
             )}
-            {!yourVideosData && (
+            <h3 className="mt-5 mb-3">{selectedItem.category}</h3>
+            <Accordion defaultActiveKey="default">
+              <ToastContainer />
+              {selectedItem.subCategories.map((category) => (
+                <Accordion.Item
+                  eventKey={category.videoTitle ?? ""}
+                  key={category.videoTitle}
+                >
+                  <Accordion.Header
+                    className={
+                      selectedItem != null && selectedItem.category == category
+                        ? "active"
+                        : ""
+                    }
+                    id={category.videoTitle}
+                  >
+                    <div className="d-flex align-items-center justify-content-between w-100">
+                      <h6 className="mt-0 mb-1">{category.videoTitle}</h6>
+                      {showUpdate && (
+                        <a
+                          href="/add/video"
+                          variant="primary"
+                          className="button-container mt-3  "
+                        >
+                          Update video
+                        </a>
+                      )}
+                    </div>
+                  </Accordion.Header>
+                  <Accordion.Body>
+                    {" "}
+                    <h6 className="mt-0 mb-3">{category.description}</h6>
+                    <center>
+                      <div className="thumbnails">
+                        {category.videoTutorials.map((thumbnail, index) => (
+                          <div className="thumbnail-container" key={index}>
+                            <div key={index} className="thumbnail-item">
+                              {thumbnail.thumbnailName != null ? (
+                                <img
+                                  src={thumbnail.thumbnailPath}
+                                  alt={thumbnail.fileName}
+                                  className="thumbnail-image"
+                                  onClick={() => playVideo(thumbnail.filePath)}
+                                />
+                              ) : (
+                                <img
+                                  src={noThumbnail}
+                                  alt="No image"
+                                  className="thumbnail-image "
+                                  onClick={() => playVideo(thumbnail.filePath)}
+                                /> // <video src={thumbnail.filePath} className="thumbnail-image" onClick={() => playVideo(thumbnail.filePath)}></video>
+                              )}
+
+                              <PlayButtonOverlay
+                                onClick={() => playVideo(thumbnail.filePath)}
+                              />
+                            </div>
+                            <h2 className="thumbnail-title">
+                              <span>
+                                <i className="fa fa-video-camera"></i>
+                              </span>
+                              {"  "}
+                              {thumbnail.subTitle}
+                            </h2>
+                          </div>
+                        ))}
+                      </div>
+                    </center>
+                  </Accordion.Body>
+                </Accordion.Item>
+              ))}
+            </Accordion>
+
+            {/* {!yourVideosData && (
               <>
                 <h3 className="mt-5 mb-3">
                   {selectedItem.subCategories[0].subCategory}
@@ -159,7 +234,7 @@ const ThumbnailGrid = ({
                   </div>
                 </center>
               </>
-            )}
+            )} */}
             {/* <Modal show={showModal} onHide={handleClose} size="lg">
             <Modal.Header closeButton>
               <Modal.Title>{selectedItem.title}</Modal.Title>
