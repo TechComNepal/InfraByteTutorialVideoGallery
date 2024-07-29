@@ -229,7 +229,7 @@ const ThumbnailGrid = ({
                             <div key={index} className="thumbnail-item">
                               {thumbnail.thumbnailName != null ? (
                                 <img
-                                  src={thumbnail.thumbnailPath}
+                                  src={`${thumbnail.thumbnailPath}/${thumbnail.thumbnailName}`}
                                   alt={thumbnail.fileName}
                                   className="thumbnail-image w-100"
                                   onClick={() => playVideo(thumbnail.filePath)}

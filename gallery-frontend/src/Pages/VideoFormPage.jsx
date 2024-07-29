@@ -169,7 +169,7 @@ const VideoFormPage = () => {
       return;
     }
 
-      setLoading(true);
+    setLoading(true);
     var token = localStorage.getItem("token");
 
     setValidated(true);
@@ -199,13 +199,10 @@ const VideoFormPage = () => {
     formData.append("SubCategory", subcategory);
     formData.append("Description", description);
     formData.append("VideoType", videoType);
-    formData.append("VideoTitle ", title);
+    formData.append("VideoTitle", title);
     // formData.append("VideoDetails", videoDetail);
     // console.log("video files");
-    videoDetails.forEach((video, index) => {
-      formData.append(`VideoDetails[${index}].Title`, video.title);
-      formData.append(`VideoDetails[${index}].Thumbnail`, video.thumbnailFile);
-    });
+  
     videoDetails.forEach((video, index) => {
       formData.append(`VideoFiles`, video.videoUrl);
       console.log(video.videoUrl);
@@ -331,6 +328,7 @@ const VideoFormPage = () => {
     setSubcategories([]);
     setDescription("");
     setTags([]);
+    setTitle("");
     setVideoDetails([]);
     setVideos([]);
   };
@@ -439,7 +437,7 @@ const VideoFormPage = () => {
                     type="text"
                     placeholder="Video Title"
                     value={title}
-                       required  
+                    required
                     onChange={(e) => setTitle(e.target.value)}
                   />
                   {errors.title && (

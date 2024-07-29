@@ -230,6 +230,7 @@ const VideoFormUpdatePage = () => {
     //   description: description,
     //    fileName: video.name,
     // };
+    var emptyGuid = '00000000-0000-0000-0000-000000000000'
     if (videos.length === 0) {
       setError("Please upload at least one video before submitting.");
       return;
@@ -249,16 +250,35 @@ const VideoFormUpdatePage = () => {
     formData.append("VideoTitle ", title);
     // formData.append("VideoDetails", videoDetail);
     // console.log("video files");
-    videoDetails.forEach((video, index) => {
+
+    var videosReq = [...oldVideoDetails, ...videoDetails];
+    // videoDetails.forEach((video, index) => {
+    //     formData.append(`VideoDetails[${index}].Title`, video.title);
+    //     formData.append(`VideoDetails[${index}].Thumbnail`, video.thumbnailFile);
+    //   });
+    videosReq.forEach((video, index) => {
       formData.append(`VideoDetails[${index}].Title`, video.title);
       formData.append(`VideoDetails[${index}].Thumbnail`, video.thumbnailFile);
-    });
-    videoDetails.forEach((video, index) => {
-      formData.append(`VideoFiles[${index}].TutorialId`, video.id);
-      formData.append(`VideoFiles[${index}].VideoFile`, video.videoUrl);
+      formData.append(
+        `VideoFiles[${index}].TutorialId`,
+        video.type === "online" ? video.id : emptyGuid
+      );
+      formData.append(
+        `VideoFiles[${index}].VideoFile`,
+        video.type === "online" ? null : video.videoUrl
+      );
       console.log(video.videoUrl);
     });
 
+    // videoDetails.forEach((video, index) => {
+    //   formData.append(`VideoFiles[${index}].TutorialId`, null);
+    //   formData.append(`VideoFiles[${index}].VideoFile`, video.videoUrl);
+    //   console.log(video.videoUrl);
+    // });
+
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
     try {
       const response = await axios.post(
         updateJobBookingTutorials.toString(),
@@ -399,6 +419,7 @@ const VideoFormUpdatePage = () => {
     setSubcategories([]);
     setDescription("");
     setTags([]);
+    setTitle("");
     setVideoDetails([]);
     setOldVideoDetails([]);
     setVideos([]);
@@ -712,14 +733,10 @@ const VideoFormUpdatePage = () => {
                               //   src={URL.createObjectURL(video.videoUrl)}
                               src={
                                 video.type === "online"
-                                  ? video.url
+                                  ? video.videoUrl
                                   : URL.createObjectURL(video.videoUrl)
                               }
-                              type={
-                                video.videoUrl != null
-                                  ? video.videoUrl.type
-                                  : "video/mp4"
-                              }
+                              type={"video/mp4"}
                             />
                             Your browser does not support the video tag.
                           </video>
