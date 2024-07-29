@@ -202,10 +202,13 @@ const VideoFormPage = () => {
     formData.append("VideoTitle", title);
     // formData.append("VideoDetails", videoDetail);
     // console.log("video files");
-  
+    videoDetails.forEach((video, index) => {
+      formData.append(`VideoDetails[${index}].Title`, video.title);
+      formData.append(`VideoDetails[${index}].Thumbnail`, video.thumbnailFile);
+    });
     videoDetails.forEach((video, index) => {
       formData.append(`VideoFiles`, video.videoUrl);
-      console.log(video.videoUrl);
+      // console.log(video.videoUrl);
     });
 
     // var videoFiles=[] ;
@@ -335,6 +338,7 @@ const VideoFormPage = () => {
 
   return (
     <>
+      <ToastContainer />
       {loading ? (
         <div className="loading-container">
           <div className="spinner"></div>
@@ -342,7 +346,6 @@ const VideoFormPage = () => {
         </div>
       ) : (
         <Container className="form-container mt-5">
-          <ToastContainer />
           {/* <a
           variant="primary"
           className="button-container  "
