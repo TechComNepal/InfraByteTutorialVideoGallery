@@ -102,6 +102,7 @@ const YourVideoListsPage = () => {
               <ThumbnailGrid
                 selectedItem={selectedItem}
                 // yourVideosData={data}
+                videoType={videoType}
                 handleShow={handleShow}
                 showUpdate={true}
                 selectedCategory={selectedCategory}

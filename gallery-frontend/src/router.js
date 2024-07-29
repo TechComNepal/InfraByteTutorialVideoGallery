@@ -19,6 +19,7 @@ import LogoutCallback from "./Components/LogoutCallback";
 import SearchPage from "./Pages/SearchPage";
 import SelectVideoType from "./Pages/SelectVideoType";
 import { isAuthenticatedUser } from "./services/auth";
+import VideoFormUpdatePage from "./Pages/VideoFormUpdatePage";
 
 const AppRoute = () => {
  
@@ -63,6 +64,16 @@ const AppRoute = () => {
             {" "}
             <Header />
             <VideoFormPage />
+          </>
+        }
+      />
+      <Route
+        path="/edit/video"
+        element={
+          <>
+            {" "}
+            <Header />
+            <VideoFormUpdatePage />
           </>
         }
       />

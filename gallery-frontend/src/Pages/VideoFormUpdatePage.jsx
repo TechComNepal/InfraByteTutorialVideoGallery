@@ -1,32 +1,43 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { category } from "../data/category";
 import "../Assets/Css/Login.css";
-import { oidcConfig, tutorialUpload } from "../config/config";
+import {
+  deleteVideoTutorial,
+  oidcConfig,
+  tutorialUpload,
+  updateJobBookingTutorials,
+} from "../config/config";
 import { toast, ToastContainer } from "react-toastify";
 import { mobileCategory } from "../data/mobile_category";
 
 const VideoFormUpdatePage = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const location = useLocation();
+  const item = location.state;
+
+  const [title, setTitle] = useState(item.subCategories[0].videoTitle);
+  const [description, setDescription] = useState(
+    item.subCategories[0].description
+  );
   const [errors, setErrors] = useState({});
 
   const [validated, setValidated] = useState(false);
 
   const [videos, setVideos] = useState([]);
   const [videoDetails, setVideoDetails] = useState([]);
+  const [oldVideoDetails, setOldVideoDetails] = useState([]);
   // const [videoURLs, setVideoURLs] = useState([]);
   const [error, setError] = useState("");
   // const [tags, setTags] = useState(["how to do job booking", "job booking"]);
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState(item.subCategories[0].tags);
 
   const [inputValue, setInputValue] = useState("");
 
-  const [categorySelected, setCategory] = useState("");
-  const [subcategory, setSubcategory] = useState("");
+  const [categorySelected, setCategory] = useState(item.category);
+  const [subcategory, setSubcategory] = useState(item.subCategory);
   const [subcategories, setSubcategories] = useState([]);
 
   const [videoType, setVideoType] = useState("web");
@@ -85,6 +96,7 @@ const VideoFormUpdatePage = () => {
         videoDetail.push({
           id: i,
           videoUrl: e,
+          type: "offline",
           title: "",
           thumbnail: null,
           thumbnailFile: null,
@@ -95,6 +107,7 @@ const VideoFormUpdatePage = () => {
         videoDetail.push({
           id: i,
           videoUrl: e,
+          type: "offline",
           title: "",
           thumbnail: null,
           thumbnailFile: null,
@@ -114,7 +127,41 @@ const VideoFormUpdatePage = () => {
     // setVideoURLs(videoURLs.filter((_, i) => i !== index));
   };
 
+  const deleteOldSelectedVideos = (index) => {
+    // const updatedVideos = vids
+    const updatedVideos = oldVideoDetails.filter((_, i) => i !== index);
+
+    setOldVideoDetails(updatedVideos);
+
+    // setVideoURLs(videoURLs.filter((_, i) => i !== index));
+  };
+
   let navigate = useNavigate();
+
+  const handleVideoDelete = async (videoId) => {
+    setLoading(true);
+
+    var deleteVideoApi = `${deleteVideoTutorial}/${videoId}`;
+    try {
+      var token = localStorage.getItem("token");
+
+      const response = await axios.delete(deleteVideoApi, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+
+          "Access-Control-Allow-Origin": oidcConfig.hostUrl,
+        },
+      });
+      if (response) {
+        toast.info("Your video is deleted");
+      }
+    } catch (err) {
+      console.error("Delete failed:", err);
+      //   toast.error("Delete failed:", err);
+    }
+    setLoading(false);
+  };
 
   const validateForm = () => {
     let formErrors = {};
@@ -207,34 +254,25 @@ const VideoFormUpdatePage = () => {
       formData.append(`VideoDetails[${index}].Thumbnail`, video.thumbnailFile);
     });
     videoDetails.forEach((video, index) => {
-      formData.append(`VideoFiles`, video.videoUrl);
+      formData.append(`VideoFiles[${index}].TutorialId`, video.id);
+      formData.append(`VideoFiles[${index}].VideoFile`, video.videoUrl);
       console.log(video.videoUrl);
     });
 
-    // var videoFiles=[] ;
-    // videoDetails.forEach((video, index) => {
-    // videoFiles.push(video.videoUrl)
-    // });
-    // formData.append(`VideoFiles`, videoFiles);
-
-    // console.log(videoDetail);
-    // console.log(videoFiles);
-
-    // for (let [key, value] of formData.entries()) {
-    //   console.log(`${key}: ${value}`);
-    // }
-    // console.log(tutorialUpload);
-
     try {
-      const response = await axios.post(tutorialUpload.toString(), formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
+      const response = await axios.post(
+        updateJobBookingTutorials.toString(),
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
 
-          "Access-Control-Allow-Origin": oidcConfig.hostUrl,
-        },
-      });
+            "Access-Control-Allow-Origin": oidcConfig.hostUrl,
+          },
+        }
+      );
       setLoading(false);
       // console.log("Upload successful:", response.data);
       toast.success(`upload success. ${response.data.length} files uploaded.`);
@@ -325,6 +363,36 @@ const VideoFormUpdatePage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const categoryObject = data.find(
+      (cat) => cat.categoryName === categorySelected
+    );
+    var subCat = categoryObject ? categoryObject.subcategories[0]["items"] : [];
+    setSubcategories(subCat);
+  }, []);
+
+  useEffect(() => {
+    var videoDetail = [];
+    var validFiles = item.subCategories[0].videoTutorials;
+    if (videos.length == 0) {
+      validFiles.forEach((e, i) => {
+        videoDetail.push({
+          id: e.id,
+          videoUrl: e.filePath,
+          type: "online",
+          title: e.subTitle,
+          thumbnail: null,
+          thumbnailFile:
+            e.thumbnailName != null
+              ? e.thumbnailPath + "/" + e.thumbnailName
+              : null,
+        });
+      });
+    }
+
+    setOldVideoDetails(videoDetail);
+  }, []);
+
   const resetFormFields = () => {
     setCategory("");
     setSubcategory("");
@@ -332,13 +400,13 @@ const VideoFormUpdatePage = () => {
     setDescription("");
     setTags([]);
     setVideoDetails([]);
+    setOldVideoDetails([]);
     setVideos([]);
   };
 
-  
-
   return (
     <>
+      <ToastContainer />
       {loading ? (
         <div className="loading-container">
           <div className="spinner"></div>
@@ -346,7 +414,6 @@ const VideoFormUpdatePage = () => {
         </div>
       ) : (
         <Container className="form-container mt-5">
-          <ToastContainer />
           {/* <a
           variant="primary"
           className="button-container  "
@@ -410,7 +477,6 @@ const VideoFormUpdatePage = () => {
                     </Form.Control.Feedback>
                   )}
                 </Form.Group>
-
                 <Form.Group className="mt-3">
                   <Form.Label>Select a sub category</Form.Label>
                   <Form.Control
@@ -434,14 +500,13 @@ const VideoFormUpdatePage = () => {
                     </Form.Control.Feedback>
                   )}
                 </Form.Group>
-
                 <Form.Group className="mt-3">
                   <Form.Label>Video Title</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Video Title"
                     value={title}
-                       required  
+                    required
                     onChange={(e) => setTitle(e.target.value)}
                   />
                   {errors.title && (
@@ -450,7 +515,6 @@ const VideoFormUpdatePage = () => {
                     </Form.Control.Feedback>
                   )}
                 </Form.Group>
-
                 <Form.Group className="mt-3">
                   <Form.Label>Description</Form.Label>
                   <Form.Control
@@ -465,7 +529,6 @@ const VideoFormUpdatePage = () => {
                     Please provide a descrition.
                   </Form.Control.Feedback>
                 </Form.Group>
-
                 <Form.Group className="mt-3">
                   <Form.Label>Add tags</Form.Label>
                   <Form.Control
@@ -544,6 +607,7 @@ const VideoFormUpdatePage = () => {
                         <div className="video-container" key={video.id}>
                           <video controls key={video.id}>
                             <source
+                              //   src={URL.createObjectURL(video.videoUrl)}
                               src={URL.createObjectURL(video.videoUrl)}
                               type={
                                 video.videoUrl != null
@@ -611,7 +675,9 @@ const VideoFormUpdatePage = () => {
                           <button
                             type="button"
                             className="button-container mt-3"
-                            onClick={() => deleteSelectedVideos(index)}
+                            onClick={() => {
+                              deleteSelectedVideos(index);
+                            }}
                           >
                             Delete
                           </button>
@@ -619,7 +685,114 @@ const VideoFormUpdatePage = () => {
                       ))}
                   </div>
                 }
+                Old video details
+                {
+                  <div
+                    className="video-preview mt-3"
+                    style={
+                      oldVideoDetails.length == 0 ? { height: "50vh" } : {}
+                    }
+                    ref={listRef}
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    {oldVideoDetails.length == 0 && (
+                      <center className="d-flex justify-content-center flex-column align-item-center w-100">
+                        Video Preview <p>You can select multiple videos</p>
+                      </center>
+                    )}
 
+                    {oldVideoDetails &&
+                      oldVideoDetails.map((video, index) => (
+                        <div className="video-container" key={video.id}>
+                          <video controls key={video.id}>
+                            <source
+                              //   src={URL.createObjectURL(video.videoUrl)}
+                              src={
+                                video.type === "online"
+                                  ? video.url
+                                  : URL.createObjectURL(video.videoUrl)
+                              }
+                              type={
+                                video.videoUrl != null
+                                  ? video.videoUrl.type
+                                  : "video/mp4"
+                              }
+                            />
+                            Your browser does not support the video tag.
+                          </video>
+                          <Form.Group className="mt-3 w-100">
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="Title"
+                              value={video.title}
+                              onChange={(e) => {
+                                oldVideoDetails[index].title = e.target.value;
+                                handleTitleChange(index, e.target.value);
+                                // setoldVideoDetails(oldVideoDetails);
+                              }}
+                              required
+                            />
+                            {/* <img
+                              src={video.thumbnail}
+                              alt={video.title}
+                              width="270"
+                              height="270"
+                            
+                              className="thumbnail"
+                            /> */}
+                            <Form.Group className="mt-3">
+                              <Form.Label>Thumbnail</Form.Label>
+                              <Form.Control
+                                type="file"
+                                placeholder="Upload"
+                                id="thumbnail-upload"
+                                accept="image/jpg"
+                                onChange={(e) => {
+                                  const file = e.target.files[0];
+                                  if (file) {
+                                    const reader = new FileReader();
+
+                                    reader.onloadend = () => {
+                                      oldVideoDetails[index].thumbnail =
+                                        reader.result;
+                                      oldVideoDetails[index].thumbnailFile =
+                                        file;
+
+                                      onThumbnailChange(index, reader.result);
+                                    };
+                                    reader.readAsDataURL(file);
+                                  }
+                                }}
+                              />
+
+                              <Form.Control.Feedback type="invalid">
+                                {error && (
+                                  <div className="error-message">{error}</div>
+                                )}
+                              </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Control.Feedback type="invalid">
+                              Please provide a valid title.
+                            </Form.Control.Feedback>
+                          </Form.Group>
+                          <button
+                            type="button"
+                            className="button-container mt-3"
+                            onClick={() => {
+                              deleteOldSelectedVideos(index);
+                              handleVideoDelete(video.id);
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      ))}
+                  </div>
+                }
                 <div className="container d-flex mt-3">
                   <Button
                     variant="primary"

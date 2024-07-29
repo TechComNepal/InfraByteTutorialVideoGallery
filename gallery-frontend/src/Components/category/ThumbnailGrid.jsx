@@ -11,7 +11,11 @@ import noThumbnail from "../../Assets/images/no_thumbnail.jpg";
 
 import "../../Assets/Css/ThumbnailGrid.css";
 import { deleteOneVideo } from "../../services/video";
-import { deleteVideoTutorial, getJobTutorialsByCategorySubCategoryTitle, oidcConfig } from "../../config/config";
+import {
+  deleteVideoTutorial,
+  getJobTutorialsByCategorySubCategoryTitle,
+  oidcConfig,
+} from "../../config/config";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -31,8 +35,8 @@ const ThumbnailGrid = ({
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
 
   const [loading, setLoading] = useState(false);
+  const [loadingData, setLoadingData] = useState(false);
   const navigate = useNavigate();
-
 
   const playVideo = (url) => {
     setVideoUrl(url);
@@ -74,9 +78,9 @@ const ThumbnailGrid = ({
     }
     setLoading(false);
   };
-  
-  const fetchDataForDelete= async (selectedTitle)=>{
-    setLoading(true);
+
+  const fetchDataForDelete = async (selectedTitle) => {
+    setLoadingData(true);
     var fetchDataForUpdate = `${getJobTutorialsByCategorySubCategoryTitle}`;
     try {
       var token = localStorage.getItem("token");
@@ -84,22 +88,22 @@ const ThumbnailGrid = ({
         category: selectedCategory ?? "Dashboard",
         subCategory: selectedSubCategory,
         videoType: videoType,
-        videoTitle:selectedTitle
+        videoTitle: selectedTitle,
       };
- 
-      const response = await axios.post(fetchDataForUpdate,reqData, {
+
+      const response = await axios.post(fetchDataForUpdate, reqData, {
         headers: getHeaders(),
       });
       if (response) {
+        navigate('/edit/video',{state:response.data});
         toast.info("Your video is fetched");
       }
-      navigate(0);
     } catch (err) {
       console.error("Delete failed:", err);
       toast.error("fetch failed:", err);
     }
-    setLoading(false);
-  }
+    setLoadingData(false);
+  };
 
   return (
     <>
@@ -182,6 +186,11 @@ const ThumbnailGrid = ({
             <h3 className="mt-5 mb-3">{selectedItem.category}</h3>
             <Accordion defaultActiveKey="default">
               <ToastContainer />
+              {loadingData && (
+                <span>
+                  <div className="loading-spinner"></div>
+                </span>
+              )}
               {selectedItem.subCategories.map((category) => (
                 <Accordion.Item
                   eventKey={category.videoTitle ?? ""}
@@ -199,7 +208,9 @@ const ThumbnailGrid = ({
                       <h6 className="mt-0 mb-1">{category.videoTitle}</h6>
                       {showUpdate && (
                         <a
-                          onClick={()=>fetchDataForDelete(category.videoTitle)}
+                          onClick={() =>
+                            fetchDataForDelete(category.videoTitle)
+                          }
                           variant="primary"
                           className="button-container mt-3  "
                         >
