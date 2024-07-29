@@ -21,6 +21,9 @@ const YourVideoListsPage = () => {
   const [data, setData] = useState([]);
   const [videoType, setVideoType] = useState("web");
 
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedSubCategory, setSelectedSubCategory] = useState(null);
+
   useEffect(() => {
     // fetchData();
     setData(category);
@@ -90,6 +93,8 @@ const YourVideoListsPage = () => {
               setSelectedItem={setSelectedItem}
               modalClose={handleClose}
               videoType={videoType}
+              setCategorySelected={setSelectedCategory}
+              setSelectedSubCategory={setSelectedSubCategory}
             />
           </Col>
           <Col md={9}>
@@ -99,15 +104,21 @@ const YourVideoListsPage = () => {
                 // yourVideosData={data}
                 handleShow={handleShow}
                 showUpdate={true}
+                selectedCategory={selectedCategory}
+                selectedSubCategory= {selectedSubCategory}
               />
             </div>
           </Col>
         </Row>
         <RightSideModal show={showModal} handleClose={handleClose}>
           <CategoryAccordion
-            yourVideosData={data}
+            // yourVideosData={data}
+            data={data}
             setSelectedItem={setSelectedItem}
             modalClose={handleClose}
+            videoType={videoType}
+            setCategorySelected={setSelectedCategory}
+            setSelectedSubCategory={setSelectedSubCategory}
           />
         </RightSideModal>
       </Container>

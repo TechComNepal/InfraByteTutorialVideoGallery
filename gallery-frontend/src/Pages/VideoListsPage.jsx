@@ -67,7 +67,7 @@ const VideoListsPage = () => {
           <CategoryAccordion
             data={data}
             setSelectedItem={setSelectedItem}
-            modalClose={handleClose}
+            modalClose={handleClose} videoType={videoType}
           />
         </RightSideModal>
       </Container>

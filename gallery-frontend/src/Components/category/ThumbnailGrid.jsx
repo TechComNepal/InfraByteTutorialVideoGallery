@@ -10,6 +10,12 @@ import {
 import noThumbnail from "../../Assets/images/no_thumbnail.jpg";
 
 import "../../Assets/Css/ThumbnailGrid.css";
+import { deleteOneVideo } from "../../services/video";
+import { deleteVideoTutorial, getJobTutorialsByCategorySubCategoryTitle, oidcConfig } from "../../config/config";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { getHeaders } from "../../services/auth";
 
 const ThumbnailGrid = ({
   selectedItem,
@@ -17,10 +23,16 @@ const ThumbnailGrid = ({
   handleShow,
   showUpdate,
   videoType,
+  selectedCategory,
+  selectedSubCategory,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [videoUrl, setVideoUrl] = useState("");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
+
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
 
   const playVideo = (url) => {
     setVideoUrl(url);
@@ -36,6 +48,58 @@ const ThumbnailGrid = ({
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const handleVideoDelete = async (videoId) => {
+    setLoading(true);
+
+    var deleteVideoApi = `${deleteVideoTutorial}/${videoId}`;
+    try {
+      var token = localStorage.getItem("token");
+
+      const response = await axios.delete(deleteVideoApi, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+
+          "Access-Control-Allow-Origin": oidcConfig.hostUrl,
+        },
+      });
+      if (response) {
+        toast.info("Your video is deleted");
+      }
+      navigate(0);
+    } catch (err) {
+      console.error("Delete failed:", err);
+      toast.error("Delete failed:", err);
+    }
+    setLoading(false);
+  };
+  
+  const fetchDataForDelete= async (selectedTitle)=>{
+    setLoading(true);
+    var fetchDataForUpdate = `${getJobTutorialsByCategorySubCategoryTitle}`;
+    try {
+      var token = localStorage.getItem("token");
+      var reqData = {
+        category: selectedCategory ?? "Dashboard",
+        subCategory: selectedSubCategory,
+        videoType: videoType,
+        videoTitle:selectedTitle
+      };
+ 
+      const response = await axios.post(fetchDataForUpdate,reqData, {
+        headers: getHeaders(),
+      });
+      if (response) {
+        toast.info("Your video is fetched");
+      }
+      navigate(0);
+    } catch (err) {
+      console.error("Delete failed:", err);
+      toast.error("fetch failed:", err);
+    }
+    setLoading(false);
+  }
 
   return (
     <>
@@ -135,7 +199,7 @@ const ThumbnailGrid = ({
                       <h6 className="mt-0 mb-1">{category.videoTitle}</h6>
                       {showUpdate && (
                         <a
-                          href="/add/video"
+                          onClick={()=>fetchDataForDelete(category.videoTitle)}
                           variant="primary"
                           className="button-container mt-3  "
                         >
@@ -171,6 +235,26 @@ const ThumbnailGrid = ({
                               <PlayButtonOverlay
                                 onClick={() => playVideo(thumbnail.filePath)}
                               />
+                              <div className="thumbnail-overlay">
+                                {showUpdate && (
+                                  <>
+                                    <a
+                                      onClick={() =>
+                                        handleVideoDelete(thumbnail.id)
+                                      }
+                                      variant="primary"
+                                      className="mt-3 btn  btn-danger"
+                                    >
+                                      Delete
+                                    </a>
+                                    {loading && (
+                                      <span>
+                                        <div className="loading-spinner"></div>
+                                      </span>
+                                    )}
+                                  </>
+                                )}
+                              </div>
                             </div>
                             <h2 className="thumbnail-title">
                               <span>

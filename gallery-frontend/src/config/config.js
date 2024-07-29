@@ -31,7 +31,9 @@ exports.getAuthorizationUrl = `${authority}/connect/authorize`;
 
 exports.getAllJobTutorials =`${apiBaseUrl}v6/BookingTutorial/GetAllJobTutorials` 
 exports.getJobTutorialsByCategorySubCategory =`${apiBaseUrl}v6/BookingTutorial/GetJobTutorialsByCategorySubCategory`
-exports.getJobTutorialsByCategorySubCategoryTitle =`${apiBaseUrl}v6/BookingTutorial/GetJobTutorialsByCategorySubCategoryTitle`
+exports.getJobTutorialsByCategorySubCategoryTitle =`${apiBaseUrl}v6/BookingTutorial/GetJobTutorialsByCategorySubCategoryTitle` //fetch data for update
+exports.deleteVideoTutorial =`${apiBaseUrl}v6/BookingTutorial/DeleteTutorial`
+
 exports.tutorialUpload = `${apiBaseUrl}v6.1/BookingTutorial/UploadJobBookingTutorialFiles`;
 exports.getJobsTutorialByTags = `${apiBaseUrl}v6.1/BookingTutorial/GetJobTutorialByTags`;
 

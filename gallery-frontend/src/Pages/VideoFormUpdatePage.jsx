@@ -9,7 +9,7 @@ import { oidcConfig, tutorialUpload } from "../config/config";
 import { toast, ToastContainer } from "react-toastify";
 import { mobileCategory } from "../data/mobile_category";
 
-const VideoFormPage = () => {
+const VideoFormUpdatePage = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState({});
@@ -169,7 +169,7 @@ const VideoFormPage = () => {
       return;
     }
 
-      setLoading(true);
+    setLoading(true);
     var token = localStorage.getItem("token");
 
     setValidated(true);
@@ -334,6 +334,8 @@ const VideoFormPage = () => {
     setVideoDetails([]);
     setVideos([]);
   };
+
+  
 
   return (
     <>
@@ -648,4 +650,4 @@ const VideoFormPage = () => {
   );
 };
 
-export default VideoFormPage;
+export default VideoFormUpdatePage;

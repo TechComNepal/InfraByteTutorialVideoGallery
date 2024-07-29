@@ -11,6 +11,8 @@ const CategoryAccordion = ({
   data,
   yourVideosData,
   setSelectedItem,
+  setCategorySelected,
+  setSelectedSubCategory,
   modalClose,
   videoType,
 }) => {
@@ -144,6 +146,9 @@ const CategoryAccordion = ({
             id={category.categoryName}
             onClick={(e) => {
               setSelectedCategory(e.target.textContent);
+              if (setCategorySelected != null) {
+                setCategorySelected(e.target.textContent);
+              }
             }}
           >
             {category.categoryName}
@@ -156,7 +161,13 @@ const CategoryAccordion = ({
                   {subcategory.items.map((item) => (
                     <li
                       key={item.id}
-                      onClick={() => handleSelect(item.id)}
+                      onClick={() => {
+                        handleSelect(item.id);
+                        if (setSelectedSubCategory != null) {
+                          setSelectedSubCategory(item.title);
+                        }
+                      
+                      }}
                       className={
                         selectedItem != null && selectedItem.id == item.id
                           ? "active"
