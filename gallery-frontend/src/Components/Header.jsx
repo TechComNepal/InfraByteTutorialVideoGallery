@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Form, Button } from "react-bootstrap";
 import logo from "../Assets/images/nonon.png";
-import { redirect, useNavigate } from "react-router-dom";
-import { getHeaders, isAuthenticated, isAuthenticatedUser } from "../services/auth";
+import { Link, redirect, useNavigate } from "react-router-dom";
+import {
+  getHeaders,
+  isAuthenticated,
+  isAuthenticatedUser,
+} from "../services/auth";
 import UserDropdown from "./UserDropdown";
 // import { useAuth } from "oidc-react";
 import { jwtDecode } from "jwt-decode";
@@ -103,11 +107,11 @@ function Header() {
       // navigate("/callback", { replace: true });
     }
   }, []);
- useEffect(() => {
+  useEffect(() => {
     if (!isAuthenticatedUser()) {
-    window.location.href = "/";
-  }
-  },[]);
+      window.location.href = "/";
+    }
+  }, []);
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!searchKeyword) {
@@ -116,22 +120,21 @@ function Header() {
     }
     setLoading(true);
 
-        try {
-          
-          setLoading(false);
-          window.location.href =`/search-result/${searchKeyword}`;
-          // navigate(`/search-result/${searchKeyword}`);
-        } catch (err) {
-          // console.error("fetch failed:", err);
-          toast.info("Error fetching data: "+ err.message );
-          setLoading(false);
-        }
+    try {
+      setLoading(false);
+      window.location.href = `/search-result/${searchKeyword}`;
+      // navigate(`/search-result/${searchKeyword}`);
+    } catch (err) {
+      // console.error("fetch failed:", err);
+      toast.info("Error fetching data: " + err.message);
+      setLoading(false);
+    }
   };
 
   return (
     <div className="nav-bottom">
       <Navbar bg="white" variant="#201f41" className="container" expand="lg">
-        <Navbar.Brand href="/videos">
+        <Navbar.Brand as={Link} to="/videos">
           <img src={logo} alt="logo" width="100" hight="100" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -143,8 +146,19 @@ function Header() {
               courses
             </Nav.Link>
           </Nav> */}
+          <Nav className="mx-auto navbar-item">
+            <Nav.Link as={Link} to="/videos">
+              Home
+            </Nav.Link>
+            <Nav.Link as={Link} to="/videos/web">
+              Web
+            </Nav.Link>
+            <Nav.Link as={Link} to="/videos/mobile">
+              Mobile
+            </Nav.Link>
+          </Nav>
           <Form
-            className="d-flex justify-content-end w-100 mt-2 mb-2"
+            className="d-flex justify-content-end mt-2 mb-2"
             noValidate
             onSubmit={handleSubmit}
           >
@@ -165,15 +179,7 @@ function Header() {
               </span>
             )}
           </Form>
-          {/* <a
-        
-        onClick={() => {
-          navigate("/add/video");
-         
-        }}
-      >
-        Upload a video
-      </a> */}
+
           <UserDropdown username={username} onLogout={handleLogout} />
         </Navbar.Collapse>
       </Navbar>
