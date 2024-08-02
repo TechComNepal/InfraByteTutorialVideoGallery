@@ -57,7 +57,7 @@ const YourVideoListsPage = () => {
 
   return (
     <>
-      <Container className="mt-5 mb-5" style={{ minHeight: "100vh" }}>
+      <div className="mt-5 mb-5 container-fluid" style={{ minHeight: "100vh" }}>
         {/* <a
           href="/add/video"
           variant="primary"
@@ -122,7 +122,7 @@ const YourVideoListsPage = () => {
             setSelectedSubCategory={setSelectedSubCategory}
           />
         </RightSideModal>
-      </Container>
+      </div>
     </>
   );
 };

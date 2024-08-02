@@ -40,7 +40,7 @@ const VideoListsPage = () => {
   };
   return (
     <>
-      <Container className="mt-5 mb-5" style={{ minHeight: "100vh" }}>
+      <div className="mt-5 mb-5 container-fluid" style={{ minHeight: "100vh" }}>
         <Row>
           <Col md={3} className="hide-container">
             <CategoryAccordion
@@ -70,7 +70,7 @@ const VideoListsPage = () => {
             modalClose={handleClose} videoType={videoType}
           />
         </RightSideModal>
-      </Container>
+      </div>
     </>
   );
 };
