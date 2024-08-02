@@ -150,10 +150,10 @@ function Header() {
             <Nav.Link as={Link} to="/videos">
               Home
             </Nav.Link>
-            <Nav.Link as={Link} to="/videos/web">
+            <Nav.Link href="/videos/web">
               Web
             </Nav.Link>
-            <Nav.Link as={Link} to="/videos/mobile">
+            <Nav.Link href="/videos/mobile">
               Mobile
             </Nav.Link>
           </Nav>

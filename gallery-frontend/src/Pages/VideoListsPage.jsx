@@ -12,6 +12,8 @@ import { getAllJobTutorials } from "../config/config";
 import { getHeaders } from "../services/auth";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import noThumbnail from "../Assets/images/no_thumbnail.jpg";
+import PlayButtonOverlay from "../Components/category/PlayButtonOverlay";
 
 const VideoListsPage = () => {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -38,6 +40,8 @@ const VideoListsPage = () => {
       toast.info(err.message);
     }
   };
+
+
   return (
     <>
       <div className="mt-5 mb-5 container-fluid" style={{ minHeight: "100vh" }}>
@@ -63,6 +67,28 @@ const VideoListsPage = () => {
           </Col>
         </Row>
 
+  
+        {/* <div className="thumbnail-container" key={1}>
+                    <div key={1} className="thumbnail-item">
+                      <img
+                        src={noThumbnail}
+                        alt="No image"
+                        className="thumbnail-image "
+                        
+                      />
+
+                      <PlayButtonOverlay />
+                      <div className="thumbnail-overlay">
+                       
+                      </div>
+                    </div>
+                    <h2 className="thumbnail-title">
+                      <span>
+                        <i className="fa fa-video-camera"></i>
+                      </span>
+                     sdfsdafdfasdfasdfasdfasd fsadf asdf asdfa sdfas dfsad f
+                    </h2>
+                  </div> */}
         <RightSideModal show={showModal} handleClose={handleClose}>
           <CategoryAccordion
             data={data}

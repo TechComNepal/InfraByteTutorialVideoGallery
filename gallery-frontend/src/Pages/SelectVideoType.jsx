@@ -23,11 +23,13 @@ function SelectVideoType() {
     }
   };
   const openWebVideos = async () => {
-    window.location.href = `/videos/web`;
+    navigate(`/videos/web`);
   };
 
   const openMobileVideos = async () => {
-    window.location.href = `/videos/mobile`;
+    navigate(`/videos/mobile`);
+
+    // window.location.href = `/videos/mobile`;
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -52,9 +54,9 @@ function SelectVideoType() {
   });
   useEffect(() => {
     if (!isAuthenticatedUser()) {
-    window.location.href = "/";
-  }
-  },[]);
+      window.location.href = "/";
+    }
+  }, []);
   return (
     <div className="home-container ">
       <div className="home-page home-bg-container">
@@ -92,18 +94,21 @@ function SelectVideoType() {
                   </span>
                 )}
               </Form>
-              <h1 className="heading2 mt-3 mb-3">Watch video about InfraByte web or mobile.</h1>
+              <h1 className="heading2 mt-3 mb-3">
+                Watch video about InfraByte web or mobile.
+              </h1>
               <button
                 className="button-container  mx-0"
                 onClick={openWebVideos}
               >
-                <i className="fas fa-globe"></i> {"  " }
+                <i className="fas fa-globe"></i> {"  "}
                 Web
               </button>
-              <button   
+              <button
                 className="button-container  mx-3"
                 onClick={openMobileVideos}
-              ><i className="fa fa-mobile"></i> {"  " }
+              >
+                <i className="fa fa-mobile"></i> {"  "}
                 Mobile
               </button>
             </div>

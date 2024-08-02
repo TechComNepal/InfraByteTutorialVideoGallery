@@ -95,7 +95,7 @@ const ThumbnailGrid = ({
         headers: getHeaders(),
       });
       if (response) {
-        navigate('/edit/video',{state:response.data});
+        navigate("/edit/video", { state: response.data });
         toast.info("Your video is fetched");
       }
     } catch (err) {
@@ -183,6 +183,7 @@ const ThumbnailGrid = ({
                 </center>
               </>
             )}
+
             <h3 className="mt-5 mb-3">{selectedItem.category}</h3>
             <Accordion defaultActiveKey="default">
               <ToastContainer />
@@ -219,10 +220,58 @@ const ThumbnailGrid = ({
                       )}
                     </div>
                   </Accordion.Header>
+
                   <Accordion.Body>
-                    {" "}
+                  
                     <h6 className="mt-0 mb-3">{category.description}</h6>
-                    <center>
+                    <div className="video-list w-100">
+                      {category.videoTutorials.map((thumbnail, index) => (
+                        <div key={index} className="video-item" onClick={() => playVideo(thumbnail.filePath)}>
+                          
+                          {thumbnail.thumbnailName != null ? (
+                                <img
+                                  src={`${thumbnail.thumbnailPath}/${thumbnail.thumbnailName}`}
+                                  alt={thumbnail.fileName}
+                                  className="thumbnail"
+                                  // onClick={() => playVideo(thumbnail.filePath)}
+                                />
+                              ) : (
+                                <img
+                                  src={noThumbnail}
+                                  alt="No image"
+                                  className="thumbnail "
+                                  // onClick={() => playVideo(thumbnail.filePath)}
+                                /> // <video src={thumbnail.filePath} className="thumbnail-image" onClick={() => playVideo(thumbnail.filePath)}></video>
+                              )}
+                           <div className="thumbnail-overlay">
+                                {showUpdate && (
+                                  <>
+                                    <a
+                                      onClick={() =>
+                                        handleVideoDelete(thumbnail.id)
+                                      }
+                                      variant="primary"
+                                      className="mt-3 btn  btn-danger"
+                                      rel="noopener noreferrer"
+                                    >
+                                      Delete
+                                    </a>
+                                    {loading && (
+                                      <span>
+                                        <div className="loading-spinner"></div>
+                                      </span>
+                                    )}
+                                  </>
+                                )}
+                              </div>
+                          <div className="video-details">
+                            <h2>{thumbnail.subTitle}</h2>
+                            <p>{}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    {/* <center>
                       <div className="thumbnails ">
                         {category.videoTutorials.map((thumbnail, index) => (
                           <div className="thumbnail-container" key={index}>
@@ -255,6 +304,7 @@ const ThumbnailGrid = ({
                                       }
                                       variant="primary"
                                       className="mt-3 btn  btn-danger"
+                                      rel="noopener noreferrer"
                                     >
                                       Delete
                                     </a>
@@ -277,7 +327,7 @@ const ThumbnailGrid = ({
                           </div>
                         ))}
                       </div>
-                    </center>
+                    </center> */}
                   </Accordion.Body>
                 </Accordion.Item>
               ))}
