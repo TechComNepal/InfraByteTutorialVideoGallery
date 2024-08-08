@@ -12,7 +12,7 @@ const UserDropdown = ({ username, onLogout }) => {
   useEffect(() => {
     const role = localStorage.getItem("role");
 
-    if (role == 'true') {
+    if (role == "true" && process.env.REACT_APP_ENVIRONMENT != "production") {
       setRoleAdmin(true);
     } else {
     }
@@ -46,7 +46,7 @@ const UserDropdown = ({ username, onLogout }) => {
             </Dropdown.Item>
           </>
         )}
-        <Dropdown.Item onClick={onLogout}>Logout</Dropdown.Item> 
+        <Dropdown.Item onClick={onLogout}>Logout</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
