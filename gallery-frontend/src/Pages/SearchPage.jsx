@@ -58,7 +58,9 @@ const SearchPage = () => {
     }
   };
   return (
-    <div className={`container thumbnail-grid ${isMobile ? "mobile-list" : ""}`}>
+    <div
+      className={`container thumbnail-grid ${isMobile ? "mobile-list" : ""}`}
+    >
       <div className="video-player mt-2">
         <video controls autoPlay key={videoUrl}>
           <source src={videoUrl} type="video/mp4" />
@@ -76,36 +78,33 @@ const SearchPage = () => {
           <>
             <div className="thumbnails mt-3 ">
               {data.map((thumbnail, index) => (
-                <div className="thumbnail-container" key={index}>
-                  <div key={index} className="thumbnail-item">
-                    {thumbnail.thumbnailName != null ? (
-                      <img
-                        src={`${thumbnail.storageUrl}/${thumbnail.thumbnailPath}`}
-                        alt={thumbnail.fileName}
-                        className="thumbnail-image "
-                        onClick={() => playVideo(thumbnail.filePath)}
-                      />
-                    ) : (
-                      <img
-                        src={noThumbnail}
-                        alt="No image"
-                        className="thumbnail-image "
-                        onClick={() => playVideo(thumbnail.filePath)}
-                      />
-                      // <video src={thumbnail.filePath} className="thumbnail-image" onClick={() => playVideo(thumbnail.filePath)}></video>
-                    )}
-
-                    <PlayButtonOverlay
-                      onClick={() => playVideo(thumbnail.filePath)}
+                <div
+                  key={index}
+                  className="video-item"
+                  onClick={() => playVideo(thumbnail.filePath)}
+                >
+                  {thumbnail.thumbnailName != null ? (
+                    <img
+                      src={`${thumbnail.thumbnailPath}/${thumbnail.thumbnailName}`}
+                      alt={thumbnail.fileName}
+                      className="thumbnail"
+                      // onClick={() => playVideo(thumbnail.filePath)}
                     />
+                  ) : (
+                    <img
+                      src={noThumbnail}
+                      alt="No image"
+                      className="thumbnail "
+                      // onClick={() => playVideo(thumbnail.filePath)}
+                    /> // <video src={thumbnail.filePath} className="thumbnail-image" onClick={() => playVideo(thumbnail.filePath)}></video>
+                  )}
+                  <div className="thumbnail-overlay">
+                    
                   </div>
-                  <h2 className="thumbnail-title">
-                    {" "}
-                    <span>
-                      <i className="fa fa-play-circle"></i>
-                    </span>{" "}
-                    {thumbnail.title}
-                  </h2>
+                  <div className="video-details">
+                    <h2>{thumbnail.subTitle}</h2>
+                    <p>{}</p>
+                  </div>
                 </div>
               ))}
             </div>

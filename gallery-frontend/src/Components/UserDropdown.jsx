@@ -12,7 +12,10 @@ const UserDropdown = ({ username, onLogout }) => {
   useEffect(() => {
     const role = localStorage.getItem("role");
 
-    if (role == "true" && process.env.REACT_APP_ENVIRONMENT != "production") {
+    if (role == "true" 
+      // && process.env.REACT_APP_ENVIRONMENT != "production" 
+      // commented for production
+    ) {
       setRoleAdmin(true);
     } else {
     }
