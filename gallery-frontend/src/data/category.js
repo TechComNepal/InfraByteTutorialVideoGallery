@@ -646,7 +646,7 @@ export const category = [
                 title: "Thumbnail 7",
                 url: "https://via.placeholder.com/150",
               },
-            ],  
+            ],
           },
           {
             id: 43,
@@ -654,6 +654,76 @@ export const category = [
             thumbnails: [
               {
                 title: "Thumbnail 7",
+                url: "https://via.placeholder.com/150",
+              },
+            ],
+          },
+          {
+            id: 44,
+            title: "Account Manager",
+            thumbnails: [
+              {
+                title: "Thumbnail 7",
+                url: "https://via.placeholder.com/150",
+              },
+              {
+                title: "Thumbnail 8",
+                url: "https://via.placeholder.com/150",
+              },
+            ],
+          },
+          {
+            id: 45,
+            title: "Change Logs",
+            thumbnails: [
+              {
+                title: "Thumbnail 7",
+                url: "https://via.placeholder.com/150",
+              },
+              {
+                title: "Thumbnail 8",
+                url: "https://via.placeholder.com/150",
+              },
+            ],
+          },
+          {
+            id: 46,
+            title: "RedBook Car Makes",
+            thumbnails: [
+              {
+                title: "Thumbnail 7",
+                url: "https://via.placeholder.com/150",
+              },
+              {
+                title: "Thumbnail 8",
+                url: "https://via.placeholder.com/150",
+              },
+            ],
+          },
+          {
+            id: 47,
+            title: "Car Parts List",
+            thumbnails: [
+              {
+                title: "Thumbnail 7",
+                url: "https://via.placeholder.com/150",
+              },
+              {
+                title: "Thumbnail 8",
+                url: "https://via.placeholder.com/150",
+              },
+            ],
+          },
+          {
+            id: 48,
+            title: "Car Pricing Setting",
+            thumbnails: [
+              {
+                title: "Thumbnail 7",
+                url: "https://via.placeholder.com/150",
+              },
+              {
+                title: "Thumbnail 8",
                 url: "https://via.placeholder.com/150",
               },
             ],
