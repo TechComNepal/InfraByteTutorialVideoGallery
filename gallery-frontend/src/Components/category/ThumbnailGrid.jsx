@@ -5,7 +5,7 @@ import {
   Button,
   Container,
   Modal,
-  ToastContainer,
+
 } from "react-bootstrap";
 import noThumbnail from "../../Assets/images/no_thumbnail.jpg";
 
@@ -17,7 +17,7 @@ import {
   oidcConfig,
 } from "../../config/config";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast,ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { getHeaders } from "../../services/auth";
 
@@ -38,8 +38,9 @@ const ThumbnailGrid = ({
   const [loadingData, setLoadingData] = useState(false);
   const navigate = useNavigate();
 
-  const playVideo = (url) => {
+  const playVideo = (url, fileName) => {
     setVideoUrl(url);
+    toast.info(`Now Playing: ${fileName}`)
   };
 
   useEffect(() => {
@@ -148,7 +149,7 @@ const ThumbnailGrid = ({
                               src={thumbnail.thumbnailPath}
                               alt={thumbnail.fileName}
                               className="thumbnail-image "
-                              onClick={() => playVideo(thumbnail.filePath)}
+                              onClick={() => playVideo(thumbnail.filePath,thumbnail.title)}
                             />
                           ) : (
                             // <img
@@ -160,7 +161,7 @@ const ThumbnailGrid = ({
                             <video
                               src={thumbnail.filePath}
                               className="thumbnail-image"
-                              onClick={() => playVideo(thumbnail.filePath)}
+                              onClick={() => playVideo(thumbnail.filePath,thumbnail.title)}
                             ></video>
                           )}
                           <div className="thumbnail-overlay">
@@ -173,7 +174,7 @@ const ThumbnailGrid = ({
                             </a>
                           </div>
                           <PlayButtonOverlay
-                            onClick={() => playVideo(thumbnail.filePath)}
+                            onClick={() =>playVideo(thumbnail.filePath,thumbnail.title)}
                           />
                         </div>
                         <h2 className="thumbnail-title">{thumbnail.title}</h2>
@@ -222,51 +223,54 @@ const ThumbnailGrid = ({
                   </Accordion.Header>
 
                   <Accordion.Body>
-                  
                     <h6 className="mt-0 mb-3">{category.description}</h6>
                     <div className="video-list w-100">
                       {category.videoTutorials.map((thumbnail, index) => (
-                        <div key={index} className="video-item" onClick={() => playVideo(thumbnail.filePath)}>
-                          
+                        <div
+                          key={index}
+                          className="video-item"
+                          onClick={() => playVideo(thumbnail.filePath,thumbnail.subTitle)}
+                        >
                           {thumbnail.thumbnailName != null ? (
-                                <img
-                                  src={`${thumbnail.thumbnailPath}/${thumbnail.thumbnailName}`}
-                                  alt={thumbnail.fileName}
-                                  className="thumbnail"
-                                  // onClick={() => playVideo(thumbnail.filePath)}
-                                />
-                              ) : (
-                                <img
-                                  src={noThumbnail}
-                                  alt="No image"
-                                  className="thumbnail "
-                                  // onClick={() => playVideo(thumbnail.filePath)}
-                                /> // <video src={thumbnail.filePath} className="thumbnail-image" onClick={() => playVideo(thumbnail.filePath)}></video>
-                              )}
-                           <div className="thumbnail-overlay">
-                                {showUpdate && (
-                                  <>
-                                    <a
-                                      onClick={() =>
-                                        handleVideoDelete(thumbnail.id)
-                                      }
-                                      variant="primary"
-                                      className="mt-3 btn  btn-danger"
-                                      rel="noopener noreferrer"
-                                    >
-                                      Delete
-                                    </a>
-                                    {loading && (
-                                      <span>
-                                        <div className="loading-spinner"></div>
-                                      </span>
-                                    )}
-                                  </>
+                            <img
+                              src={`${thumbnail.thumbnailPath}/${thumbnail.thumbnailName}`}
+                              alt={thumbnail.fileName}
+                              className="thumbnail"
+                              // onClick={() => playVideo(thumbnail.filePath)}
+                            />
+                          ) : (
+                            <img
+                              src={noThumbnail}
+                              alt="No image"
+                              className="thumbnail "
+                              // onClick={() => playVideo(thumbnail.filePath)}
+                            /> // <video src={thumbnail.filePath} className="thumbnail-image" onClick={() => playVideo(thumbnail.filePath)}></video>
+                          )}
+                          <div className="thumbnail-overlay">
+                            {showUpdate && (
+                              <>
+                                <a
+                                  onClick={() =>
+                                    handleVideoDelete(thumbnail.id)
+                                  }
+                                  variant="primary"
+                                  className="mt-3 btn  btn-danger"
+                                  rel="noopener noreferrer"
+                                >
+                                  Delete
+                                </a>
+                                {loading && (
+                                  <span>
+                                    <div className="loading-spinner"></div>
+                                  </span>
                                 )}
-                              </div>
+                              </>
+                            )}
+                          </div>
                           <div className="video-details">
                             <h2>{thumbnail.subTitle}</h2>
-                            <p>{}</p>
+                            {/* <p>{}</p> */}
+                            <div className="new-container">New</div>
                           </div>
                         </div>
                       ))}

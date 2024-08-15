@@ -98,12 +98,10 @@ const SearchPage = () => {
                       // onClick={() => playVideo(thumbnail.filePath)}
                     /> // <video src={thumbnail.filePath} className="thumbnail-image" onClick={() => playVideo(thumbnail.filePath)}></video>
                   )}
-                  <div className="thumbnail-overlay">
-                    
-                  </div>
+                  <div className="thumbnail-overlay"></div>
                   <div className="video-details">
                     <h2>{thumbnail.subTitle}</h2>
-                    <p>{}</p>
+                    <div className="new-container">New</div>
                   </div>
                 </div>
               ))}

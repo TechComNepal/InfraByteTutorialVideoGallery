@@ -66,29 +66,27 @@ const VideoListsPage = () => {
             </div>
           </Col>
         </Row>
-
+        <div key={1} className="video-item" onClick={() => {}}>
+                          
+                          
+                                <img
+                                  src={noThumbnail}
+                                  alt="No image"
+                                  className="thumbnail "
+                                  // onClick={() => playVideo(thumbnail.filePath)}
+                                />  
+                          
+                          
+                          <div className="video-details">
+                            <h2>{'sdafsdafasdfasdf'}</h2>
+                            <div className="new-container">
+                            
+                            New
+                            </div> 
+                          </div>
+                        </div>
   
-        {/* <div className="thumbnail-container" key={1}>
-                    <div key={1} className="thumbnail-item">
-                      <img
-                        src={noThumbnail}
-                        alt="No image"
-                        className="thumbnail-image "
-                        
-                      />
-
-                      <PlayButtonOverlay />
-                      <div className="thumbnail-overlay">
-                       
-                      </div>
-                    </div>
-                    <h2 className="thumbnail-title">
-                      <span>
-                        <i className="fa fa-video-camera"></i>
-                      </span>
-                     sdfsdafdfasdfasdfasdfasd fsadf asdf asdfa sdfas dfsad f
-                    </h2>
-                  </div> */}
+        
         <RightSideModal show={showModal} handleClose={handleClose}>
           <CategoryAccordion
             data={data}

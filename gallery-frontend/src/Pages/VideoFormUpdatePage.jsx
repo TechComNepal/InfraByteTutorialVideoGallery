@@ -25,6 +25,7 @@ const VideoFormUpdatePage = () => {
   const [errors, setErrors] = useState({});
 
   const [validated, setValidated] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(false);
 
   const [videos, setVideos] = useState([]);
   const [videoDetails, setVideoDetails] = useState([]);
@@ -99,7 +100,7 @@ const VideoFormUpdatePage = () => {
           type: "offline",
           title: "",
           thumbnail: null,
-          thumbnailFile: null,
+          thumbnailFile: null,          isPrivate: false,
         });
       });
     } else {
@@ -110,7 +111,7 @@ const VideoFormUpdatePage = () => {
           type: "offline",
           title: "",
           thumbnail: null,
-          thumbnailFile: null,
+          thumbnailFile: null,          isPrivate: false,
         });
       });
     }
@@ -248,6 +249,7 @@ const VideoFormUpdatePage = () => {
     formData.append("Description", description);
     formData.append("VideoType", videoType);
     formData.append("VideoTitle ", title);
+
     // formData.append("VideoDetails", videoDetail);
     // console.log("video files");
 
@@ -259,6 +261,8 @@ const VideoFormUpdatePage = () => {
     videosReq.forEach((video, index) => {
       formData.append(`VideoDetails[${index}].Title`, video.title);
       formData.append(`VideoDetails[${index}].Thumbnail`, video.thumbnailFile);
+      formData.append(`VideoDetails[${index}].IsPrivate`, video.isPrivate);
+
       formData.append(
         `VideoFiles[${index}].TutorialId`,
         video.type === "online" ? video.id : emptyGuid
@@ -343,6 +347,14 @@ const VideoFormUpdatePage = () => {
     );
     setVideos(updatedVideos);
   };
+
+  const handleIsPrivateChange = (index, newIsPrivate) => {
+    const updatedVideos = videoDetails.map((video, i) =>
+      i === index ? { ...video, isPrivate: newIsPrivate } : video
+    );
+    setVideos(updatedVideos);
+  };
+
 
   const onThumbnailChange = (index, newThumbnail) => {
     const updatedVideos = videoDetails.map((video, i) =>
@@ -651,14 +663,19 @@ const VideoFormUpdatePage = () => {
                               }}
                               required
                             />
-                            {/* <img
-                              src={video.thumbnail}
-                              alt={video.title}
-                              width="270"
-                              height="270"
-                            
-                              className="thumbnail"
-                            /> */}
+                            <Form.Group className="mt-3">
+                              <Form.Label>Is Private?</Form.Label>
+                              <Form.Check
+                                type={"checkbox"}
+                                id={`isPrivate`}
+                                label={`isPrivate`}
+                                value={isPrivate}
+                                onChange={(event) => {
+                                  setIsPrivate(event.target.checked);
+                                  handleIsPrivateChange(index, !isPrivate);
+                                }}
+                              />
+                            </Form.Group>
                             <Form.Group className="mt-3">
                               <Form.Label>Thumbnail</Form.Label>
                               <Form.Control

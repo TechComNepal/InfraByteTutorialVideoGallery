@@ -16,6 +16,8 @@ const VideoFormPage = () => {
 
   const [validated, setValidated] = useState(false);
 
+  const [isPrivate, setIsPrivate] = useState(false);
+
   const [videos, setVideos] = useState([]);
   const [videoDetails, setVideoDetails] = useState([]);
   // const [videoURLs, setVideoURLs] = useState([]);
@@ -38,6 +40,7 @@ const VideoFormPage = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+
   const listRef = useRef(null);
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -88,6 +91,7 @@ const VideoFormPage = () => {
           title: "",
           thumbnail: null,
           thumbnailFile: null,
+          isPrivate: false,
         });
       });
     } else {
@@ -98,6 +102,7 @@ const VideoFormPage = () => {
           title: "",
           thumbnail: null,
           thumbnailFile: null,
+          isPrivate: false,
         });
       });
     }
@@ -200,11 +205,14 @@ const VideoFormPage = () => {
     formData.append("Description", description);
     formData.append("VideoType", videoType);
     formData.append("VideoTitle", title);
+   
+
     // formData.append("VideoDetails", videoDetail);
     // console.log("video files");
     videoDetails.forEach((video, index) => {
       formData.append(`VideoDetails[${index}].Title`, video.title);
       formData.append(`VideoDetails[${index}].Thumbnail`, video.thumbnailFile);
+      formData.append(`VideoDetails[${index}].IsPrivate`, video.isPrivate);
     });
     videoDetails.forEach((video, index) => {
       formData.append(`VideoFiles`, video.videoUrl);
@@ -282,6 +290,13 @@ const VideoFormPage = () => {
   const handleTitleChange = (index, newTitle) => {
     const updatedVideos = videoDetails.map((video, i) =>
       i === index ? { ...video, title: newTitle } : video
+    );
+    setVideos(updatedVideos);
+  };
+
+  const handleIsPrivateChange = (index, newIsPrivate) => {
+    const updatedVideos = videoDetails.map((video, i) =>
+      i === index ? { ...video, isPrivate: newIsPrivate } : video
     );
     setVideos(updatedVideos);
   };
@@ -573,6 +588,20 @@ const VideoFormPage = () => {
                             
                               className="thumbnail"
                             /> */}
+
+                            <Form.Group className="mt-3">
+                              <Form.Label>Is Private?</Form.Label>
+                              <Form.Check
+                                type={"checkbox"}
+                                id={`isPrivate`}
+                                label={`isPrivate`}
+                                value={isPrivate}
+                                onChange={(event) => {
+                                  setIsPrivate(event.target.checked);
+                                  handleIsPrivateChange(index, !isPrivate);
+                                }}
+                              />
+                            </Form.Group>
                             <Form.Group className="mt-3">
                               <Form.Label>Thumbnail</Form.Label>
                               <Form.Control
