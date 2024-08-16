@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 import { getHeaders } from "../services/auth";
 import { getJobsTutorialByTags } from "../config/config";
 import axios from "axios";
 import ThumbnailGrid from "../Components/category/ThumbnailGrid";
 import noThumbnail from "../Assets/images/no_thumbnail.jpg";
 import PlayButtonOverlay from "../Components/category/PlayButtonOverlay";
+import { toast, ToastContainer } from "react-toastify";
 
 const SearchPage = () => {
   const location = useLocation();
@@ -20,9 +20,12 @@ const SearchPage = () => {
   const [videoUrl, setVideoUrl] = useState("");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
 
-  const playVideo = (url) => {
+  const playVideo = (url, fileName) => {
     setVideoUrl(url);
+    toast.info(`Now Playing: ${fileName}`);
   };
+
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 769);
@@ -61,6 +64,7 @@ const SearchPage = () => {
     <div
       className={`container thumbnail-grid ${isMobile ? "mobile-list" : ""}`}
     >
+      <ToastContainer />
       <div className="video-player mt-2">
         <video controls autoPlay key={videoUrl}>
           <source src={videoUrl} type="video/mp4" />
@@ -81,7 +85,7 @@ const SearchPage = () => {
                 <div
                   key={index}
                   className="video-item"
-                  onClick={() => playVideo(thumbnail.filePath)}
+                  onClick={() => playVideo(thumbnail.filePath,thumbnail.subTitle)}
                 >
                   {thumbnail.thumbnailName != null ? (
                     <img
