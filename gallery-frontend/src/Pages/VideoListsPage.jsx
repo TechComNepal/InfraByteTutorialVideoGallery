@@ -41,7 +41,6 @@ const VideoListsPage = () => {
     }
   };
 
-
   return (
     <>
       <div className="mt-5 mb-5 container-fluid" style={{ minHeight: "100vh" }}>
@@ -66,7 +65,7 @@ const VideoListsPage = () => {
             </div>
           </Col>
         </Row>
-        <div key={1} className="video-item" onClick={() => {}}>
+        {/* <div key={1} className="video-item" onClick={() => {}}>
                           
                           
                                 <img
@@ -84,14 +83,14 @@ const VideoListsPage = () => {
                             New
                             </div> 
                           </div>
-                        </div>
-  
-        
+                        </div> */}
+
         <RightSideModal show={showModal} handleClose={handleClose}>
           <CategoryAccordion
             data={data}
             setSelectedItem={setSelectedItem}
-            modalClose={handleClose} videoType={videoType}
+            modalClose={handleClose}
+            videoType={videoType}
           />
         </RightSideModal>
       </div>

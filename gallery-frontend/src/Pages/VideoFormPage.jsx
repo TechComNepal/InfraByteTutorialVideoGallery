@@ -595,9 +595,10 @@ const VideoFormPage = () => {
                                 type={"checkbox"}
                                 id={`isPrivate`}
                                 label={`isPrivate`}
-                                value={isPrivate}
+                                value={video.isPrivate}
                                 onChange={(event) => {
                                   setIsPrivate(event.target.checked);
+                                  videoDetails[index].isPrivate= !video.isPrivate;
                                   handleIsPrivateChange(index, !isPrivate);
                                 }}
                               />

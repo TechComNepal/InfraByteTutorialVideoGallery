@@ -100,7 +100,8 @@ const VideoFormUpdatePage = () => {
           type: "offline",
           title: "",
           thumbnail: null,
-          thumbnailFile: null,          isPrivate: false,
+          thumbnailFile: null,
+          isPrivate: false,
         });
       });
     } else {
@@ -111,7 +112,8 @@ const VideoFormUpdatePage = () => {
           type: "offline",
           title: "",
           thumbnail: null,
-          thumbnailFile: null,          isPrivate: false,
+          thumbnailFile: null,
+          isPrivate: false,
         });
       });
     }
@@ -231,7 +233,7 @@ const VideoFormUpdatePage = () => {
     //   description: description,
     //    fileName: video.name,
     // };
-    var emptyGuid = '00000000-0000-0000-0000-000000000000'
+    var emptyGuid = "00000000-0000-0000-0000-000000000000";
     if (videos.length === 0) {
       setError("Please upload at least one video before submitting.");
       return;
@@ -355,7 +357,6 @@ const VideoFormUpdatePage = () => {
     setVideos(updatedVideos);
   };
 
-
   const onThumbnailChange = (index, newThumbnail) => {
     const updatedVideos = videoDetails.map((video, i) =>
       i === index ? { ...video, thumbnail: newThumbnail } : video
@@ -413,6 +414,7 @@ const VideoFormUpdatePage = () => {
           videoUrl: e.filePath,
           type: "online",
           title: e.subTitle,
+          isPrivate: e.isPrivate,
           thumbnail: null,
           thumbnailFile:
             e.thumbnailName != null
@@ -669,9 +671,11 @@ const VideoFormUpdatePage = () => {
                                 type={"checkbox"}
                                 id={`isPrivate`}
                                 label={`isPrivate`}
-                                value={isPrivate}
+                                value={video.isPrivate}
                                 onChange={(event) => {
                                   setIsPrivate(event.target.checked);
+                                  videoDetails[index].isPrivate= !video.isPrivate;
+
                                   handleIsPrivateChange(index, !isPrivate);
                                 }}
                               />
@@ -765,11 +769,26 @@ const VideoFormUpdatePage = () => {
                               value={video.title}
                               onChange={(e) => {
                                 oldVideoDetails[index].title = e.target.value;
+
                                 handleTitleChange(index, e.target.value);
                                 // setoldVideoDetails(oldVideoDetails);
                               }}
                               required
                             />
+                            <Form.Group className="mt-3">
+                              <Form.Label>Is Private?</Form.Label>
+                              <Form.Check
+                                type={"checkbox"}
+                                id={`isPrivate`}
+                                label={`isPrivate`}
+                                value={video.isPrivate}
+                                onChange={(event) => {
+                                  oldVideoDetails[index].isPrivate= !video.isPrivate;
+
+                                  handleIsPrivateChange(index, !isPrivate);
+                                }}
+                              />
+                            </Form.Group>
                             {/* <img
                               src={video.thumbnail}
                               alt={video.title}

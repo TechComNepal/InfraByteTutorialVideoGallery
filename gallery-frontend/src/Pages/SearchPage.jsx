@@ -101,7 +101,11 @@ const SearchPage = () => {
                   <div className="thumbnail-overlay"></div>
                   <div className="video-details">
                     <h2>{thumbnail.subTitle}</h2>
-                    <div className="new-container">New</div>
+                    {thumbnail.videoStatus && (
+                      <div className="new-container">
+                        {thumbnail.videoStatus ?? ""}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
