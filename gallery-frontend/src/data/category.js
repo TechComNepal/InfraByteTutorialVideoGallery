@@ -223,76 +223,42 @@ export const category = [
           {
             id: 7,
             title: "All cars",
-            thumbnails: [
-              {
-                title: "Thumbnail 7",
-                url: "https://via.placeholder.com/150",
-              },
-              {
-                title: "Thumbnail 8",
-                url: "https://via.placeholder.com/150",
-              },
-            ],
+            thumbnails: [],
+          },
+          {
+            id: 49,
+            title: "Tow Records",
+            thumbnails: [],
           },
           {
             id: 8,
             title: "Auctions",
-            thumbnails: [
-              {
-                title: "Thumbnail 7",
-                url: "https://via.placeholder.com/150",
-              },
-            ],
+            thumbnails: [],
           },
           {
             id: 9,
             title: "Jobs",
-            thumbnails: [
-              {
-                title: "Thumbnail 7",
-                url: "https://via.placeholder.com/150",
-              },
-            ],
+            thumbnails: [],
           },
           {
             id: 10,
             title: "Quotes",
-            thumbnails: [
-              {
-                title: "Thumbnail 7",
-                url: "https://via.placeholder.com/150",
-              },
-            ],
+            thumbnails: [],
           },
           {
             id: 11,
             title: "Locked Jobs",
-            thumbnails: [
-              {
-                title: "Thumbnail 7",
-                url: "https://via.placeholder.com/150",
-              },
-            ],
+            thumbnails: [],
           },
           {
             id: 12,
             title: "Office Drop-Offs",
-            thumbnails: [
-              {
-                title: "Thumbnail 7",
-                url: "https://via.placeholder.com/150",
-              },
-            ],
+            thumbnails: [],
           },
           {
             id: 13,
             title: "Ppsr Lockups",
-            thumbnails: [
-              {
-                title: "Thumbnail 7",
-                url: "https://via.placeholder.com/150",
-              },
-            ],
+            thumbnails: [],
           },
           {
             id: 14,

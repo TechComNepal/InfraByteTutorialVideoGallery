@@ -10,23 +10,22 @@
 }
 
 .thumbnail-overlay {
-  position: absolute;
+  /* position: absolute;
   bottom: 0;
   left: 0;
   margin-bottom: 5px;
   z-index: 10;
-  /* width: 100%; */
-  /* background-color: rgba(0, 0, 0, 0.5); */
+ 
   color: #fff;
   padding: 5px;
-  text-align: center;
+  text-align: center;*/
   /* opacity: 0; */
-  transition: opacity 0.3s ease;
-  text-align: right;
+  /* transition: opacity 0.3s ease;
+  text-align: right;  */
 }
 
 .thumbnail-item:hover .thumbnail-overlay {
-  opacity: 1;
+  /* opacity: 1; */
 }
 
 .thumbnail-container {

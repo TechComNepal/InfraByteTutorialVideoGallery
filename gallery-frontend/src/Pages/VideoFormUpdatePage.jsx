@@ -681,7 +681,7 @@ const VideoFormUpdatePage = () => {
                               />
                             </Form.Group>
                             <Form.Group className="mt-3">
-                              <Form.Label>Thumbnail</Form.Label>
+                              <Form.Label>Thumbnail Image</Form.Label>
                               <Form.Control
                                 type="file"
                                 placeholder="Upload"
@@ -798,7 +798,7 @@ const VideoFormUpdatePage = () => {
                               className="thumbnail"
                             /> */}
                             <Form.Group className="mt-3">
-                              <Form.Label>Thumbnail</Form.Label>
+                              <Form.Label>Thumbnail Image</Form.Label>
                               <Form.Control
                                 type="file"
                                 placeholder="Upload"

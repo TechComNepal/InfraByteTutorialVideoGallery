@@ -231,7 +231,7 @@ const ThumbnailGrid = ({
                     <h6 className="mt-0 mb-3">{category.description}</h6>
                     <div className="video-list w-100">
                       {category.videoTutorials.map((thumbnail, index) =>
-                        thumbnail.isPrivate === true ? (
+                        !showUpdate && thumbnail.isPrivate === true ? (
                           <></>
                         ) : (
                           <div
@@ -256,27 +256,7 @@ const ThumbnailGrid = ({
                                 // onClick={() => playVideo(thumbnail.filePath)}
                               /> // <video src={thumbnail.filePath} className="thumbnail-image" onClick={() => playVideo(thumbnail.filePath)}></video>
                             )}
-                            <div className="thumbnail-overlay">
-                              {showUpdate && (
-                                <>
-                                  <a
-                                    onClick={() =>
-                                      handleVideoDelete(thumbnail.id)
-                                    }
-                                    variant="primary"
-                                    className="mt-3 btn  btn-danger"
-                                    rel="noopener noreferrer"
-                                  >
-                                    Delete
-                                  </a>
-                                  {loading && (
-                                    <span>
-                                      <div className="loading-spinner"></div>
-                                    </span>
-                                  )}
-                                </>
-                              )}
-                            </div>
+
                             <div className="video-details">
                               <h2>{thumbnail.subTitle}</h2>
                               {/* <p>{}</p> */}
@@ -285,6 +265,27 @@ const ThumbnailGrid = ({
                                   {thumbnail.videoStatus ?? ""}
                                 </div>
                               )}
+                              <div className="thumbnail-overlay">
+                                {showUpdate && (
+                                  <>
+                                    <a
+                                      onClick={() =>
+                                        handleVideoDelete(thumbnail.id)
+                                      }
+                                      variant="primary"
+                                      className="mt-3 btn  btn-danger"
+                                      rel="noopener noreferrer"
+                                    >
+                                      Delete
+                                    </a>
+                                    {loading && (
+                                      <span>
+                                        <div className="loading-spinner"></div>
+                                      </span>
+                                    )}
+                                  </>
+                                )}
+                              </div>
                             </div>
                           </div>
                         )
